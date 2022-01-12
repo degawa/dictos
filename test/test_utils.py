@@ -50,6 +50,11 @@ class UtilsTest(unittest.TestCase):
                 acctual = [i * h for i in range(n)]
                 self.assertEqual(expected, acctual)
 
+        # uncomment test after implement error handling
+        # with self.subTest():
+        #     with self.assertRaises(Exception):
+        #         create_set_of_coordinate_symbols_from_stencil([])
+
 
 if __name__ == "__main__":
     unittest.main()
