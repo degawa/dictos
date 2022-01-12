@@ -1,6 +1,7 @@
-def LagrangianBasis(x, degreeOfPolynomial, pointAt, xSet=None):
-    import sympy as sp
+import sympy as sp
 
+
+def LagrangianBasis(x, degreeOfPolynomial, pointAt, xSet=None):
     if degreeOfPolynomial <= 0:
         raise ValueError("degree of polynomial has to be greater than 0")
 
@@ -35,6 +36,4 @@ def LagrangianPoly(x, xSet, fSet):
 
 
 def Derivative(function, x, orderOfDifference=1):
-    import sympy as sp
-
     return sp.simplify(sp.diff(function, x, orderOfDifference).subs([(x, 0)]))

@@ -1,5 +1,8 @@
 import sympy as sp
+
 import utils as util
+import taylor_expansion as te
+import lagrangian_polynomial as lp
 
 
 def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
@@ -16,8 +19,6 @@ def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
 
 
 def getInterpolationCoefficients(stencil, as_numr_denom=False):
-    import lagrangian_polynomial as lp
-
     xSet = util.create_set_of_coordinate_symbols_from_stencil(
         stencil, util.DEFAULT_INTERVAL_SYMBOL_STR
     )
@@ -40,8 +41,6 @@ def getInterpolationCoefficients(stencil, as_numr_denom=False):
 
 
 def getTruncationError(stencil, intervalSymbolStr=util.DEFAULT_INTERVAL_SYMBOL_STR):
-    import taylor_expansion as te
-
     xSet = util.create_set_of_coordinate_symbols_from_stencil(
         stencil, interval_symbol_str=intervalSymbolStr
     )

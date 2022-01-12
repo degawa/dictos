@@ -1,5 +1,8 @@
 import sympy as sp
+
 import utils as util
+import lagrangian_polynomial as lp
+import taylor_expansion as te
 
 
 def getFiniteDifferenceEquation(
@@ -35,8 +38,6 @@ def getFiniteDifferenceEquation(
 
 
 def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=False):
-    import lagrangian_polynomial as lp
-
     xSet = util.create_set_of_coordinate_symbols_from_stencil(
         stencil, util.DEFAULT_INTERVAL_SYMBOL_STR
     )
@@ -57,8 +58,6 @@ def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=
 def getTruncationError(
     stencil, orderOfDifference, intervalSymbolStr=util.DEFAULT_INTERVAL_SYMBOL_STR
 ):
-    import taylor_expansion as te
-
     xSet = util.create_set_of_coordinate_symbols_from_stencil(
         stencil, interval_symbol_str=intervalSymbolStr
     )
