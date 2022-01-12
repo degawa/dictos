@@ -37,6 +37,17 @@ class UtilsTest(unittest.TestCase):
                 acctual = [n * h]
                 self.assertEqual(expected, acctual)
 
+        num = list(range(1, 21))
+        random.shuffle(num)
+        for n in num:
+            with self.subTest(n):
+                stencil = [i for i in range(n)]
+                expected = create_set_of_coordinate_symbols_from_stencil(stencil)
+
+                h = sp.symbols(DEFAULT_INTERVAL_SYMBOL_STR)
+                acctual = [i * h for i in range(n)]
+                self.assertEqual(expected, acctual)
+
 
 if __name__ == "__main__":
     unittest.main()
