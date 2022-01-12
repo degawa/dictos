@@ -7,6 +7,7 @@ sys.path.insert(1, "..")
 import unittest
 import sympy as sp
 import random
+import string
 
 from dictos.utils import (
     DEFAULT_INTERVAL_SYMBOL_STR,
@@ -18,6 +19,16 @@ from dictos.utils import (
 )
 
 _stencil_half_width = 20  # up to 20th order accuracy
+
+
+def random_string(len):
+    """generate n-length random string
+
+    Args:
+        len (integer): length of string
+    """
+
+    return "".join(random.choices(string.ascii_letters + string.digits, k=len))
 
 
 class UtilsTest(unittest.TestCase):
@@ -54,6 +65,21 @@ class UtilsTest(unittest.TestCase):
         # with self.subTest():
         #     with self.assertRaises(Exception):
         #         create_set_of_coordinate_symbols_from_stencil([])
+
+        num = list(range(1, _stencil_half_width + 1))
+        random.shuffle(num)
+        for n in num:
+            with self.subTest(n):
+                interval = random_string(random.randint(1, 10))
+                h = sp.symbols(interval)
+
+                stencil = [i for i in range(n)]
+                expected = create_set_of_coordinate_symbols_from_stencil(
+                    stencil, interval_symbol_str=interval
+                )
+
+                acctual = [i * h for i in range(n)]
+                self.assertEqual(expected, acctual)
 
 
 if __name__ == "__main__":
