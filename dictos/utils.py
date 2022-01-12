@@ -8,10 +8,7 @@ DEFAULT_INTERVAL_SYMBOL_STR = "h"
 DEFAULT_FUNCTION_SYMBOL_STR = "f"
 
 
-def create_set_of_coordinate_symbols_from_stencil(
-    stencil, interval_symbol_str=DEFAULT_INTERVAL_SYMBOL_STR
-):
-    # todo raise error when len(stencil)==0
+def create_coordinate_symbols(stencil, interval_symbol_str=DEFAULT_INTERVAL_SYMBOL_STR):
     return [stencil[i] * sp.symbols(interval_symbol_str) for i in range(len(stencil))]
 
 

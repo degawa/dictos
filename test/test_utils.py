@@ -11,7 +11,7 @@ import string
 
 from dictos.utils import (
     DEFAULT_INTERVAL_SYMBOL_STR,
-    create_set_of_coordinate_symbols_from_stencil,
+    create_coordinate_symbols,
     create_set_of_function_symbols_at_coordinate,
     simplify_coefficients,
     dotproduct,
@@ -44,7 +44,7 @@ class UtilsTest(unittest.TestCase):
         for n in num:
             with self.subTest(n):
                 stencil = [n]
-                expected = create_set_of_coordinate_symbols_from_stencil(stencil)
+                expected = create_coordinate_symbols(stencil)
 
                 h = sp.symbols(DEFAULT_INTERVAL_SYMBOL_STR)
                 acctual = [n * h]
@@ -55,7 +55,7 @@ class UtilsTest(unittest.TestCase):
         for n in num:
             with self.subTest(n):
                 stencil = [i for i in range(n)]
-                expected = create_set_of_coordinate_symbols_from_stencil(stencil)
+                expected = create_coordinate_symbols(stencil)
 
                 h = sp.symbols(DEFAULT_INTERVAL_SYMBOL_STR)
                 acctual = [i * h for i in range(n)]
@@ -74,7 +74,7 @@ class UtilsTest(unittest.TestCase):
                 h = sp.symbols(interval)
 
                 stencil = [i for i in range(n)]
-                expected = create_set_of_coordinate_symbols_from_stencil(
+                expected = create_coordinate_symbols(
                     stencil, interval_symbol_str=interval
                 )
 

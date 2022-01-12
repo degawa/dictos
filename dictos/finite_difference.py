@@ -4,7 +4,7 @@ from .utils import (
     DEFAULT_FUNCTION_SYMBOL_STR,
     DEFAULT_INTERVAL_SYMBOL_STR,
     DEFAULT_INDEPENDENT_VARIABLE_SYMBOL_STR,
-    create_set_of_coordinate_symbols_from_stencil,
+    create_coordinate_symbols,
     create_set_of_function_symbols_at_coordinate,
     simplify_coefficients,
     dotproduct,
@@ -21,7 +21,7 @@ def getFiniteDifferenceEquation(
     sameSubscriptsAsStencil=False,
     evaluate=True,
 ):
-    xSet = create_set_of_coordinate_symbols_from_stencil(stencil, intervalSymbolStr)
+    xSet = create_coordinate_symbols(stencil, intervalSymbolStr)
     fSet = create_set_of_function_symbols_at_coordinate(
         xSet, DEFAULT_FUNCTION_SYMBOL_STR, sameSubscriptsAsStencil
     )
@@ -45,9 +45,7 @@ def getFiniteDifferenceEquation(
 
 
 def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=False):
-    xSet = create_set_of_coordinate_symbols_from_stencil(
-        stencil, DEFAULT_INTERVAL_SYMBOL_STR
-    )
+    xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL_SYMBOL_STR)
     fSet = create_set_of_function_symbols_at_coordinate(
         xSet, DEFAULT_FUNCTION_SYMBOL_STR
     )
@@ -65,9 +63,7 @@ def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=
 def getTruncationError(
     stencil, orderOfDifference, intervalSymbolStr=DEFAULT_INTERVAL_SYMBOL_STR
 ):
-    xSet = create_set_of_coordinate_symbols_from_stencil(
-        stencil, interval_symbol_str=intervalSymbolStr
-    )
+    xSet = create_coordinate_symbols(stencil, interval_symbol_str=intervalSymbolStr)
 
     coef = getFiniteDifferenceCoefficients(xSet, orderOfDifference)
 
