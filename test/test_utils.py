@@ -17,6 +17,8 @@ from dictos.utils import (
     div,
 )
 
+_stencil_half_width = 20  # up to 20th order accuracy
+
 
 class UtilsTest(unittest.TestCase):
     def test_create_set_of_coordinate_symbols_from_stencil(self):
@@ -25,8 +27,8 @@ class UtilsTest(unittest.TestCase):
         it returns [nh] when [n] is passed.
         """
 
-        num = list(range(-20, 0))
-        num += list(range(1, 21))
+        num = list(range(-_stencil_half_width, 0))
+        num += list(range(1, _stencil_half_width + 1))
         random.shuffle(num)
         for n in num:
             with self.subTest(n):
@@ -37,7 +39,7 @@ class UtilsTest(unittest.TestCase):
                 acctual = [n * h]
                 self.assertEqual(expected, acctual)
 
-        num = list(range(1, 21))
+        num = list(range(1, _stencil_half_width + 1))
         random.shuffle(num)
         for n in num:
             with self.subTest(n):
