@@ -3,9 +3,11 @@ import utils as util
 
 
 def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
-    xSet = util.createXSetFromStencil(stencil, util._DefaultIntervalSymbolStr)
-    fSet = util.createSetOfFunctionSymbolsAtXSet(
-        xSet, util._DefaultFunctionSymbolStr, sameSubscriptsAsStencil
+    xSet = util.create_set_of_coordinate_symbols_from_stencil(
+        stencil, util.DEFAULT_INTERVAL_SYMBOL_STR
+    )
+    fSet = util.create_set_of_function_symbols_at_coordinate(
+        xSet, util.DEFAULT_FUNCTION_SYMBOL_STR, sameSubscriptsAsStencil
     )
 
     coef = getInterpolationCoefficients(stencil)
@@ -16,10 +18,14 @@ def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
 def getInterpolationCoefficients(stencil, as_numr_denom=False):
     import lagrangian_polynomial as lp
 
-    xSet = util.createXSetFromStencil(stencil, util._DefaultIntervalSymbolStr)
-    fSet = util.createSetOfFunctionSymbolsAtXSet(xSet, util._DefaultFunctionSymbolStr)
+    xSet = util.create_set_of_coordinate_symbols_from_stencil(
+        stencil, util.DEFAULT_INTERVAL_SYMBOL_STR
+    )
+    fSet = util.create_set_of_function_symbols_at_coordinate(
+        xSet, util.DEFAULT_FUNCTION_SYMBOL_STR
+    )
 
-    x = sp.symbols(util._DefaultIndependentVariableSymbolStr)
+    x = sp.symbols(util.DEFAULT_INDEPENDENT_VARIABLE_SYMBOL_STR)
 
     doe = len(xSet) - 1
     eq = sum([lp.LagrangianBasis(x, doe, i, xSet) * fSet[i] for i in range(doe + 1)])
@@ -30,13 +36,15 @@ def getInterpolationCoefficients(stencil, as_numr_denom=False):
 
     coef = [num / den_coef[0] for num in num_coef]
 
-    return util.simplifyCoefficients(coef, as_numr_denom)
+    return util.simplify_coefficients(coef, as_numr_denom)
 
 
-def getTruncationError(stencil, intervalSymbolStr=util._DefaultIntervalSymbolStr):
+def getTruncationError(stencil, intervalSymbolStr=util.DEFAULT_INTERVAL_SYMBOL_STR):
     import taylor_expansion as te
 
-    xSet = util.createXSetFromStencil(stencil, intervalSymbolStr=intervalSymbolStr)
+    xSet = util.create_set_of_coordinate_symbols_from_stencil(
+        stencil, interval_symbol_str=intervalSymbolStr
+    )
 
     coef = getInterpolationCoefficients(stencil)
 
@@ -46,6 +54,6 @@ def getTruncationError(stencil, intervalSymbolStr=util._DefaultIntervalSymbolStr
     eq = sum([coef[i] * f_te[i] for i in range(len(xSet))])
 
     return sp.simplify(
-        sp.symbols(util._DefaultFunctionSymbolStr)
+        sp.symbols(util.DEFAULT_FUNCTION_SYMBOL_STR)
         - sp.nsimplify(eq, rational=True, tolerance=1e-10)
     ).as_leading_term()
