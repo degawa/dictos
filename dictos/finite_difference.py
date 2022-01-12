@@ -33,7 +33,7 @@ def getFiniteDifferenceEquation(
 
 
 def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=False):
-    import lagrangianpoly as lp
+    import lagrangian_polynomial as lp
 
     xSet = util.createXSetFromStencil(stencil, util._DefaultIntervalSymbolStr)
     fSet = util.createSetOfFunctionSymbolsAtXSet(xSet, util._DefaultFunctionSymbolStr)
@@ -51,7 +51,7 @@ def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=
 def getTruncationError(
     stencil, orderOfDifference, intervalSymbolStr=util._DefaultIntervalSymbolStr
 ):
-    import TaylorExpansion as te
+    import taylor_expansion as te
 
     xSet = util.createXSetFromStencil(stencil, intervalSymbolStr=intervalSymbolStr)
 

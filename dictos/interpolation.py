@@ -14,7 +14,7 @@ def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
 
 
 def getInterpolationCoefficients(stencil, as_numr_denom=False):
-    import lagrangianpoly as lp
+    import lagrangian_polynomial as lp
 
     xSet = util.createXSetFromStencil(stencil, util._DefaultIntervalSymbolStr)
     fSet = util.createSetOfFunctionSymbolsAtXSet(xSet, util._DefaultFunctionSymbolStr)
@@ -34,7 +34,7 @@ def getInterpolationCoefficients(stencil, as_numr_denom=False):
 
 
 def getTruncationError(stencil, intervalSymbolStr=util._DefaultIntervalSymbolStr):
-    import TaylorExpansion as te
+    import taylor_expansion as te
 
     xSet = util.createXSetFromStencil(stencil, intervalSymbolStr=intervalSymbolStr)
 
