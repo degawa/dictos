@@ -25,7 +25,8 @@ class UtilsTest(unittest.TestCase):
         it returns [nh] when [n] is passed.
         """
 
-        num = range(-20, 21, 1)
+        num = list(range(-20, 0))
+        num += list(range(1, 21))
         random.shuffle(num)
         for n in num:
             with self.subTest(n):
