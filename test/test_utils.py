@@ -61,10 +61,15 @@ class UtilsTest(unittest.TestCase):
                 acctual = [i * h for i in range(n)]
                 self.assertEqual(expected, acctual)
 
-        # uncomment test after implement error handling
+        # uncomment test after implement error raising when len(stencil)==0
         # with self.subTest():
         #     with self.assertRaises(Exception):
-        #         create_set_of_coordinate_symbols_from_stencil([])
+        #         create_coordinate_symbols([])
+
+        # uncomment test after implement error raising when at least a number in the stencil appears more than once.
+        # with self.subTest():
+        #     with self.assertRaises(Exception):
+        #         create_coordinate_symbols([1, 1])
 
         num = list(range(1, _stencil_half_width + 1))
         random.shuffle(num)
