@@ -188,6 +188,24 @@ class UtilsTest(unittest.TestCase):
                 acctual = (sp.symbols(f + "_{%d}" % n),)
                 self.assertEqual(expected, acctual)
 
+        # subtest 6
+        # it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
+        num = random_int(2, _stencil_half_width)
+        for n in num:
+            with self.subTest(n):
+                stencil = [i for i in range(n)]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(x, same_subscripts_as_stencil=True)
+
+                f = DEFAULT_FUNCTION
+                subscript = [
+                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
+                    for i in stencil
+                ]
+                str = "".join([f + s + " " for s in subscript])
+                acctual = sp.symbols(str)
+                self.assertEqual(expected, acctual)
+
 
 if __name__ == "__main__":
     unittest.main()
