@@ -163,4 +163,21 @@ def dot_product(numr, f_set, evaluate=False):
 
 
 def div(eq, denom):
+    """
+    calculate division of two sympy Expr.
+    The result is always evaluated.
+
+    Args:
+        eq (sympy Expr): Algebraic expression to be devided
+        denom (sympy Expr): Algebraic expression to divie.
+            The Expr must be a single term.
+
+    Returns:
+        sympy Expr: result of division eq/denom.
+    """
     return sp.Mul(eq, 1 / denom)
+    # calculate Mul with evaluate=True,
+    # because the result with evaluate=False will be like
+    # `(1/(12*h))*(f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})`,
+    # unlike the result we want as follows:
+    # `(f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)`
