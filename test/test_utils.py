@@ -209,6 +209,42 @@ class UtilsTest(unittest.TestCase):
                 acctual = sp.symbols(str)
                 self.assertEqual(expected, acctual)
 
+        # subtest 7
+        # it returns [g_{n}] when [n*h], 'g', and same_subscripts_as_stencil=True are passed.
+        num = random_int(-_stencil_half_width, _stencil_half_width)
+        for n in num:
+            with self.subTest(n):
+                f = random_string(random.randint(1, _max_symbol_length))
+
+                x = create_coordinate_symbols([n])
+                expected = create_function_symbols(
+                    x, function=f, same_subscripts_as_stencil=True
+                )
+
+                acctual = (sp.symbols(f + "_{%d}" % n),)
+                self.assertEqual(expected, acctual)
+
+        # subtest 8
+        # it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
+        num = random_int(2, _stencil_half_width)
+        for n in num:
+            with self.subTest(n):
+                f = random_string(random.randint(1, _max_symbol_length))
+
+                stencil = [i for i in range(n)]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(
+                    x, function=f, same_subscripts_as_stencil=True
+                )
+
+                subscript = [
+                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
+                    for i in stencil
+                ]
+                str = "".join([f + s + " " for s in subscript])
+                acctual = sp.symbols(str)
+                self.assertEqual(expected, acctual)
+
 
 if __name__ == "__main__":
     unittest.main()
