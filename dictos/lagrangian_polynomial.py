@@ -18,6 +18,13 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
 
     Returns:
         sympy Expr: a Lagrange basis polynomial $l(x)|_{xset[point_at]}$.
+
+    Examples:
+        >>> from dictos import lagrangian_polynomial as lp
+        >>> import sympy as sp
+        >>> x = sp.symbols("x")
+        >>> lp.lagrangian_basis(x, degree=3, point_at=0)
+        (x - x1)*(x - x2)*(x - x3)/((x0 - x1)*(x0 - x2)*(x0 - x3))
     """
     if degree <= 0:
         raise ValueError("degree of polynomial has to be greater than 0")
