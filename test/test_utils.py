@@ -6,6 +6,7 @@ sys.path.insert(1, "..")
 
 import unittest
 import sympy as sp
+import numpy as np
 import random
 import string
 
@@ -324,6 +325,28 @@ class UtilsTest(unittest.TestCase):
                 str = "".join([f + s + " " for s in subscript])
                 acctual = sp.symbols(str)
                 self.assertEqual(expected, acctual)
+
+    def test_simplify_coefficients(self):
+        """test suite for utils.simplify_coefficients.
+        1. it returns integer list when sympy integer list is passed.
+        2. it returns list of sympy rational when sympy nynbers list is passed.
+        """
+
+        # subtest 1
+        # it returns sympy integers list when sympy integers list is passed.
+        for len in random_int(1, _stencil_half_width * 2):
+            numr = [
+                sp.Number(
+                    random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
+                )
+                for _ in range(len)
+            ]
+
+            expected = [n / 1 for n in numr]
+
+            acctual = simplify_coefficients(numr)
+
+            self.assertEqual(expected, acctual)
 
 
 if __name__ == "__main__":
