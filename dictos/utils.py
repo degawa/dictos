@@ -80,7 +80,7 @@ def create_function_symbols(
         # when n==1.
     else:
         f_set = sp.symbols(function + "_0:{:d}".format(len(x_set)))
-        # make a list of sympy symbols from string "f_{0} f_{1} ...".
+        # make a tuple of sympy symbols from string.
 
     return f_set
 
@@ -125,7 +125,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
     # and calculate the least common multiple.
 
     numr = [c * denom_lcm for c in coef_rational]
-    # list of numerator divided by the denominator.
+    # list of numerator divided by the least common multiple.
 
     if as_numr_denom:
         return numr, denom_lcm
@@ -163,7 +163,7 @@ def dot_product(numr, f_set, evaluate=False):
     # without evalulation.
     # So for-loop and sympy.Add and .Mul are used.
     # The for-loop is downstepped
-    # so that the result are sorted when it is prented.
+    # so that the result are sorted when it is printed.
     # The result of the accumulation, `((-a*f_{-1} +b*f_{0}) + a*f_{1})`,
     # is printed as `a*f_{1} + b*f_{0} - a*f_{-1}`.
     # downstepping is used for sorting.
