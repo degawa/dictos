@@ -10,7 +10,7 @@ from .utils import (
     dot_product,
     div,
 )
-from .lagrangian_polynomial import lagrangian_poly, Derivative
+from .lagrangian_polynomial import lagrangian_poly, derivative
 from .taylor_expansion import TaylorExpansion, _getDerivativeSymbol
 
 
@@ -51,7 +51,7 @@ def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=
     num_coef = num.as_poly(fSet).coeffs()
     den_coef = den.as_poly(fSet).coeffs()
 
-    coef = [Derivative(num / den_coef[0], x, orderOfDifference) for num in num_coef]
+    coef = [derivative(num / den_coef[0], x, orderOfDifference) for num in num_coef]
 
     return simplify_coefficients(coef, as_numr_denom)
 

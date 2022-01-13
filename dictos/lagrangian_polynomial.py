@@ -99,5 +99,5 @@ def lagrangian_poly(x, x_set, f_set):
     # at coordinates and the Lagrangian basis polynomials.
 
 
-def Derivative(function, x, orderOfDifference=1):
-    return sp.simplify(sp.diff(function, x, orderOfDifference).subs([(x, 0)]))
+def derivative(expr, x, deriv=1):
+    return sp.simplify(sp.diff(expr, x, deriv).subs([(x, 0)]))
