@@ -6,15 +6,15 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
     create Lagrangian basis from give coordinate symbols.
 
     Args:
-        x (sympy symbol): symbol representing independent variable
-        degree (int): degree of polynomial
+        x (sympy symbol): symbol representing independent variable.
+        degree (int): degree of polynomial.
         point_at (int): a index indicating the point
             where Lagrangian basis polynomial is defined in x_set.
         x_set (list or tuple of sympy symbols, optional):
             set of coordinate values. Defaults to None.
 
     Raises:
-        ValueError: if degree of polynomial is less than 1
+        ValueError: if degree of polynomial is less than 1.
 
     Returns:
         sympy Expr: a Lagrange basis polynomial $l(x)|_{xset[point_at]}$.
