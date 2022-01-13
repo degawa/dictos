@@ -12,7 +12,7 @@ import string
 from dictos.utils import (
     DEFAULT_INTERVAL,
     create_coordinate_symbols,
-    create_set_of_function_symbols_at_coordinate,
+    create_function_symbols,
     simplify_coefficients,
     dotproduct,
     div,

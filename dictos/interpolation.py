@@ -5,7 +5,7 @@ from .utils import (
     DEFAULT_FUNCTION,
     DEFAULT_INDEPENDENT_VARIABLE,
     create_coordinate_symbols,
-    create_set_of_function_symbols_at_coordinate,
+    create_function_symbols,
     simplify_coefficients,
 )
 from .lagrangian_polynomial import LagrangianBasis
@@ -14,9 +14,7 @@ from .taylor_expansion import TaylorExpansion
 
 def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
     xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    fSet = create_set_of_function_symbols_at_coordinate(
-        xSet, DEFAULT_FUNCTION, sameSubscriptsAsStencil
-    )
+    fSet = create_function_symbols(xSet, DEFAULT_FUNCTION, sameSubscriptsAsStencil)
 
     coef = getInterpolationCoefficients(stencil)
 
@@ -25,7 +23,7 @@ def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
 
 def getInterpolationCoefficients(stencil, as_numr_denom=False):
     xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    fSet = create_set_of_function_symbols_at_coordinate(xSet, DEFAULT_FUNCTION)
+    fSet = create_function_symbols(xSet, DEFAULT_FUNCTION)
 
     x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
 

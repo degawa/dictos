@@ -32,21 +32,49 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
     return [stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
 
 
-def create_set_of_function_symbols_at_coordinate(
+def create_function_symbols(
     x_set,
-    function_symbol_str=DEFAULT_FUNCTION,
+    function=DEFAULT_FUNCTION,
     same_subscripts_as_stencil=False,
 ):
+    """
+    create set of function symbols at coordinates from x_set.
+    input a list of sympy symbols like `[-h, 0, h]` as x_set,
+    this returns a list of functions at x_set like `[f_0, f_1, f_2]`.
 
+    Args:
+        x_set (list of sympy symbols): coordinates on regular or
+            staggered grid corresponding to the stencil.
+        function (str, optional): a function symbol like `f`.
+            Defaults to DEFAULT_FUNCTION.
+        same_subscripts_as_stencil (bool, optional): flag
+            to make function subscripts the same as the stencil.
+            Defaults to False, the subscripts start from 0.
+
+    Returns:
+        list of sympy symbols: list of functions at passed coordinates
+    """
     if same_subscripts_as_stencil:
-        stencil = [x if x.is_number else sp.poly(x).coeffs()[0] for x in x_set]
-        subscript = ["_{%d}" % i if i.is_integer else "_{%2.1f}" % i for i in stencil]
-        str = "".join([function_symbol_str + s + " " for s in subscript])
-        fSet = sp.symbols(str)
-    else:
-        fSet = sp.symbols(function_symbol_str + "_0:{:d}".format(len(x_set)))
+        # make function subscripts the same as the stencil
 
-    return fSet
+        stencil = [x if x.is_number else sp.poly(x).coeffs()[0] for x in x_set]
+        # extruct numbers from list of coordinates.
+        # coordinate consists of a number and a symbol,
+        # such as -2*h and 1.5*h, extract the number as coefficint.
+        # coordinate is 0, that is a number, use 0 as the stencil
+
+        subscript = ["_{%d}" % i if i.is_integer else "_{%2.1f}" % i for i in stencil]
+        str = "".join([function + s + " " for s in subscript])
+        # make string "f_{-1} f_{-0.5} ..." to pass `sympy.symbols`.
+        # tail space is ignored in `sympy.symbols`
+
+        f_set = sp.symbols(str)
+    else:
+        f_set = sp.symbols(function + "_0:{:d}".format(len(x_set)))
+        # make a list of sympy symbols from string
+        # "f_{0} f_{1} ...".
+
+    return f_set
 
 
 def simplify_coefficients(coef, as_numr_denom):

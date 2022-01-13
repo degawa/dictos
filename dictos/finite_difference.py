@@ -5,7 +5,7 @@ from .utils import (
     DEFAULT_INTERVAL,
     DEFAULT_INDEPENDENT_VARIABLE,
     create_coordinate_symbols,
-    create_set_of_function_symbols_at_coordinate,
+    create_function_symbols,
     simplify_coefficients,
     dotproduct,
     div,
@@ -22,9 +22,7 @@ def getFiniteDifferenceEquation(
     evaluate=True,
 ):
     xSet = create_coordinate_symbols(stencil, intervalSymbolStr)
-    fSet = create_set_of_function_symbols_at_coordinate(
-        xSet, DEFAULT_FUNCTION, sameSubscriptsAsStencil
-    )
+    fSet = create_function_symbols(xSet, DEFAULT_FUNCTION, sameSubscriptsAsStencil)
 
     if evaluate:
         coef = getFiniteDifferenceCoefficients(stencil, orderOfDifference)
@@ -46,7 +44,7 @@ def getFiniteDifferenceEquation(
 
 def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=False):
     xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    fSet = create_set_of_function_symbols_at_coordinate(xSet, DEFAULT_FUNCTION)
+    fSet = create_function_symbols(xSet, DEFAULT_FUNCTION)
 
     x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
     num, den = LagrangianPoly(x, xSet, fSet).as_numer_denom()
