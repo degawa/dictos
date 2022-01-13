@@ -17,7 +17,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
         ValueError: if degree of polynomial is less than 1
 
     Returns:
-        sympy Mul: a Lagrange basis polynomial $l(x)|_{xset[point_at]}$.
+        sympy Expr: a Lagrange basis polynomial $l(x)|_{xset[point_at]}$.
     """
     if degree <= 0:
         raise ValueError("degree of polynomial has to be greater than 0")
