@@ -35,7 +35,9 @@ class UtilsTest(unittest.TestCase):
     def test_create_set_of_coordinate_symbols_from_stencil(self):
         """
         test suite for utils.create_set_of_coordinate_symbols_from_stencil.
-        it returns [nh] when [n] is passed.
+        - it returns [nh] when [n] is passed.
+        - it returns [ah bh ch ...] when [a b c ...] is passed.
+        - it returns [adx bdx cdx ...] when [a b c ...] and 'dx' are passed.
         """
 
         num = list(range(-_stencil_half_width, 0)) + list(
