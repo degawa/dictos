@@ -35,13 +35,13 @@ def random_string(len):
 
 
 def random_int(min, max, exclude=None):
-    """generate random list of integers from from_ to to_.
-    Integers listed in exclude_ are excluded
+    """generate random list of integers from min to max.
+    Integers listed in exclude are excluded
 
     Args:
         min (integer): minimum value of integer in the list.
         max (integer): maximum value of integer in the list.
-        exclude (list of integer): excluded integers from the list.
+        exclude (list of integer): integers to be excluded from the list.
             Defaults to None.
     """
     num = list(range(min, max + 1))
@@ -329,7 +329,7 @@ class UtilsTest(unittest.TestCase):
     def test_simplify_coefficients(self):
         """test suite for utils.simplify_coefficients.
         1. it returns integer list when sympy integer list is passed.
-        2. it returns list of sympy rational when sympy nynbers list is passed.
+        2. it returns list of sympy rational when sympy number list is passed.
         """
 
         # subtest 1
@@ -345,6 +345,24 @@ class UtilsTest(unittest.TestCase):
             expected = [n / 1 for n in numr]
 
             acctual = simplify_coefficients(numr)
+
+            self.assertEqual(expected, acctual)
+
+        # subtest 2
+        # it returns list of sympy rational when sympy number list is passed.
+        for len in random_int(1, _stencil_half_width * 2):
+            denom = [sp.Number(random.randint(1, 100000)) for _ in range(len)]
+            numr = [
+                sp.Number(
+                    random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
+                )
+                for _ in range(len)
+            ]
+            coef = [numr[i] / denom[i] for i in range(len)]
+
+            expected = [sp.Rational(numr[i], denom[i]) for i in range(len)]
+
+            acctual = simplify_coefficients(coef)
 
             self.assertEqual(expected, acctual)
 
