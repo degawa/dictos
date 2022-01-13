@@ -103,7 +103,7 @@ class UtilsTest(unittest.TestCase):
         num = random_int(1, _stencil_half_width)
         for n in num:
             with self.subTest(n):
-                interval = random_string(random.randint(1, 10))
+                interval = random_string(random.randint(1, _max_symbol_length))
                 h = sp.symbols(interval)
 
                 stencil = [i for i in range(n)]
