@@ -176,5 +176,18 @@ class UtilsTest(unittest.TestCase):
 
                 acctual = sp.symbols((f + "_0:{:d}").format(n))
                 self.assertEqual(expected, acctual)
+
+        # subtest 5
+        num = random_int(-_stencil_half_width, _stencil_half_width)
+        for n in num:
+            with self.subTest(n):
+                x = create_coordinate_symbols([n])
+                expected = create_function_symbols(x, same_subscripts_as_stencil=True)
+
+                f = DEFAULT_FUNCTION
+                acctual = (sp.symbols(f + "_{%d}" % n),)
+                self.assertEqual(expected, acctual)
+
+
 if __name__ == "__main__":
     unittest.main()
