@@ -153,3 +153,5 @@ cython_debug/
 
 # editor settings
 .vscode
+sandbox.ipynb
+main.py
