@@ -112,7 +112,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
         sp.Rational(fr.Fraction(str(c)).limit_denominator(100000)) for c in coef_num
     ]
     # rationalize coefficients.
-    # The argument of `fraction.Fraction` must be a string.
+    # The argument of `fraction.Fraction` must be a string in this case.
     # `limit_denominator` is used to avoid represent a real number
     # including the error coused by the binary representation.
     # It is necessary to discuss the argument
