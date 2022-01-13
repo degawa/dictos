@@ -71,6 +71,13 @@ def create_function_symbols(
         # tail space is ignored in `sympy.symbols`
 
         f_set = sp.symbols(str)
+        if type(f_set) == sp.core.symbol.Symbol:
+            f_set = (f_set,)
+        # make the return value's type a tuple.
+        # sp.symbols(str) returns sp.core.symbol.Symbol
+        # when str does not contain space
+        # althought sp.symbols("_0:{:d}".format(n)) returns tuple
+        # when n==1.
     else:
         f_set = sp.symbols(function + "_0:{:d}".format(len(x_set)))
         # make a list of sympy symbols from string "f_{0} f_{1} ...".
