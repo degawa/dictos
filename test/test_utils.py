@@ -153,6 +153,7 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, acctual)
 
         # subtest 3
+        # it returns [g_{0}] when [n*h] and 'g' are passed.
         num = random_int(-_stencil_half_width, _stencil_half_width)
         for n in num:
             with self.subTest(n):
@@ -165,6 +166,7 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, acctual)
 
         # subtest 4
+        # it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
         num = random_int(2, _stencil_half_width)
         for n in num:
             with self.subTest(n):
@@ -178,6 +180,7 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, acctual)
 
         # subtest 5
+        # it returns [f_{n}] when [n*h] and same_subscripts_as_stencil=True are passed.
         num = random_int(-_stencil_half_width, _stencil_half_width)
         for n in num:
             with self.subTest(n):
