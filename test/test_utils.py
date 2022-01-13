@@ -165,7 +165,7 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, acctual)
 
         # subtest 4
-        num = random_int(1, _stencil_half_width)
+        num = random_int(2, _stencil_half_width)
         for n in num:
             with self.subTest(n):
                 f = random_string(random.randint(1, _max_symbol_length))
