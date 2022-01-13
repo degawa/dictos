@@ -139,5 +139,42 @@ class UtilsTest(unittest.TestCase):
                 acctual = (sp.symbols(f + "_0"),)
                 self.assertEqual(expected, acctual)
 
+        # subtest 2
+        # it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
+        num = random_int(1, _stencil_half_width)
+        for n in num:
+            with self.subTest(n):
+                stencil = [i for i in range(n)]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(x)
+
+                f = DEFAULT_FUNCTION
+                acctual = sp.symbols((f + "_0:{:d}").format(n))
+                self.assertEqual(expected, acctual)
+
+        # subtest 3
+        num = random_int(-_stencil_half_width, _stencil_half_width)
+        for n in num:
+            with self.subTest(n):
+                f = random_string(random.randint(1, _max_symbol_length))
+
+                x = create_coordinate_symbols([n])
+                expected = create_function_symbols(x, function=f)
+
+                acctual = (sp.symbols(f + "_0"),)
+                self.assertEqual(expected, acctual)
+
+        # subtest 4
+        num = random_int(1, _stencil_half_width)
+        for n in num:
+            with self.subTest(n):
+                f = random_string(random.randint(1, _max_symbol_length))
+
+                stencil = [i for i in range(n)]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(x, function=f)
+
+                acctual = sp.symbols((f + "_0:{:d}").format(n))
+                self.assertEqual(expected, acctual)
 if __name__ == "__main__":
     unittest.main()
