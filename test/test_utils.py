@@ -11,6 +11,7 @@ import string
 
 from dictos.utils import (
     DEFAULT_INTERVAL,
+    DEFAULT_FUNCTION,
     create_coordinate_symbols,
     create_function_symbols,
     simplify_coefficients,
@@ -112,6 +113,31 @@ class UtilsTest(unittest.TestCase):
                 acctual = [i * h for i in range(n)]
                 self.assertEqual(expected, acctual)
 
+    def test_create_function_symbols(self):
+        """
+        test suite for utils.create_function_symbols.
+        1. it returns [f_{0}] when [n*h] is passed.
+        2. it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
+        3. it returns [g_{0}] when [n*h] and 'g' are passed.
+        4. it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
+        5. it returns [f_{n}] when [n*h] and same_subscripts_as_stencil=True are passed.
+        6. it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
+        7. it returns [g_{n}] when [n*h], 'g', and same_subscripts_as_stencil=True are passed.
+        8. it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
+        9. it raise error when empty list is passed.
+        """
+
+        # subtest 1
+        # it returns [f_{0}] when [n*h] is passed.
+        num = random_int(-_stencil_half_width, _stencil_half_width)
+        for n in num:
+            with self.subTest(n):
+                x = create_coordinate_symbols([n])
+                expected = create_function_symbols(x)
+
+                f = DEFAULT_FUNCTION
+                acctual = (sp.symbols(f + "_0"),)
+                self.assertEqual(expected, acctual)
 
 if __name__ == "__main__":
     unittest.main()
