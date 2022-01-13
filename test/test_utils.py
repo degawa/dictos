@@ -440,11 +440,11 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, acctual)
 
         # subtest 7
-        for coef in [[sp.Number(3 / 4), sp.Number(2 / 3)]]:
+        for coef in [[sp.Number(3 / 4), sp.Number(2 / 3), sp.Number(4 / 5)]]:
             with self.subTest(coef):
                 expected = (
-                    [9, 8],
-                    12,
+                    [45, 40, 48],
+                    60,
                 )
 
                 acctual = simplify_coefficients(coef, as_numr_denom=True)
