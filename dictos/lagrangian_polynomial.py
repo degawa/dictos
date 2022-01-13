@@ -1,19 +1,19 @@
 import sympy as sp
 
 
-def LagrangianBasis(x, degreeOfPolynomial, pointAt, xSet=None):
-    if degreeOfPolynomial <= 0:
+def lagrangian_basis(x, degree, point_at, x_set=None):
+    if degree <= 0:
         raise ValueError("degree of polynomial has to be greater than 0")
 
-    numDataSet = degreeOfPolynomial + 1
+    num_set = degree + 1
 
-    if xSet is None:
-        xSet = sp.symbols("x0:{:d}".format(numDataSet))
+    if x_set is None:
+        x_set = sp.symbols("x0:{:d}".format(num_set))
 
-    index = list(range(numDataSet))
-    index.remove(pointAt)
+    index = list(range(num_set))
+    index.remove(point_at)
 
-    return sp.prod([(x - xSet[j]) / (xSet[pointAt] - xSet[j]) for j in index])
+    return sp.prod([(x - x_set[j]) / (x_set[point_at] - x_set[j]) for j in index])
 
 
 def LagrangianPoly(x, xSet, fSet):
@@ -29,7 +29,7 @@ def LagrangianPoly(x, xSet, fSet):
 
     return sum(
         [
-            LagrangianBasis(x, degreeOfPolynomial, i, xSet) * fSet[i]
+            lagrangian_basis(x, degreeOfPolynomial, i, xSet) * fSet[i]
             for i in range(numDataSet)
         ]
     )
