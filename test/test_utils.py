@@ -38,8 +38,9 @@ class UtilsTest(unittest.TestCase):
         it returns [nh] when [n] is passed.
         """
 
-        num = list(range(-_stencil_half_width, 0))
-        num += list(range(1, _stencil_half_width + 1))
+        num = list(range(-_stencil_half_width, 0)) + list(
+            range(1, _stencil_half_width + 1)
+        )
         random.shuffle(num)
         for n in num:
             with self.subTest(n):
