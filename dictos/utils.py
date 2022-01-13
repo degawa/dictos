@@ -52,7 +52,9 @@ def create_function_symbols(
             Defaults to False, the subscripts start from 0.
 
     Returns:
-        list of sympy symbols: list of functions at passed coordinates
+        tuple of sympy symbols: tuple of functions at passed coordinates.
+            When same_subscripts_as_stencil is set,
+            subscripts is enclused in curly braces like `f_{0}`.
     """
     if same_subscripts_as_stencil:
         # make function subscripts the same as the stencil
