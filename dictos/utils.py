@@ -124,12 +124,12 @@ def simplify_coefficients(coef, as_numr_denom=False):
         return [n / denom_lcm for n in numr]
 
 
-def dotproduct(numr, f_set):
+def dot_product(numr, f_set, evaluate=False):
     idx_start = len(f_set) - 1
     idx_end = -1
-    eq = sp.Mul(numr[idx_start], f_set[idx_start], evaluate=False)
+    eq = sp.Mul(numr[idx_start], f_set[idx_start], evaluate=evaluate)
     for i in range(idx_start - 1, idx_end, -1):
-        eq = sp.Add(eq, sp.Mul(numr[i], f_set[i], evaluate=False), evaluate=False)
+        eq = sp.Add(eq, sp.Mul(numr[i], f_set[i], evaluate=evaluate), evaluate=evaluate)
 
     return eq
 

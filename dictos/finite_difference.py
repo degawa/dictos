@@ -7,7 +7,7 @@ from .utils import (
     create_coordinate_symbols,
     create_function_symbols,
     simplify_coefficients,
-    dotproduct,
+    dot_product,
     div,
 )
 from .lagrangian_polynomial import LagrangianPoly, Derivative
@@ -35,7 +35,7 @@ def getFiniteDifferenceEquation(
             stencil, orderOfDifference, as_numr_denom=True
         )
         eq = div(
-            dotproduct(numr, fSet),
+            dot_product(numr, fSet),
             denom * sp.symbols(intervalSymbolStr) ** orderOfDifference,
         )
 

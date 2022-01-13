@@ -14,7 +14,7 @@ from dictos.utils import (
     create_coordinate_symbols,
     create_function_symbols,
     simplify_coefficients,
-    dotproduct,
+    dot_product,
     div,
 )
 
