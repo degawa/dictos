@@ -58,7 +58,7 @@ def create_function_symbols(
         # make function subscripts the same as the stencil
 
         stencil = [x if x.is_number else sp.poly(x).coeffs()[0] for x in x_set]
-        # extruct numbers from list of coordinates.
+        # extract numbers from list of coordinates.
         # coordinate consists of a number and a symbol,
         # such as -2*h and 1.5*h, extract the number as coefficint.
         # coordinate is 0, that is a number, use 0 as the stencil
@@ -76,16 +76,47 @@ def create_function_symbols(
     return f_set
 
 
-def simplify_coefficients(coef, as_numr_denom):
+def simplify_coefficients(coef, as_numr_denom=False):
+    """
+    simplify coefficients in floating-point number
+    as ratioanl numbers.
+    When as_numr_denom flag is set, this returns the numberator and
+    denominator separately.
+
+    Args:
+        coef (list of sympy Mul and numbers): finite difference and
+            interpolation coefficients to be simplified.
+        as_numr_denom (bool, optional): flag to return the numerator
+            and denominator separately.
+            Defaults to False.
+
+    Returns:
+        list of sympy Rational: simplified coefficients.
+        list of sympy numbers, numpy.int32:
+            numerator of simplified coefficients,
+            and denominator as the least common multiple
+    """
     coef_num = [c if c.is_number else sp.poly(c).coeffs()[0] for c in coef]
+    # extract numbers from list of coefficients like [1/h**2, ...].
 
     coef_rational = [
         sp.Rational(fr.Fraction(str(c)).limit_denominator(100000)) for c in coef_num
     ]
+    # rationalize coefficients.
+    # The argument of `fraction.Fraction` must be a string.
+    # `limit_denominator` is used to avoid represent a real number
+    # including the error coused by the binary representation.
+    # It is necessary to discuss the argument
+    # when increasing the formal accuracy of discretization.
+    # TODO: calculate the argument of `limit_denominator` from the smallest coefficient, that is the largest denominator
 
     denom = [c.q for c in coef_rational]
     denom_lcm = np.lcm.reduce(np.array(denom))
+    # extract denomenator of each coefficient
+    # and calculate the least common multiple.
+
     numr = [c * denom_lcm for c in coef_rational]
+    # list of numerator divided by the denominator.
 
     if as_numr_denom:
         return numr, denom_lcm
