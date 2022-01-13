@@ -79,9 +79,7 @@ class UtilsTest(unittest.TestCase):
                 h = sp.symbols(interval)
 
                 stencil = [i for i in range(n)]
-                expected = create_coordinate_symbols(
-                    stencil, interval_symbol_str=interval
-                )
+                expected = create_coordinate_symbols(stencil, interval=interval)
 
                 acctual = [i * h for i in range(n)]
                 self.assertEqual(expected, acctual)

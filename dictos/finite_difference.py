@@ -63,7 +63,7 @@ def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=
 def getTruncationError(
     stencil, orderOfDifference, intervalSymbolStr=DEFAULT_INTERVAL_SYMBOL_STR
 ):
-    xSet = create_coordinate_symbols(stencil, interval_symbol_str=intervalSymbolStr)
+    xSet = create_coordinate_symbols(stencil, interval=intervalSymbolStr)
 
     coef = getFiniteDifferenceCoefficients(xSet, orderOfDifference)
 

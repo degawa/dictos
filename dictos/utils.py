@@ -8,14 +8,14 @@ DEFAULT_INTERVAL_SYMBOL_STR = "h"
 DEFAULT_FUNCTION_SYMBOL_STR = "f"
 
 
-def create_coordinate_symbols(stencil, interval_symbol_str=DEFAULT_INTERVAL_SYMBOL_STR):
+def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL_SYMBOL_STR):
     """
     create set of coordinate symbols from stencil.
     input a list of numbers like `[-1, 0, 1]` as stencil, this returns a list of coordinates like `[-h, 0, h]`.
 
     Args:
         stencil (list of int or float): stencil on regular or staggered grid. It is not allowed that a number in the list appears more than once..
-        interval_symbol_str (str, optional): an interval symbol like `dx`. Defaults to DEFAULT_INTERVAL_SYMBOL_STR.
+        interval (str, optional): an interval symbol like `dx`. Defaults to DEFAULT_INTERVAL_SYMBOL_STR.
 
     Returns:
         list of sympy symbols: list of coordinates corresponding to the stencil.
@@ -24,7 +24,7 @@ def create_coordinate_symbols(stencil, interval_symbol_str=DEFAULT_INTERVAL_SYMB
     # TODO: raise error when len(stencil)==0
     # TODO: raise error when at least a number in the stencil appears more than once.
 
-    return [stencil[i] * sp.symbols(interval_symbol_str) for i in range(len(stencil))]
+    return [stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
 
 
 def create_set_of_function_symbols_at_coordinate(

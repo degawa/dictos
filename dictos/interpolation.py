@@ -44,7 +44,7 @@ def getInterpolationCoefficients(stencil, as_numr_denom=False):
 
 
 def getTruncationError(stencil, intervalSymbolStr=DEFAULT_INTERVAL_SYMBOL_STR):
-    xSet = create_coordinate_symbols(stencil, interval_symbol_str=intervalSymbolStr)
+    xSet = create_coordinate_symbols(stencil, interval=intervalSymbolStr)
 
     coef = getInterpolationCoefficients(stencil)
 
