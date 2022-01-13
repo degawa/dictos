@@ -10,5 +10,7 @@ Symbolic discretization tools for finite difference  method on regular and stagg
 
 ## status
 version: experimental
+
 status: refactoring and packaging
+
 todo: add examples and documents
