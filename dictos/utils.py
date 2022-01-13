@@ -52,7 +52,9 @@ def create_function_symbols(
             Defaults to False, the subscripts start from 0.
 
     Returns:
-        list of sympy symbols: list of functions at passed coordinates
+        tuple of sympy symbols: tuple of functions at passed coordinates.
+            When same_subscripts_as_stencil is set,
+            subscripts is enclused in curly braces like `f_{0}`.
     """
     if same_subscripts_as_stencil:
         # make function subscripts the same as the stencil
@@ -69,9 +71,16 @@ def create_function_symbols(
         # tail space is ignored in `sympy.symbols`
 
         f_set = sp.symbols(str)
+        if type(f_set) == sp.core.symbol.Symbol:
+            f_set = (f_set,)
+        # make the return value's type a tuple.
+        # sp.symbols(str) returns sp.core.symbol.Symbol
+        # when str does not contain space
+        # althought sp.symbols("_0:{:d}".format(n)) returns tuple
+        # when n==1.
     else:
         f_set = sp.symbols(function + "_0:{:d}".format(len(x_set)))
-        # make a list of sympy symbols from string "f_{0} f_{1} ...".
+        # make a tuple of sympy symbols from string.
 
     return f_set
 
@@ -92,7 +101,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
 
     Returns:
         list of sympy Rational: simplified coefficients.\\
-        list of sympy numbers, numpy.int32:
+        list of sympy numbers, int:
             numerator of simplified coefficients,
             and denominator as the least common multiple
     """
@@ -103,7 +112,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
         sp.Rational(fr.Fraction(str(c)).limit_denominator(100000)) for c in coef_num
     ]
     # rationalize coefficients.
-    # The argument of `fraction.Fraction` must be a string.
+    # The argument of `fraction.Fraction` must be a string in this case.
     # `limit_denominator` is used to avoid represent a real number
     # including the error coused by the binary representation.
     # It is necessary to discuss the argument
@@ -111,12 +120,12 @@ def simplify_coefficients(coef, as_numr_denom=False):
     # TODO: calculate the argument of `limit_denominator` from the smallest coefficient, that is the largest denominator
 
     denom = [c.q for c in coef_rational]
-    denom_lcm = np.lcm.reduce(np.array(denom))
+    denom_lcm = int(np.lcm.reduce(np.array(denom)))
     # extract denomenator of each coefficient
     # and calculate the least common multiple.
 
     numr = [c * denom_lcm for c in coef_rational]
-    # list of numerator divided by the denominator.
+    # list of numerator divided by the least common multiple.
 
     if as_numr_denom:
         return numr, denom_lcm
@@ -154,7 +163,7 @@ def dot_product(numr, f_set, evaluate=False):
     # without evalulation.
     # So for-loop and sympy.Add and .Mul are used.
     # The for-loop is downstepped
-    # so that the result are sorted when it is prented.
+    # so that the result are sorted when it is printed.
     # The result of the accumulation, `((-a*f_{-1} +b*f_{0}) + a*f_{1})`,
     # is printed as `a*f_{1} + b*f_{0} - a*f_{-1}`.
     # downstepping is used for sorting.
