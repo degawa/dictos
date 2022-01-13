@@ -53,22 +53,19 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
     # `i` is used as an index to indicate those points, so `j` is used here.
 
 
-def LagrangianPoly(x, xSet, fSet):
-    if len(xSet) != len(fSet):
+def lagrangian_poly(x, x_set, f_set):
+    if len(x_set) != len(f_set):
         raise ValueError(
-            "The number of elements of xSet({:d}) and fSet({:d}) does not match.".format(
-                len(xSet), len(fSet)
+            "The number of elements of xSet({:d}) and fSet({:d}) are different.".format(
+                len(x_set), len(f_set)
             )
         )
 
-    numDataSet = len(xSet)
-    degreeOfPolynomial = numDataSet - 1
+    num_set = len(x_set)
+    degree = num_set - 1
 
     return sum(
-        [
-            lagrangian_basis(x, degreeOfPolynomial, i, xSet) * fSet[i]
-            for i in range(numDataSet)
-        ]
+        [lagrangian_basis(x, degree, i, x_set) * f_set[i] for i in range(num_set)]
     )
 
 

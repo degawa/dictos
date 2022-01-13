@@ -1,4 +1,4 @@
-from .lagrangian_polynomial import lagrangian_basis, LagrangianPoly, Derivative
+from .lagrangian_polynomial import lagrangian_basis, lagrangian_poly, Derivative
 from .taylor_expansion import TaylorExpansion
 from .finite_difference import (
     getFiniteDifferenceEquation,
