@@ -139,7 +139,7 @@ def dot_product(numr, f_set, evaluate=False):
             Defaults to False.
 
     Returns:
-        list of sympy  Mul: dot product of the passed two lists.
+        sympy Expr: dot product of the passed two lists.
     """
 
     # TODO: raise error when numr and f_set have different lengths
