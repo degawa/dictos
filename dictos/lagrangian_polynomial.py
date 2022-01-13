@@ -54,6 +54,32 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
 
 
 def lagrangian_poly(x, x_set, f_set):
+    """calculate symbolically a lagrangian interpolation polynomial
+    from ginve set of coordinates and functions.
+
+    Args:
+        x (sympy symbol): symbol representing independent variable.
+        x_set (list or tuple of sympy symbols):
+            set of coordinate values.
+        f_set (list or tuple of sympy symbols):
+        set of coordinate values.
+
+    Raises:
+        ValueError: if length of x_set and f_set are different.
+
+    Returns:
+        sympy Expr: a Lagrangian polynomial.
+
+    Examples:
+        >>> from dictos import lagrangian_polynomial as lp
+        >>> import sympy as sp
+        >>> x = sp.symbols("x")
+        >>> dx = sp.symbols("dx")
+        >>> x_set = [-dx, 0, dx]
+        >>> f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+        >>> lp.lagrangian_poly(x, x_set, f_set)
+        f0*x*(-dx + x)/(2*dx**2) - f1*(-dx + x)*(dx + x)/dx**2 + f2*x*(dx + x)/(2*dx**2)
+    """
     if len(x_set) != len(f_set):
         raise ValueError(
             "The number of elements of xSet({:d}) and fSet({:d}) are different.".format(
@@ -63,10 +89,14 @@ def lagrangian_poly(x, x_set, f_set):
 
     num_set = len(x_set)
     degree = num_set - 1
+    # define an degree of polynomial.
+    # (n-1)-th degree polynomial can be constrcuted using n points.
 
     return sum(
         [lagrangian_basis(x, degree, i, x_set) * f_set[i] for i in range(num_set)]
     )
+    # calculate the linear combination of set of functions
+    # at coordinates and the Lagrangian basis polynomials.
 
 
 def Derivative(function, x, orderOfDifference=1):
