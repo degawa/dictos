@@ -101,7 +101,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
 
     Returns:
         list of sympy Rational: simplified coefficients.\\
-        list of sympy numbers, numpy.int32:
+        list of sympy numbers, int:
             numerator of simplified coefficients,
             and denominator as the least common multiple
     """
@@ -120,7 +120,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
     # TODO: calculate the argument of `limit_denominator` from the smallest coefficient, that is the largest denominator
 
     denom = [c.q for c in coef_rational]
-    denom_lcm = np.lcm.reduce(np.array(denom))
+    denom_lcm = int(np.lcm.reduce(np.array(denom)))
     # extract denomenator of each coefficient
     # and calculate the least common multiple.
 
