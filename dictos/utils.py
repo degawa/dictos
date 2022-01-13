@@ -71,8 +71,7 @@ def create_function_symbols(
         f_set = sp.symbols(str)
     else:
         f_set = sp.symbols(function + "_0:{:d}".format(len(x_set)))
-        # make a list of sympy symbols from string
-        # "f_{0} f_{1} ...".
+        # make a list of sympy symbols from string "f_{0} f_{1} ...".
 
     return f_set
 
