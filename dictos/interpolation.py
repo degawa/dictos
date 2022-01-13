@@ -1,9 +1,9 @@
 import sympy as sp
 
 from .utils import (
-    DEFAULT_INTERVAL_SYMBOL_STR,
-    DEFAULT_FUNCTION_SYMBOL_STR,
-    DEFAULT_INDEPENDENT_VARIABLE_SYMBOL_STR,
+    DEFAULT_INTERVAL,
+    DEFAULT_FUNCTION,
+    DEFAULT_INDEPENDENT_VARIABLE,
     create_coordinate_symbols,
     create_set_of_function_symbols_at_coordinate,
     simplify_coefficients,
@@ -13,9 +13,9 @@ from .taylor_expansion import TaylorExpansion
 
 
 def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
-    xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL_SYMBOL_STR)
+    xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
     fSet = create_set_of_function_symbols_at_coordinate(
-        xSet, DEFAULT_FUNCTION_SYMBOL_STR, sameSubscriptsAsStencil
+        xSet, DEFAULT_FUNCTION, sameSubscriptsAsStencil
     )
 
     coef = getInterpolationCoefficients(stencil)
@@ -24,12 +24,10 @@ def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
 
 
 def getInterpolationCoefficients(stencil, as_numr_denom=False):
-    xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL_SYMBOL_STR)
-    fSet = create_set_of_function_symbols_at_coordinate(
-        xSet, DEFAULT_FUNCTION_SYMBOL_STR
-    )
+    xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
+    fSet = create_set_of_function_symbols_at_coordinate(xSet, DEFAULT_FUNCTION)
 
-    x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE_SYMBOL_STR)
+    x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
 
     doe = len(xSet) - 1
     eq = sum([LagrangianBasis(x, doe, i, xSet) * fSet[i] for i in range(doe + 1)])
@@ -43,7 +41,7 @@ def getInterpolationCoefficients(stencil, as_numr_denom=False):
     return simplify_coefficients(coef, as_numr_denom)
 
 
-def getTruncationError(stencil, intervalSymbolStr=DEFAULT_INTERVAL_SYMBOL_STR):
+def getTruncationError(stencil, intervalSymbolStr=DEFAULT_INTERVAL):
     xSet = create_coordinate_symbols(stencil, interval=intervalSymbolStr)
 
     coef = getInterpolationCoefficients(stencil)
@@ -54,6 +52,5 @@ def getTruncationError(stencil, intervalSymbolStr=DEFAULT_INTERVAL_SYMBOL_STR):
     eq = sum([coef[i] * f_te[i] for i in range(len(xSet))])
 
     return sp.simplify(
-        sp.symbols(DEFAULT_FUNCTION_SYMBOL_STR)
-        - sp.nsimplify(eq, rational=True, tolerance=1e-10)
+        sp.symbols(DEFAULT_FUNCTION) - sp.nsimplify(eq, rational=True, tolerance=1e-10)
     ).as_leading_term()

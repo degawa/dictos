@@ -10,7 +10,7 @@ import random
 import string
 
 from dictos.utils import (
-    DEFAULT_INTERVAL_SYMBOL_STR,
+    DEFAULT_INTERVAL,
     create_coordinate_symbols,
     create_set_of_function_symbols_at_coordinate,
     simplify_coefficients,
@@ -49,7 +49,7 @@ class UtilsTest(unittest.TestCase):
                 stencil = [n]
                 expected = create_coordinate_symbols(stencil)
 
-                h = sp.symbols(DEFAULT_INTERVAL_SYMBOL_STR)
+                h = sp.symbols(DEFAULT_INTERVAL)
                 acctual = [n * h]
                 self.assertEqual(expected, acctual)
 
@@ -60,7 +60,7 @@ class UtilsTest(unittest.TestCase):
                 stencil = [i for i in range(n)]
                 expected = create_coordinate_symbols(stencil)
 
-                h = sp.symbols(DEFAULT_INTERVAL_SYMBOL_STR)
+                h = sp.symbols(DEFAULT_INTERVAL)
                 acctual = [i * h for i in range(n)]
                 self.assertEqual(expected, acctual)
 

@@ -3,9 +3,9 @@ import numpy as np
 import fractions as fr
 
 
-DEFAULT_INDEPENDENT_VARIABLE_SYMBOL_STR = "x"
-DEFAULT_INTERVAL_SYMBOL_STR = "h"
-DEFAULT_FUNCTION_SYMBOL_STR = "f"
+DEFAULT_INDEPENDENT_VARIABLE = "x"  # str for independent variable symbol
+DEFAULT_INTERVAL = "h"  # str for interval symbol
+DEFAULT_FUNCTION = "f"  # str for function symbol
 
 
 def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL_SYMBOL_STR):

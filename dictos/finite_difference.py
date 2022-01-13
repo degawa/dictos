@@ -1,9 +1,9 @@
 import sympy as sp
 
 from .utils import (
-    DEFAULT_FUNCTION_SYMBOL_STR,
-    DEFAULT_INTERVAL_SYMBOL_STR,
-    DEFAULT_INDEPENDENT_VARIABLE_SYMBOL_STR,
+    DEFAULT_FUNCTION,
+    DEFAULT_INTERVAL,
+    DEFAULT_INDEPENDENT_VARIABLE,
     create_coordinate_symbols,
     create_set_of_function_symbols_at_coordinate,
     simplify_coefficients,
@@ -17,13 +17,13 @@ from .taylor_expansion import TaylorExpansion, _getDerivativeSymbol
 def getFiniteDifferenceEquation(
     stencil,
     orderOfDifference=1,
-    intervalSymbolStr=DEFAULT_INTERVAL_SYMBOL_STR,
+    intervalSymbolStr=DEFAULT_INTERVAL,
     sameSubscriptsAsStencil=False,
     evaluate=True,
 ):
     xSet = create_coordinate_symbols(stencil, intervalSymbolStr)
     fSet = create_set_of_function_symbols_at_coordinate(
-        xSet, DEFAULT_FUNCTION_SYMBOL_STR, sameSubscriptsAsStencil
+        xSet, DEFAULT_FUNCTION, sameSubscriptsAsStencil
     )
 
     if evaluate:
@@ -45,12 +45,10 @@ def getFiniteDifferenceEquation(
 
 
 def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=False):
-    xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL_SYMBOL_STR)
-    fSet = create_set_of_function_symbols_at_coordinate(
-        xSet, DEFAULT_FUNCTION_SYMBOL_STR
-    )
+    xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
+    fSet = create_set_of_function_symbols_at_coordinate(xSet, DEFAULT_FUNCTION)
 
-    x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE_SYMBOL_STR)
+    x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
     num, den = LagrangianPoly(x, xSet, fSet).as_numer_denom()
     num_coef = num.as_poly(fSet).coeffs()
     den_coef = den.as_poly(fSet).coeffs()
@@ -60,9 +58,7 @@ def getFiniteDifferenceCoefficients(stencil, orderOfDifference=1, as_numr_denom=
     return simplify_coefficients(coef, as_numr_denom)
 
 
-def getTruncationError(
-    stencil, orderOfDifference, intervalSymbolStr=DEFAULT_INTERVAL_SYMBOL_STR
-):
+def getTruncationError(stencil, orderOfDifference, intervalSymbolStr=DEFAULT_INTERVAL):
     xSet = create_coordinate_symbols(stencil, interval=intervalSymbolStr)
 
     coef = getFiniteDifferenceCoefficients(xSet, orderOfDifference)
@@ -74,7 +70,7 @@ def getTruncationError(
 
     intervalSymbol = sp.symbols(intervalSymbolStr)
     return sp.simplify(
-        _getDerivativeSymbol(DEFAULT_FUNCTION_SYMBOL_STR, orderOfDifference)
+        _getDerivativeSymbol(DEFAULT_FUNCTION, orderOfDifference)
         - sp.nsimplify(
             eq / intervalSymbol ** orderOfDifference, rational=True, tolerance=1e-10
         )
