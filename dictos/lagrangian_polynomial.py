@@ -100,4 +100,24 @@ def lagrangian_poly(x, x_set, f_set):
 
 
 def derivative(expr, x, deriv=1):
+    """calculate symbolically a derivative at x=0.
+
+    Args:
+        expr (sympy Expr): a derivative function.
+        x (sympy symbol): symbol representing independent variable.
+        deriv (int, optional): order of derivative. Defaults to 1.
+
+    Returns:
+        sympy Expr: a function differentiated symbolically at x=0.
+
+    Examples:
+        >>> from dictos import lagrangian_polynomial as lp
+        >>> import sympy as sp
+        >>> x, a, b, c = sp.symbols("x a b c")
+        >>> lp.derivative(a*x**2+b*x+c, x, 1)
+        b
+        >>> lp.derivative(a*x**2+b*x+c, x, 2)
+        2*a
+    """
     return sp.simplify(sp.diff(expr, x, deriv).subs([(x, 0)]))
+    # substitute 0 after differentiation
