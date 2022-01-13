@@ -8,7 +8,7 @@ from .utils import (
     create_function_symbols,
     simplify_coefficients,
 )
-from .lagrangian_polynomial import LagrangianBasis
+from .lagrangian_polynomial import lagrangian_basis
 from .taylor_expansion import TaylorExpansion
 
 
@@ -28,7 +28,7 @@ def getInterpolationCoefficients(stencil, as_numr_denom=False):
     x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
 
     doe = len(xSet) - 1
-    eq = sum([LagrangianBasis(x, doe, i, xSet) * fSet[i] for i in range(doe + 1)])
+    eq = sum([lagrangian_basis(x, doe, i, xSet) * fSet[i] for i in range(doe + 1)])
 
     num, den = sp.simplify(eq.subs(x, 0)).as_numer_denom()
     num_coef = num.as_poly(fSet).coeffs()
