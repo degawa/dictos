@@ -139,12 +139,29 @@ class UtilsTest(unittest.TestCase):
                 acctual = (sp.symbols(f + "_0"),)
                 self.assertEqual(expected, acctual)
 
+                # staggered grid case
+                x = create_coordinate_symbols([n / 2])
+                expected = create_function_symbols(x)
+
+                f = DEFAULT_FUNCTION
+                acctual = (sp.symbols(f + "_0"),)
+                self.assertEqual(expected, acctual)
+
         # subtest 2
         # it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
         num = random_int(1, _stencil_half_width)
         for n in num:
             with self.subTest(n):
                 stencil = [i for i in range(n)]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(x)
+
+                f = DEFAULT_FUNCTION
+                acctual = sp.symbols((f + "_0:{:d}").format(n))
+                self.assertEqual(expected, acctual)
+
+                # staggered grid case
+                stencil = [i / 2 for i in range(n)]
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x)
 
@@ -165,6 +182,13 @@ class UtilsTest(unittest.TestCase):
                 acctual = (sp.symbols(f + "_0"),)
                 self.assertEqual(expected, acctual)
 
+                # staggered grid case
+                x = create_coordinate_symbols([n / 2])
+                expected = create_function_symbols(x, function=f)
+
+                acctual = (sp.symbols(f + "_0"),)
+                self.assertEqual(expected, acctual)
+
         # subtest 4
         # it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
         num = random_int(2, _stencil_half_width)
@@ -173,6 +197,14 @@ class UtilsTest(unittest.TestCase):
                 f = random_string(random.randint(1, _max_symbol_length))
 
                 stencil = [i for i in range(n)]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(x, function=f)
+
+                acctual = sp.symbols((f + "_0:{:d}").format(n))
+                self.assertEqual(expected, acctual)
+
+                # staggered grid case
+                stencil = [i / 2 for i in range(n)]
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x, function=f)
 
@@ -191,6 +223,16 @@ class UtilsTest(unittest.TestCase):
                 acctual = (sp.symbols(f + "_{%d}" % n),)
                 self.assertEqual(expected, acctual)
 
+                # staggered grid case
+                stencil = [n / 2] if n != 0 else [n]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(x, same_subscripts_as_stencil=True)
+
+                f = DEFAULT_FUNCTION
+                str = f + "_{%2.1f}" % (n / 2) if n != 0 else f + "_{%d}" % (n)
+                acctual = (sp.symbols(str),)
+                self.assertEqual(expected, acctual)
+
         # subtest 6
         # it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
         num = random_int(2, _stencil_half_width)
@@ -201,6 +243,19 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
                 f = DEFAULT_FUNCTION
+                subscript = [
+                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
+                    for i in stencil
+                ]
+                str = "".join([f + s + " " for s in subscript])
+                acctual = sp.symbols(str)
+                self.assertEqual(expected, acctual)
+
+                # staggered grid case
+                stencil = [i / 2 if i != 0 else i for i in range(n)]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(x, same_subscripts_as_stencil=True)
+
                 subscript = [
                     "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
                     for i in stencil
@@ -224,6 +279,16 @@ class UtilsTest(unittest.TestCase):
                 acctual = (sp.symbols(f + "_{%d}" % n),)
                 self.assertEqual(expected, acctual)
 
+                # staggered grid case
+                x = create_coordinate_symbols([n / 2 if n != 0 else n])
+                expected = create_function_symbols(
+                    x, function=f, same_subscripts_as_stencil=True
+                )
+
+                str = f + "_{%2.1f}" % (n / 2) if n != 0 else f + "_{%d}" % (n)
+                acctual = (sp.symbols(str),)
+                self.assertEqual(expected, acctual)
+
         # subtest 8
         # it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
         num = random_int(2, _stencil_half_width)
@@ -232,6 +297,21 @@ class UtilsTest(unittest.TestCase):
                 f = random_string(random.randint(1, _max_symbol_length))
 
                 stencil = [i for i in range(n)]
+                x = create_coordinate_symbols(stencil)
+                expected = create_function_symbols(
+                    x, function=f, same_subscripts_as_stencil=True
+                )
+
+                subscript = [
+                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
+                    for i in stencil
+                ]
+                str = "".join([f + s + " " for s in subscript])
+                acctual = sp.symbols(str)
+                self.assertEqual(expected, acctual)
+
+                # staggered grid case
+                stencil = [i / 2 if i != 0 else i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(
                     x, function=f, same_subscripts_as_stencil=True
