@@ -125,10 +125,11 @@ def simplify_coefficients(coef, as_numr_denom=False):
 
 
 def dot_product(numr, f_set, evaluate=False):
-    idx_start = len(f_set) - 1
-    idx_end = -1
-    eq = sp.Mul(numr[idx_start], f_set[idx_start], evaluate=evaluate)
-    for i in range(idx_start - 1, idx_end, -1):
+    begin_ = len(f_set) - 1
+    end_ = -1
+    step_ = -1
+    eq = sp.Mul(numr[begin_], f_set[begin_], evaluate=evaluate)
+    for i in range(begin_ + step_, end_, step_):
         eq = sp.Add(eq, sp.Mul(numr[i], f_set[i], evaluate=evaluate), evaluate=evaluate)
 
     return eq
