@@ -329,7 +329,9 @@ class UtilsTest(unittest.TestCase):
     def test_simplify_coefficients(self):
         """test suite for utils.simplify_coefficients.
         1. it returns integer list when sympy integer list is passed.
-        2. it returns list of sympy rational when sympy number list is passed.
+        2. it returns integer list when list of sympy symbols is passed.
+        3. it returns list of sympy rational when sympy number list is passed.
+        4. it returns list of sympy rational when list of sympy symbols is passed.
         """
 
         # subtest 1
@@ -349,6 +351,22 @@ class UtilsTest(unittest.TestCase):
             self.assertEqual(expected, acctual)
 
         # subtest 2
+        # it returns integer list when list of sympy symbols is passed.
+        h = sp.symbols(random_string(5))
+        for len in random_int(1, _stencil_half_width * 2):
+            numr = [
+                random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
+                for _ in range(len)
+            ]
+
+            coef = [n * h for n in numr]
+            expected = [n / 1 for n in numr]
+
+            acctual = simplify_coefficients(coef)
+
+            self.assertEqual(expected, acctual)
+
+        # subtest 3
         # it returns list of sympy rational when sympy number list is passed.
         for len in random_int(1, _stencil_half_width * 2):
             denom = [sp.Number(random.randint(1, 100000)) for _ in range(len)]
@@ -359,6 +377,25 @@ class UtilsTest(unittest.TestCase):
                 for _ in range(len)
             ]
             coef = [numr[i] / denom[i] for i in range(len)]
+
+            expected = [sp.Rational(numr[i], denom[i]) for i in range(len)]
+
+            acctual = simplify_coefficients(coef)
+
+            self.assertEqual(expected, acctual)
+
+        # subtest 4
+        # it returns list of sympy rational when list of sympy symbols is passed.
+        h = sp.symbols(random_string(5))
+        for len in random_int(1, _stencil_half_width * 2):
+            denom = [sp.Number(random.randint(1, 100000)) for _ in range(len)]
+            numr = [
+                sp.Number(
+                    random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
+                )
+                for _ in range(len)
+            ]
+            coef = [numr[i] / denom[i] * h for i in range(len)]
 
             expected = [sp.Rational(numr[i], denom[i]) for i in range(len)]
 
