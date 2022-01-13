@@ -91,7 +91,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
             Defaults to False.
 
     Returns:
-        list of sympy Rational: simplified coefficients.
+        list of sympy Rational: simplified coefficients.\\
         list of sympy numbers, numpy.int32:
             numerator of simplified coefficients,
             and denominator as the least common multiple
@@ -125,12 +125,39 @@ def simplify_coefficients(coef, as_numr_denom=False):
 
 
 def dot_product(numr, f_set, evaluate=False):
-    begin_ = len(f_set) - 1
-    end_ = -1
+    """
+    calculate dot product of two list
+    containing sympy numbers and symbols without evaluation.
+
+    Args:
+        numr (list of sympy Mul and numbers):
+            list of numerator of coefficients.
+            The list length must be equal to it of f_set.
+        f_set (list of sympy symbols): list of function symbols.
+            The list length must be equal to it of numr.
+        evaluate (bool, optional): flag to evaluate the result.
+            Defaults to False.
+
+    Returns:
+        list of sympy  Mul: dot product of the passed two lists.
+    """
+
+    # TODO: raise error when numr and f_set have different lengths
+
+    begin_ = len(f_set) - 1  # exclude first term
+    end_ = -1  # to generate numbers up to 0 using range()
     step_ = -1
     eq = sp.Mul(numr[begin_], f_set[begin_], evaluate=evaluate)
     for i in range(begin_ + step_, end_, step_):
         eq = sp.Add(eq, sp.Mul(numr[i], f_set[i], evaluate=evaluate), evaluate=evaluate)
+    # there is no way to accumulate a list of sympy symbols
+    # without evalulation.
+    # So for-loop and sympy.Add and .Mul are used.
+    # The for-loop is downstepped
+    # so that the result are sorted when it is prented.
+    # The result of the accumulation, `((-a*f_{-1} +b*f_{0}) + a*f_{1})`,
+    # is printed as `a*f_{1} + b*f_{0} - a*f_{-1}`.
+    # downstepping is used for sorting.
 
     return eq
 
