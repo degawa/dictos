@@ -31,6 +31,27 @@ def random_string(len):
     return "".join(random.choices(string.ascii_letters + string.digits, k=len))
 
 
+def random_int(min, max, exclude=None):
+    """generate random list of integers from from_ to to_.
+    Integers listed in exclude_ are excluded
+
+    Args:
+        min (integer): minimum value of integer in the list.
+        max (integer): maximum value of integer in the list.
+        exclude (list of integer): excluded integers from the list.
+            Defaults to None.
+    """
+    num = list(range(min, max + 1))
+
+    if exclude is not None:
+        for i in exclude:
+            num.remove(i)
+
+    random.shuffle(num)
+
+    return num
+
+
 class UtilsTest(unittest.TestCase):
     def test_create_set_of_coordinate_symbols_from_stencil(self):
         """
