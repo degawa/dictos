@@ -208,6 +208,58 @@ class UtilsTest(unittest.TestCase):
                 actual = coefficients(stencil, as_numr_denom=True)
                 self.assertEqual(expected[width], actual)
 
+    def test_truncation_error(self):
+        """
+        test suite for interplation.truncation_error.
+        """
+        h = sp.symbols("h")
+        f = sp.symbols("f")
+        f_1 = sp.symbols("f^(1)")
+        f_2 = sp.symbols("f^(2)")
+        f_3 = sp.symbols("f^(3)")
+        f_4 = sp.symbols("f^(4)")
+        f_5 = sp.symbols("f^(5)")
+        f_6 = sp.symbols("f^(6)")
+        f_7 = sp.symbols("f^(7)")
+        f_8 = sp.symbols("f^(8)")
+        f_9 = sp.symbols("f^(9)")
+        f_10 = sp.symbols("f^(10)")
+
+        expected = [
+            0,
+            -f_2 * h ** 2 / 2,
+            f_4 * h ** 4 / 6,
+            -f_6 * h ** 6 / 20,
+            f_8 * h ** 8 / 70,
+            -f_10 * h ** 10 / 252,
+        ]
+        for half_width in range(1, 6):
+            with self.subTest(
+                "truncation error of %d-point central interpolation" % (half_width * 2)
+            ):
+                stencil = [i for i in range(-half_width, half_width + 1)]
+                stencil.remove(0)
+                actual = truncation_error(stencil)
+                self.assertEqual(expected[half_width], actual)
+
+        expected = [
+            0,
+            0,
+            f_2 * h ** 2,
+            -f_3 * h ** 3,
+            f_4 * h ** 4,
+            -f_5 * h ** 5,
+            f_6 * h ** 6,
+            -f_7 * h ** 7,
+            f_8 * h ** 8,
+            -f_9 * h ** 9,
+        ]
+        for width in range(2, 10):
+            with self.subTest("truncation error of %d-point extrapolation" % width):
+                stencil = [i for i in range(1, width + 1)]
+                actual = truncation_error(stencil)
+                self.assertEqual(expected[width], actual)
+
 
 if __name__ == "__main__":
     unittest.main()
