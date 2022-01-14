@@ -145,7 +145,7 @@ def truncation_error(stencil, interval=DEFAULT_INTERVAL):
     f_te = [taylor_series(x, num_term) for x in x_set]
     # calculate Taylor series around points in x_set.
 
-    eq = sum([coef[i] * f_te[i] for i in range(len(x_set))])
+    intp_eq = sum([coef[i] * f_te[i] for i in range(len(x_set))])
     # calculate weighted sum of Taylor series.
     # for instance, 2nd-order 2-point interpolation is
     # intp_eq [= f(h)/2 + f(-h)/2)] = f(0) + f^(2)*h**2/2 + ...
@@ -153,7 +153,7 @@ def truncation_error(stencil, interval=DEFAULT_INTERVAL):
     return sp.expand(
         sp.simplify(
             sp.symbols(DEFAULT_FUNCTION)
-            - sp.nsimplify(eq, rational=True, tolerance=1e-10)
+            - sp.nsimplify(intp_eq, rational=True, tolerance=1e-10)
         )
     ).as_leading_term()
     # extract the leading-order of errer term.
