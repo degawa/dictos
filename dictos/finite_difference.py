@@ -130,6 +130,7 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
     numr, denom = lagrangian_poly(x, x_set, f_set).as_numer_denom()
     numr_coef = numr.as_poly(f_set).coeffs()
     denom_coef = denom.as_poly(f_set).coeffs()
+    # extract numerator and denomitaor from the polynomial
     # TODO: raise error if length of denom_coef is greater than 1
 
     coef = [derivative(num / denom_coef[0], x, deriv) for num in numr_coef]
@@ -157,7 +158,7 @@ def truncation_error(stencil, deriv, interval=DEFAULT_INTERVAL):
         sympy Expr: the leading-order of error term
     """
     coef = coefficients(stencil, deriv)
-    # calculate finite difference coefficients based on given stencil
+    # derive finite difference coefficients based on given stencil
 
     x_set = create_coordinate_symbols(stencil, interval=interval)
     # create set of coordinate symbols from stencil.
