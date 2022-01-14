@@ -188,9 +188,91 @@ class UtilsTest(unittest.TestCase):
                 acctual = lagrangian_basis(x, degree=9, point_at=i)
                 self.assertEqual(expected[i], acctual)
 
-            )
-            acctual = lagrangian_basis(x, degree=9, point_at=0)
-            self.assertEqual(expected, acctual)
+    def test_lagrangian_poly(self):
+        """test suite for lagrangian_polynomial.lagrangian_poly."""
+        pass
+        x = sp.symbols("x")
+        h = sp.symbols("h")
+
+        f0 = sp.symbols("f0")
+        f1 = sp.symbols("f1")
+        f2 = sp.symbols("f2")
+        f3 = sp.symbols("f3")
+        f4 = sp.symbols("f4")
+
+        # subtests for forward formulation
+        expected = [
+            -f0 * (-h + x) / h + f1 * x / h,
+            f0 * (-2 * h + x) * (-h + x) / (2 * h ** 2)
+            - f1 * x * (-2 * h + x) / h ** 2
+            + f2 * x * (-h + x) / (2 * h ** 2),
+            -f0 * (-3 * h + x) * (-2 * h + x) * (-h + x) / (6 * h ** 3)
+            + f1 * x * (-3 * h + x) * (-2 * h + x) / (2 * h ** 3)
+            - f2 * x * (-3 * h + x) * (-h + x) / (2 * h ** 3)
+            + f3 * x * (-2 * h + x) * (-h + x) / (6 * h ** 3),
+            f0 * (-4 * h + x) * (-3 * h + x) * (-2 * h + x) * (-h + x) / (24 * h ** 4)
+            - f1 * x * (-4 * h + x) * (-3 * h + x) * (-2 * h + x) / (6 * h ** 4)
+            + f2 * x * (-4 * h + x) * (-3 * h + x) * (-h + x) / (4 * h ** 4)
+            - f3 * x * (-4 * h + x) * (-2 * h + x) * (-h + x) / (6 * h ** 4)
+            + f4 * x * (-3 * h + x) * (-2 * h + x) * (-h + x) / (24 * h ** 4),
+        ]
+        point = [2, 3, 4, 5]
+        for i in range(len(expected)):
+            with self.subTest("%d-point forward formulation" % point[i]):
+                x_set = [j * h for j in range(point[i])]
+                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                acctual = lagrangian_poly(x, x_set, f_set)
+
+                self.assertEqual(expected[i], acctual)
+
+        # subtests for backward formulation
+        expected = [
+            -f0 * x / h + f1 * (h + x) / h,
+            f0 * x * (h + x) / (2 * h ** 2)
+            - f1 * x * (2 * h + x) / h ** 2
+            + f2 * (h + x) * (2 * h + x) / (2 * h ** 2),
+            -f0 * x * (h + x) * (2 * h + x) / (6 * h ** 3)
+            + f1 * x * (h + x) * (3 * h + x) / (2 * h ** 3)
+            - f2 * x * (2 * h + x) * (3 * h + x) / (2 * h ** 3)
+            + f3 * (h + x) * (2 * h + x) * (3 * h + x) / (6 * h ** 3),
+            f0 * x * (h + x) * (2 * h + x) * (3 * h + x) / (24 * h ** 4)
+            - f1 * x * (h + x) * (2 * h + x) * (4 * h + x) / (6 * h ** 4)
+            + f2 * x * (h + x) * (3 * h + x) * (4 * h + x) / (4 * h ** 4)
+            - f3 * x * (2 * h + x) * (3 * h + x) * (4 * h + x) / (6 * h ** 4)
+            + f4 * (h + x) * (2 * h + x) * (3 * h + x) * (4 * h + x) / (24 * h ** 4),
+        ]
+        point = [2, 3, 4, 5]
+        for i in range(len(expected)):
+            with self.subTest("%d-point backward formulation" % point[i]):
+                x_set = [j * h for j in range(-point[i] + 1, 1)]
+                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                acctual = lagrangian_poly(x, x_set, f_set)
+
+                self.assertEqual(expected[i], acctual)
+
+        # subtests for central formulation
+        expected = [
+            f0 * x * (-h + x) / (2 * h ** 2)
+            - f1 * (-h + x) * (h + x) / h ** 2
+            + f2 * x * (h + x) / (2 * h ** 2),
+            f0 * x * (-2 * h + x) * (-h + x) * (h + x) / (24 * h ** 4)
+            - f1 * x * (-2 * h + x) * (-h + x) * (2 * h + x) / (6 * h ** 4)
+            + f2 * (-2 * h + x) * (-h + x) * (h + x) * (2 * h + x) / (4 * h ** 4)
+            - f3 * x * (-2 * h + x) * (h + x) * (2 * h + x) / (6 * h ** 4)
+            + f4 * x * (-h + x) * (h + x) * (2 * h + x) / (24 * h ** 4),
+        ]
+        point = [3, 5]
+        for i in range(len(expected)):
+            with self.subTest("%d-point forward formulation" % point[i]):
+                begin_ = -(point[i] - 1) // 2
+                end_ = (point[i] - 1) // 2 + 1
+                stencil = range(begin_, end_)
+                x_set = [j * h for j in stencil]
+                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                acctual = lagrangian_poly(x, x_set, f_set)
+
+                self.assertEqual(expected[i], acctual)
+
 
 
 if __name__ == "__main__":
