@@ -9,7 +9,7 @@ from .utils import (
     simplify_coefficients,
 )
 from .lagrangian_polynomial import lagrangian_basis
-from .taylor_expansion import TaylorExpansion
+from .taylor_expansion import taylor_series
 
 
 def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
@@ -45,7 +45,7 @@ def getTruncationError(stencil, intervalSymbolStr=DEFAULT_INTERVAL):
     coef = getInterpolationCoefficients(stencil)
 
     num_expterm = len(xSet)
-    f_te = [TaylorExpansion(x, num_expterm) for x in xSet]
+    f_te = [taylor_series(x, num_expterm) for x in xSet]
 
     eq = sum([coef[i] * f_te[i] for i in range(len(xSet))])
 

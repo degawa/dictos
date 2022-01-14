@@ -11,7 +11,7 @@ from .utils import (
     div,
 )
 from .lagrangian_polynomial import lagrangian_poly, derivative
-from .taylor_expansion import TaylorExpansion, _getDerivativeSymbol
+from .taylor_expansion import taylor_series, derivative_symbol
 
 
 def getFiniteDifferenceEquation(
@@ -62,13 +62,13 @@ def getTruncationError(stencil, orderOfDifference, intervalSymbolStr=DEFAULT_INT
     coef = getFiniteDifferenceCoefficients(xSet, orderOfDifference)
 
     num_expterm = len(xSet) + orderOfDifference
-    f_te = [TaylorExpansion(x, num_expterm) for x in xSet]
+    f_te = [taylor_series(x, num_expterm) for x in xSet]
 
     eq = sum([coef[i] * f_te[i] for i in range(len(xSet))])
 
     intervalSymbol = sp.symbols(intervalSymbolStr)
     return sp.simplify(
-        _getDerivativeSymbol(DEFAULT_FUNCTION, orderOfDifference)
+        derivative_symbol(DEFAULT_FUNCTION, orderOfDifference)
         - sp.nsimplify(
             eq / intervalSymbol ** orderOfDifference, rational=True, tolerance=1e-10
         )
