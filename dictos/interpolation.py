@@ -18,7 +18,7 @@ def equation(stencil, same_subscripts_as_stencil=False):
     The equation compute interpolation at stencil = 0
 
     Args:
-        stencil (lsit of int): relative point numbers
+        stencil (list of int): relative point numbers
             used for discretization.
         same_subscripts_as_stencil (bool, optional): flag
             to make function subscripts the same as the stencil.
@@ -58,7 +58,7 @@ def coefficients(stencil, as_numr_denom=False):
     derive interpolation coefficients based on given stencil.
 
     Args:
-        stencil (lsit of int): relative point numbers
+        stencil (list of int): relative point numbers
             used for discretization.
         as_numr_denom (bool, optional): flag to return the numerator
             and denominator separately.

@@ -25,7 +25,7 @@ def equation(
     derive finite difference equation based on given stencil.
 
     Args:
-        stencil (lsit of int): relative point numbers
+        stencil (list of int): relative point numbers
             used for discretization.
         deriv (int, optional): order of derivative. Defaults to 1.
         interval (str, optional): an interval symbol like `dx`.
