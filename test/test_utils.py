@@ -333,7 +333,7 @@ class UtilsTest(unittest.TestCase):
         3. it returns list of sympy rational when sympy number list is passed.
         4. it returns list of sympy rational when list of sympy symbols is passed.
         5. it returns tuple of integer list and a integer when sympy integer list and as_numr_denom=True are passed.
-        6. it returns tuple of integer list and a integer when lit of sympy symbols and as_numr_denom=True are passed.
+        6. it returns tuple of integer list and a integer when list of sympy symbols and as_numr_denom=True are passed.
         7.
         """
 
@@ -423,7 +423,7 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, actual)
 
         # subtest 6
-        # it returns tuple of integer list and a integer when lit of sympy symbols and as_numr_denom=True are passed.
+        # it returns tuple of integer list and a integer when list of sympy symbols and as_numr_denom=True are passed.
         h = sp.symbols(random_string(5))
         for len_ in random_int(1, _stencil_half_width * 2):
             with self.subTest(len_):

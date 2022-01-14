@@ -19,7 +19,7 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
             staggered grid. It is not allowed that a number
             in the list appears more than once.
         interval (str, optional): an interval symbol like `dx`.
-            Defaults to DEFAULT_INTERVAL_SYMBOL_STR.
+            Defaults to DEFAULT_INTERVAL.
 
     Returns:
         list of sympy symbols: list of coordinates
@@ -28,6 +28,7 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
 
     # TODO: raise error when len(stencil)==0
     # TODO: raise error when at least a number in the stencil appears more than once.
+    # TODO: sorting the stencil
 
     return [stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
 
@@ -88,7 +89,7 @@ def create_function_symbols(
 def simplify_coefficients(coef, as_numr_denom=False):
     """
     simplify coefficients in floating-point number
-    as ratioanl numbers.
+    to ratioanl numbers.
     When as_numr_denom flag is set, this returns the numberator and
     denominator separately.
 
@@ -100,10 +101,12 @@ def simplify_coefficients(coef, as_numr_denom=False):
             Defaults to False.
 
     Returns:
-        list of sympy Rational: simplified coefficients.\\
+        list of sympy Rational: simplified coefficients.
+            or
         list of sympy numbers, int:
-            numerator of simplified coefficients,
-            and denominator as the least common multiple
+            numerator and denominator of coefficients.
+            coefficients are commutative
+            with the least common multiple of the denominator.
     """
     coef_num = [c if c.is_number else sp.poly(c).coeffs()[0] for c in coef]
     # extract numbers from list of coefficients like [1/h**2, ...].
@@ -178,7 +181,7 @@ def div(eq, denom):
 
     Args:
         eq (sympy Expr): Algebraic expression to be devided
-        denom (sympy Expr): Algebraic expression to divie.
+        denom (sympy Expr): Algebraic expression to divide.
             The Expr must be a single term.
 
     Returns:
