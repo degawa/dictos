@@ -174,15 +174,14 @@ def truncation_error(stencil, deriv, interval=DEFAULT_INTERVAL):
     # fd_eq [= f(h)/2 - f(-h)/2)] = f^(1)*h + f^(3)*h**3/6 + ...
 
     h = sp.symbols(interval)
-    return sp.simplify(
-        derivative_symbol(DEFAULT_FUNCTION, deriv)
-        - sp.nsimplify(fd_eq / h ** deriv, rational=True, tolerance=1e-10)
-    ).as_leading_term()
+    return sp.expand(
+        sp.simplify(
+            derivative_symbol(DEFAULT_FUNCTION, deriv)
+            - sp.nsimplify(fd_eq / h ** deriv, rational=True, tolerance=1e-10)
+        )
+    ).as_leading_term(h)
     # extract the leading-order of errer term.
     # A finite difference formulation with error term is, for instance,
     # f^(1) = (f(h) - f(-h))/(2*h) - f^(3)*h**3/6 - ...
     # to extract error terms, reformulate fd_eq as
     # f^(1) - fd_eq/h**1 = - f^(3)*h**3/6 - ...
-    # Note that `as_leading_term()` is not working.
-    # This function returns multiple error terms
-    # for some finite difference equation.
