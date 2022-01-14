@@ -150,12 +150,13 @@ def truncation_error(stencil, interval=DEFAULT_INTERVAL):
     # for instance, 2nd-order 2-point interpolation is
     # intp_eq [= f(h)/2 + f(-h)/2)] = f(0) + f^(2)*h**2/2 + ...
 
+    h = sp.symbols(interval)
     return sp.expand(
         sp.simplify(
             sp.symbols(DEFAULT_FUNCTION)
             - sp.nsimplify(intp_eq, rational=True, tolerance=1e-10)
         )
-    ).as_leading_term()
+    ).as_leading_term(h)
     # extract the leading-order of errer term.
     # A interpolation formulation with error term is, for instance,
     # f(0) = (f(h) + f(-h))/2 - f^(2)*h**2/2 - ...
