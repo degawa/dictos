@@ -145,7 +145,7 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
 def truncation_error(stencil, deriv, interval=DEFAULT_INTERVAL):
     """
     derive the leading-order of error term
-    in the finite difference equation based on the given stencil
+    in the finite difference equation based on the given stencil.
 
     Args:
         stencil (list of int): relative point numbers
@@ -156,6 +156,17 @@ def truncation_error(stencil, deriv, interval=DEFAULT_INTERVAL):
 
     Returns:
         sympy Expr: the leading-order of error term
+
+    Examples:
+        >>> from dictos import finite_difference as fd
+        >>> fd.truncation_error([-1, 0, 1], deriv=1)
+        -f^(3)*h**2/6
+        >>> fd.truncation_error([-1, 0, 1], deriv=2)
+        -f^(4)*h**2/12
+        >>> fd.truncation_error([-2, -1, 0, 1, 2], deriv=1)
+        f^(5)*h**4/30
+        >>> fd.truncation_error([-2, -1, 0, 1, 2], deriv=2)
+        f^(6)*h**4/90
     """
     coef = coefficients(stencil, deriv)
     # derive finite difference coefficients based on given stencil
