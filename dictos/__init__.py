@@ -6,7 +6,7 @@ from .finite_difference import (
     truncation_error,
 )
 from .interpolation import (
-    getInterpolationEquation,
-    getInterpolationCoefficients,
-    getTruncationError,
+    equation,
+    coefficients,
+    truncation_error,
 )

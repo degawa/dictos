@@ -12,16 +12,16 @@ from .lagrangian_polynomial import lagrangian_basis
 from .taylor_expansion import taylor_series
 
 
-def getInterpolationEquation(stencil, sameSubscriptsAsStencil=False):
+def equation(stencil, same_subscripts_as_stencil=False):
     xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    fSet = create_function_symbols(xSet, DEFAULT_FUNCTION, sameSubscriptsAsStencil)
+    fSet = create_function_symbols(xSet, DEFAULT_FUNCTION, same_subscripts_as_stencil)
 
-    coef = getInterpolationCoefficients(stencil)
+    coef = coefficients(stencil)
 
     return sp.simplify(sum([coef[i] * fSet[i] for i in range(len(fSet))]))
 
 
-def getInterpolationCoefficients(stencil, as_numr_denom=False):
+def coefficients(stencil, as_numr_denom=False):
     xSet = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
     fSet = create_function_symbols(xSet, DEFAULT_FUNCTION)
 
@@ -39,10 +39,10 @@ def getInterpolationCoefficients(stencil, as_numr_denom=False):
     return simplify_coefficients(coef, as_numr_denom)
 
 
-def getTruncationError(stencil, intervalSymbolStr=DEFAULT_INTERVAL):
-    xSet = create_coordinate_symbols(stencil, interval=intervalSymbolStr)
+def truncation_error(stencil, interval=DEFAULT_INTERVAL):
+    xSet = create_coordinate_symbols(stencil, interval=interval)
 
-    coef = getInterpolationCoefficients(stencil)
+    coef = coefficients(stencil)
 
     num_expterm = len(xSet)
     f_te = [taylor_series(x, num_expterm) for x in xSet]
