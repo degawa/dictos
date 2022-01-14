@@ -92,7 +92,7 @@ class UtilsTest(unittest.TestCase):
             + f_8,
         ]
         for width in range(2, 10):
-            with self.subTest("%d-point forward interpolation" % (width * 2)):
+            with self.subTest("%d-point extrapolation" % (width * 2)):
                 stencil = [i for i in range(1, width + 1)]
                 actual = equation(stencil)
                 self.assertEqual(expected[width], actual)
