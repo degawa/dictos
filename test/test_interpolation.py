@@ -97,6 +97,72 @@ class UtilsTest(unittest.TestCase):
                 actual = equation(stencil)
                 self.assertEqual(expected[width], actual)
 
+    def test_coefficients(self):
+        """
+        test suite for interplation.coefficients.
+        """
+
+        expected = [
+            0,
+            [sp.Rational(1, 2), sp.Rational(1, 2)],
+            [
+                sp.Rational(-1, 6),
+                sp.Rational(2, 3),
+                sp.Rational(2, 3),
+                sp.Rational(-1, 6),
+            ],
+            [
+                sp.Rational(1, 20),
+                sp.Rational(-3, 10),
+                sp.Rational(3, 4),
+                sp.Rational(3, 4),
+                sp.Rational(-3, 10),
+                sp.Rational(1, 20),
+            ],
+            [
+                sp.Rational(-1, 70),
+                sp.Rational(4, 35),
+                sp.Rational(-2, 5),
+                sp.Rational(4, 5),
+                sp.Rational(4, 5),
+                sp.Rational(-2, 5),
+                sp.Rational(4, 35),
+                sp.Rational(-1, 70),
+            ],
+            [
+                sp.Rational(1, 252),
+                sp.Rational(-5, 126),
+                sp.Rational(5, 28),
+                sp.Rational(-10, 21),
+                sp.Rational(5, 6),
+                sp.Rational(5, 6),
+                sp.Rational(-10, 21),
+                sp.Rational(5, 28),
+                sp.Rational(-5, 126),
+                sp.Rational(1, 252),
+            ],
+        ]
+        for half_width in range(1, 6):
+            with self.subTest("%d-point central interpolation" % (half_width * 2)):
+                stencil = [i for i in range(-half_width, half_width + 1)]
+                stencil.remove(0)
+                actual = coefficients(stencil)
+                self.assertEqual(expected[half_width], actual)
+
+        expected = [
+            0,
+            ([1, 1], 2),
+            ([-1, 4, 4, -1], 6),
+            ([1, -6, 15, 15, -6, 1], 20),
+            ([-1, 8, -28, 56, 56, -28, 8, -1], 70),
+            ([1, -10, 45, -120, 210, 210, -120, 45, -10, 1], 252),
+        ]
+        for half_width in range(1, 6):
+            with self.subTest("%d-point central interpolation" % (half_width * 2)):
+                stencil = [i for i in range(-half_width, half_width + 1)]
+                stencil.remove(0)
+                actual = coefficients(stencil, as_numr_denom=True)
+                self.assertEqual(expected[half_width], actual)
 
 
 if __name__ == "__main__":
