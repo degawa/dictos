@@ -8,8 +8,9 @@ def taylor_series(around, up_to):
     calculate Taylor series of f(x) around h
 
     Args:
-        around (sympy Mul): a position to calculate Taylor series of
-            the function f.
+        around (sympy Mul): a relative position to calculate
+            Taylor series of the function f.
+            pass h not x+h when calculate Taylor series of f(x) at x+h.
         up_to (int): number of terms in the Taylor series
             excluding the first term
 
