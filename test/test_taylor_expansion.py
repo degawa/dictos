@@ -1,4 +1,4 @@
-"""Tests for distos.lagrangian_polynomial
+"""Tests for distos.taylor_expansion
 """
 import sys
 
