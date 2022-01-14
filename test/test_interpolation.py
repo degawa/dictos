@@ -143,7 +143,9 @@ class UtilsTest(unittest.TestCase):
             ],
         ]
         for half_width in range(1, 6):
-            with self.subTest("%d-point central interpolation" % (half_width * 2)):
+            with self.subTest(
+                "coefficients of %d-point central interpolation" % (half_width * 2)
+            ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
                 stencil.remove(0)
                 actual = coefficients(stencil)
@@ -158,7 +160,10 @@ class UtilsTest(unittest.TestCase):
             ([1, -10, 45, -120, 210, 210, -120, 45, -10, 1], 252),
         ]
         for half_width in range(1, 6):
-            with self.subTest("%d-point central interpolation" % (half_width * 2)):
+            with self.subTest(
+                "coefficients as numerator and denominator of %d-point central interpolation"
+                % (half_width * 2)
+            ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
                 stencil.remove(0)
                 actual = coefficients(stencil, as_numr_denom=True)
