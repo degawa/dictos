@@ -75,8 +75,8 @@ class UtilsTest(unittest.TestCase):
                 expected = create_coordinate_symbols(stencil)
 
                 h = sp.symbols(DEFAULT_INTERVAL)
-                acctual = [n * h]
-                self.assertEqual(expected, acctual)
+                actual = [n * h]
+                self.assertEqual(expected, actual)
 
         # subtest 2
         # it returns [a*h b*h c*h ...] when [a b c ...] is passed.
@@ -87,8 +87,8 @@ class UtilsTest(unittest.TestCase):
                 expected = create_coordinate_symbols(stencil)
 
                 h = sp.symbols(DEFAULT_INTERVAL)
-                acctual = [i * h for i in range(n)]
-                self.assertEqual(expected, acctual)
+                actual = [i * h for i in range(n)]
+                self.assertEqual(expected, actual)
 
         # uncomment test after implement error raising when len(stencil)==0
         # with self.subTest():
@@ -111,8 +111,8 @@ class UtilsTest(unittest.TestCase):
                 stencil = [i for i in range(n)]
                 expected = create_coordinate_symbols(stencil, interval=interval)
 
-                acctual = [i * h for i in range(n)]
-                self.assertEqual(expected, acctual)
+                actual = [i * h for i in range(n)]
+                self.assertEqual(expected, actual)
 
     def test_create_function_symbols(self):
         """
@@ -137,16 +137,16 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x)
 
                 f = DEFAULT_FUNCTION
-                acctual = (sp.symbols(f + "_0"),)
-                self.assertEqual(expected, acctual)
+                actual = (sp.symbols(f + "_0"),)
+                self.assertEqual(expected, actual)
 
                 # staggered grid case
                 x = create_coordinate_symbols([n / 2])
                 expected = create_function_symbols(x)
 
                 f = DEFAULT_FUNCTION
-                acctual = (sp.symbols(f + "_0"),)
-                self.assertEqual(expected, acctual)
+                actual = (sp.symbols(f + "_0"),)
+                self.assertEqual(expected, actual)
 
         # subtest 2
         # it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
@@ -158,8 +158,8 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x)
 
                 f = DEFAULT_FUNCTION
-                acctual = sp.symbols((f + "_0:{:d}").format(n))
-                self.assertEqual(expected, acctual)
+                actual = sp.symbols((f + "_0:{:d}").format(n))
+                self.assertEqual(expected, actual)
 
                 # staggered grid case
                 stencil = [i / 2 for i in range(n)]
@@ -167,8 +167,8 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x)
 
                 f = DEFAULT_FUNCTION
-                acctual = sp.symbols((f + "_0:{:d}").format(n))
-                self.assertEqual(expected, acctual)
+                actual = sp.symbols((f + "_0:{:d}").format(n))
+                self.assertEqual(expected, actual)
 
         # subtest 3
         # it returns [g_{0}] when [n*h] and 'g' are passed.
@@ -180,15 +180,15 @@ class UtilsTest(unittest.TestCase):
                 x = create_coordinate_symbols([n])
                 expected = create_function_symbols(x, function=f)
 
-                acctual = (sp.symbols(f + "_0"),)
-                self.assertEqual(expected, acctual)
+                actual = (sp.symbols(f + "_0"),)
+                self.assertEqual(expected, actual)
 
                 # staggered grid case
                 x = create_coordinate_symbols([n / 2])
                 expected = create_function_symbols(x, function=f)
 
-                acctual = (sp.symbols(f + "_0"),)
-                self.assertEqual(expected, acctual)
+                actual = (sp.symbols(f + "_0"),)
+                self.assertEqual(expected, actual)
 
         # subtest 4
         # it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
@@ -201,16 +201,16 @@ class UtilsTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x, function=f)
 
-                acctual = sp.symbols((f + "_0:{:d}").format(n))
-                self.assertEqual(expected, acctual)
+                actual = sp.symbols((f + "_0:{:d}").format(n))
+                self.assertEqual(expected, actual)
 
                 # staggered grid case
                 stencil = [i / 2 for i in range(n)]
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x, function=f)
 
-                acctual = sp.symbols((f + "_0:{:d}").format(n))
-                self.assertEqual(expected, acctual)
+                actual = sp.symbols((f + "_0:{:d}").format(n))
+                self.assertEqual(expected, actual)
 
         # subtest 5
         # it returns [f_{n}] when [n*h] and same_subscripts_as_stencil=True are passed.
@@ -221,8 +221,8 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
                 f = DEFAULT_FUNCTION
-                acctual = (sp.symbols(f + "_{%d}" % n),)
-                self.assertEqual(expected, acctual)
+                actual = (sp.symbols(f + "_{%d}" % n),)
+                self.assertEqual(expected, actual)
 
                 # staggered grid case
                 stencil = [n / 2] if n != 0 else [n]
@@ -231,8 +231,8 @@ class UtilsTest(unittest.TestCase):
 
                 f = DEFAULT_FUNCTION
                 str = f + "_{%2.1f}" % (n / 2) if n != 0 else f + "_{%d}" % (n)
-                acctual = (sp.symbols(str),)
-                self.assertEqual(expected, acctual)
+                actual = (sp.symbols(str),)
+                self.assertEqual(expected, actual)
 
         # subtest 6
         # it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
@@ -249,8 +249,8 @@ class UtilsTest(unittest.TestCase):
                     for i in stencil
                 ]
                 str = "".join([f + s + " " for s in subscript])
-                acctual = sp.symbols(str)
-                self.assertEqual(expected, acctual)
+                actual = sp.symbols(str)
+                self.assertEqual(expected, actual)
 
                 # staggered grid case
                 stencil = [i / 2 if i != 0 else i for i in range(n)]
@@ -262,8 +262,8 @@ class UtilsTest(unittest.TestCase):
                     for i in stencil
                 ]
                 str = "".join([f + s + " " for s in subscript])
-                acctual = sp.symbols(str)
-                self.assertEqual(expected, acctual)
+                actual = sp.symbols(str)
+                self.assertEqual(expected, actual)
 
         # subtest 7
         # it returns [g_{n}] when [n*h], 'g', and same_subscripts_as_stencil=True are passed.
@@ -277,8 +277,8 @@ class UtilsTest(unittest.TestCase):
                     x, function=f, same_subscripts_as_stencil=True
                 )
 
-                acctual = (sp.symbols(f + "_{%d}" % n),)
-                self.assertEqual(expected, acctual)
+                actual = (sp.symbols(f + "_{%d}" % n),)
+                self.assertEqual(expected, actual)
 
                 # staggered grid case
                 x = create_coordinate_symbols([n / 2 if n != 0 else n])
@@ -287,8 +287,8 @@ class UtilsTest(unittest.TestCase):
                 )
 
                 str = f + "_{%2.1f}" % (n / 2) if n != 0 else f + "_{%d}" % (n)
-                acctual = (sp.symbols(str),)
-                self.assertEqual(expected, acctual)
+                actual = (sp.symbols(str),)
+                self.assertEqual(expected, actual)
 
         # subtest 8
         # it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
@@ -308,8 +308,8 @@ class UtilsTest(unittest.TestCase):
                     for i in stencil
                 ]
                 str = "".join([f + s + " " for s in subscript])
-                acctual = sp.symbols(str)
-                self.assertEqual(expected, acctual)
+                actual = sp.symbols(str)
+                self.assertEqual(expected, actual)
 
                 # staggered grid case
                 stencil = [i / 2 if i != 0 else i for i in range(n)]
@@ -323,8 +323,8 @@ class UtilsTest(unittest.TestCase):
                     for i in stencil
                 ]
                 str = "".join([f + s + " " for s in subscript])
-                acctual = sp.symbols(str)
-                self.assertEqual(expected, acctual)
+                actual = sp.symbols(str)
+                self.assertEqual(expected, actual)
 
     def test_simplify_coefficients(self):
         """test suite for utils.simplify_coefficients.
@@ -349,9 +349,9 @@ class UtilsTest(unittest.TestCase):
                 ]
                 expected = [n / 1 for n in numr]
 
-                acctual = simplify_coefficients(numr)
+                actual = simplify_coefficients(numr)
 
-                self.assertEqual(expected, acctual)
+                self.assertEqual(expected, actual)
 
         # subtest 2
         # it returns integer list when list of sympy symbols is passed.
@@ -365,9 +365,9 @@ class UtilsTest(unittest.TestCase):
                 coef = [n * h for n in numr]
                 expected = [n / 1 for n in numr]
 
-                acctual = simplify_coefficients(coef)
+                actual = simplify_coefficients(coef)
 
-                self.assertEqual(expected, acctual)
+                self.assertEqual(expected, actual)
 
         # subtest 3
         # it returns list of sympy rational when sympy number list is passed.
@@ -383,9 +383,9 @@ class UtilsTest(unittest.TestCase):
                 coef = [numr[i] / denom[i] for i in range(len_)]
                 expected = [sp.Rational(numr[i], denom[i]) for i in range(len_)]
 
-                acctual = simplify_coefficients(coef)
+                actual = simplify_coefficients(coef)
 
-                self.assertEqual(expected, acctual)
+                self.assertEqual(expected, actual)
 
         # subtest 4
         # it returns list of sympy rational when list of sympy symbols is passed.
@@ -402,9 +402,9 @@ class UtilsTest(unittest.TestCase):
                 coef = [numr[i] / denom[i] * h for i in range(len_)]
                 expected = [sp.Rational(numr[i], denom[i]) for i in range(len_)]
 
-                acctual = simplify_coefficients(coef)
+                actual = simplify_coefficients(coef)
 
-                self.assertEqual(expected, acctual)
+                self.assertEqual(expected, actual)
 
         # subtest 5
         # it returns sympy integers list when sympy integers list is passed.
@@ -418,9 +418,9 @@ class UtilsTest(unittest.TestCase):
                 ]
                 expected = ([n / 1 for n in numr], 1)
 
-                acctual = simplify_coefficients(numr, as_numr_denom=True)
+                actual = simplify_coefficients(numr, as_numr_denom=True)
 
-                self.assertEqual(expected, acctual)
+                self.assertEqual(expected, actual)
 
         # subtest 6
         # it returns tuple of integer list and a integer when lit of sympy symbols and as_numr_denom=True are passed.
@@ -435,9 +435,9 @@ class UtilsTest(unittest.TestCase):
                 coef = [n * h for n in numr]
                 expected = ([n / 1 for n in numr], 1)
 
-                acctual = simplify_coefficients(coef, as_numr_denom=True)
+                actual = simplify_coefficients(coef, as_numr_denom=True)
 
-                self.assertEqual(expected, acctual)
+                self.assertEqual(expected, actual)
 
         # subtest 7
         for coef in [[sp.Number(3 / 4), sp.Number(2 / 3), sp.Number(4 / 5)]]:
@@ -447,9 +447,9 @@ class UtilsTest(unittest.TestCase):
                     60,
                 )
 
-                acctual = simplify_coefficients(coef, as_numr_denom=True)
+                actual = simplify_coefficients(coef, as_numr_denom=True)
 
-                self.assertEqual(expected, acctual)
+                self.assertEqual(expected, actual)
 
 
 if __name__ == "__main__":
