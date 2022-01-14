@@ -169,6 +169,45 @@ class UtilsTest(unittest.TestCase):
                 actual = coefficients(stencil, as_numr_denom=True)
                 self.assertEqual(expected[half_width], actual)
 
+        expected = [
+            0,
+            0,
+            [2, -1],
+            [3, -3, 1],
+            [4, -6, 4, -1],
+            [5, -10, 10, -5, 1],
+            [6, -15, 20, -15, 6, -1],
+            [7, -21, 35, -35, 21, -7, 1],
+            [8, -28, 56, -70, 56, -28, 8, -1],
+            [9, -36, 84, -126, 126, -84, 36, -9, 1],
+        ]
+        for width in range(2, 10):
+            with self.subTest("coefficients of %d-point extrapolation" % width):
+                stencil = [i for i in range(1, width + 1)]
+                actual = coefficients(stencil)
+                self.assertEqual(expected[width], actual)
+
+        expected = [
+            0,
+            0,
+            ([2, -1], 1),
+            ([3, -3, 1], 1),
+            ([4, -6, 4, -1], 1),
+            ([5, -10, 10, -5, 1], 1),
+            ([6, -15, 20, -15, 6, -1], 1),
+            ([7, -21, 35, -35, 21, -7, 1], 1),
+            ([8, -28, 56, -70, 56, -28, 8, -1], 1),
+            ([9, -36, 84, -126, 126, -84, 36, -9, 1], 1),
+        ]
+        for width in range(2, 10):
+            with self.subTest(
+                "coefficients as numerator and denominator of %d-point extrapolation"
+                % width
+            ):
+                stencil = [i for i in range(1, width + 1)]
+                actual = coefficients(stencil, as_numr_denom=True)
+                self.assertEqual(expected[width], actual)
+
 
 if __name__ == "__main__":
     unittest.main()
