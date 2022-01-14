@@ -43,9 +43,7 @@ def taylor_series(around, up_to):
     # coefficient each term [h, h**2/2, h**3/6, ..., h**up_to/up_to!]
 
     f = sp.symbols(func)
-    series = f  # the first term
-    for i in range(len(df_set)):
-        series += df_set[i] * coef[i]
+    series = f + sum([df_set[i] * coef[i] for i in range(len(df_set))])
     # calculate summation of each term
 
     return series

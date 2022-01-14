@@ -8,7 +8,7 @@ from .utils import (
     create_function_symbols,
     simplify_coefficients,
 )
-from .lagrangian_polynomial import lagrangian_basis
+from .lagrangian_polynomial import lagrangian_basis, lagrangian_poly
 from .taylor_expansion import taylor_series
 
 
@@ -90,11 +90,8 @@ def coefficients(stencil, as_numr_denom=False):
     # [-2*h, -h, h, 2*h] -> [f_0, f_1, f_2, f_3]
 
     x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
-    num_set = len(x_set)
-    degree = num_set - 1
-    eq = sum([lagrangian_basis(x, degree, i, x_set) * f_set[i] for i in range(num_set)])
+    eq = lagrangian_poly(x, x_set, f_set)
     # construct lagrangian interpolation polynomial
-    # TODO: has to be replaced by `lagrangian_poly`
 
     numr, denom = sp.simplify(eq.subs(x, 0)).as_numer_denom()
     numr_coef = numr.as_poly(f_set).coeffs()
