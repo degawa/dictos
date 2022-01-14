@@ -273,6 +273,91 @@ class UtilsTest(unittest.TestCase):
 
                 self.assertEqual(expected[i], acctual)
 
+    def test_derivative(self):
+        """test suite for lagrangian.polynomial.derivative."""
+        x = sp.symbols("x")
+
+        # nth derivative of sin(x)
+        expr = sp.sin(x)
+        expected = [1, 0, -1, 0, 1]
+        for i in range(len(expected)):
+            n = i + 1
+            with self.subTest("%d-th derivative of sin(x) at x=0" % n):
+                acctual = derivative(expr, x, deriv=n)
+
+                self.assertEqual(expected[i], acctual)
+
+        # nth derivative of exp(x)
+        expr = sp.exp(x)
+        for i in range(5):
+            n = i + 1
+            with self.subTest("%d-th derivative of exp(x) at x=0" % n):
+                acctual = derivative(expr, x, deriv=n)
+
+                self.assertEqual(1, acctual)
+
+        # subtests for finite difference
+        h = sp.symbols("h")
+        f0 = sp.symbols("f0")
+        f1 = sp.symbols("f1")
+        f2 = sp.symbols("f2")
+        f3 = sp.symbols("f3")
+        f4 = sp.symbols("f4")
+
+        # subtests for forward difference
+        expected = [
+            (-f0 + f1) / h,
+            (-3 * f0 + 4 * f1 - f2) / (2 * h),
+            (-11 * f0 + 18 * f1 - 9 * f2 + 2 * f3) / (6 * h),
+            (-25 * f0 + 48 * f1 - 36 * f2 + 16 * f3 - 3 * f4) / (12 * h),
+        ]
+        point = [2, 3, 4, 5]
+        for i in range(len(expected)):
+            with self.subTest(
+                "%d-point forward difference for 1st derivative" % point[i]
+            ):
+                x_set = [j * h for j in range(point[i])]
+                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                acctual = derivative(lagrangian_poly(x, x_set, f_set), x, deriv=1)
+
+                self.assertEqual(expected[i], acctual)
+
+        # subtests for backward difference
+        expected = [
+            (-f0 + f1) / h,
+            (f0 - 4 * f1 + 3 * f2) / (2 * h),
+            (-2 * f0 + 9 * f1 - 18 * f2 + 11 * f3) / (6 * h),
+            (3 * f0 - 16 * f1 + 36 * f2 - 48 * f3 + 25 * f4) / (12 * h),
+        ]
+        point = [2, 3, 4, 5]
+        for i in range(len(expected)):
+            with self.subTest(
+                "%d-point backward difference for 1st derivative" % point[i]
+            ):
+                x_set = [j * h for j in range(-point[i] + 1, 1)]
+                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                acctual = derivative(lagrangian_poly(x, x_set, f_set), x, deriv=1)
+
+                self.assertEqual(expected[i], acctual)
+
+        # subtests for central difference
+        expected = [
+            (-f0 + f2) / (2 * h),
+            (f0 - 8 * f1 + 8 * f3 - f4) / (12 * h),
+        ]
+        point = [3, 5]
+        for i in range(len(expected)):
+            with self.subTest(
+                "%d-point forward difference for 1st derivative" % point[i]
+            ):
+                begin_ = -(point[i] - 1) // 2
+                end_ = (point[i] - 1) // 2 + 1
+                stencil = range(begin_, end_)
+                x_set = [j * h for j in stencil]
+                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                acctual = derivative(lagrangian_poly(x, x_set, f_set), x, 1)
+
+                self.assertEqual(expected[i], acctual)
 
 
 if __name__ == "__main__":
