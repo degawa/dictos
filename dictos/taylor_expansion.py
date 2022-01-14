@@ -4,12 +4,15 @@ from .utils import DEFAULT_FUNCTION
 
 
 def taylor_series(around, up_to):
-    deriv_term = up_to
-    df_set = sp.symbols(DEFAULT_FUNCTION + "^((1:{:d}))".format(deriv_term + 1))
+    func = DEFAULT_FUNCTION
+
+    deriv_orders = range(1, up_to + 1)
+    df_set = [derivative_symbol(func, i) for i in deriv_orders]
 
     h = around
-    coef = [h ** i * sp.Rational(1, sp.factorial(i)) for i in range(1, deriv_term + 1)]
-    f = sp.symbols(DEFAULT_FUNCTION)
+    coef = [h ** i * sp.Rational(1, sp.factorial(i)) for i in deriv_orders]
+
+    f = sp.symbols(func)
     series = f
     for i in range(len(df_set)):
         series += df_set[i] * coef[i]
