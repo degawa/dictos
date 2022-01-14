@@ -27,7 +27,7 @@ class UtilsTest(unittest.TestCase):
         x8 = sp.symbols("x8")
         x9 = sp.symbols("x9")
 
-        with self.subTest(1):
+        with self.subTest("2-point formulation"):
             expected = (x - x1) / (x0 - x1)
             acctual = lagrangian_basis(x, degree=1, point_at=0)
             self.assertEqual(expected, acctual)
@@ -36,7 +36,7 @@ class UtilsTest(unittest.TestCase):
             acctual = lagrangian_basis(x, degree=1, point_at=1)
             self.assertEqual(expected, acctual)
 
-        with self.subTest(2):
+        with self.subTest("3-point formulation"):
             expected = (x - x1) * (x - x2) / ((x0 - x1) * (x0 - x2))
             acctual = lagrangian_basis(x, degree=2, point_at=0)
             self.assertEqual(expected, acctual)
@@ -49,7 +49,7 @@ class UtilsTest(unittest.TestCase):
             acctual = lagrangian_basis(x, degree=2, point_at=2)
             self.assertEqual(expected, acctual)
 
-        with self.subTest(3):
+        with self.subTest("4-point formulation"):
             expected = (
                 (x - x1) * (x - x2) * (x - x3) / ((x0 - x1) * (x0 - x2) * (x0 - x3))
             )
@@ -68,7 +68,7 @@ class UtilsTest(unittest.TestCase):
             acctual = lagrangian_basis(x, degree=3, point_at=2)
             self.assertEqual(expected, acctual)
 
-        with self.subTest(4):
+        with self.subTest("5-point formulation"):
             expected = (
                 (x - x1)
                 * (x - x2)
@@ -109,7 +109,7 @@ class UtilsTest(unittest.TestCase):
             acctual = lagrangian_basis(x, degree=4, point_at=3)
             self.assertEqual(expected, acctual)
 
-        with self.subTest(5):
+        with self.subTest("6-point formulation"):
             expected = (
                 (x - x1)
                 * (x - x2)
@@ -121,7 +121,7 @@ class UtilsTest(unittest.TestCase):
             acctual = lagrangian_basis(x, degree=5, point_at=0)
             self.assertEqual(expected, acctual)
 
-        with self.subTest(6):
+        with self.subTest("7-point formulation"):
             expected = (
                 (x - x1)
                 * (x - x2)
@@ -141,7 +141,7 @@ class UtilsTest(unittest.TestCase):
             acctual = lagrangian_basis(x, degree=6, point_at=0)
             self.assertEqual(expected, acctual)
 
-        with self.subTest(7):
+        with self.subTest("8-point formulation"):
             expected = (
                 (x - x1)
                 * (x - x2)
@@ -163,7 +163,7 @@ class UtilsTest(unittest.TestCase):
             acctual = lagrangian_basis(x, degree=7, point_at=0)
             self.assertEqual(expected, acctual)
 
-        with self.subTest(8):
+        with self.subTest("9-point formulation"):
             expected = (
                 (x - x1)
                 * (x - x2)
@@ -187,7 +187,7 @@ class UtilsTest(unittest.TestCase):
             acctual = lagrangian_basis(x, degree=8, point_at=0)
             self.assertEqual(expected, acctual)
 
-        with self.subTest(9):
+        with self.subTest("10-point formulation"):
             expected = (
                 (x - x1)
                 * (x - x2)
