@@ -63,7 +63,7 @@ def derivative_symbol(function, deriv):
         sympy symbol: n-th derivative of function
 
     Examples:
-       >>> from dictos import taylor_expansion as te
+        >>> from dictos import taylor_expansion as te
         >>> te.derivative_symbol("f", 1)
         f^(1)
         >>> te.derivative_symbol("f", 2)
