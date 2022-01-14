@@ -22,8 +22,8 @@ class UtilsTest(unittest.TestCase):
             n = random.randint(0, np.iinfo(np.int32).max)
             with self.subTest(n):
                 expected = sp.symbols("f^(%d)" % n)
-                acctual = derivative_symbol("f", n)
-                self.assertEqual(expected, acctual)
+                actual = derivative_symbol("f", n)
+                self.assertEqual(expected, actual)
 
     def test_taylor_series(self):
         """test suite for taylor_expansion.taylor_series."""
@@ -104,8 +104,8 @@ class UtilsTest(unittest.TestCase):
                 with self.subTest(
                     "Taylor series around %dh up to %d order derivative" % (d, i)
                 ):
-                    acctual = taylor_series(d * h, i)
-                    self.assertEqual(expected[i].subs(a, d), acctual)
+                    actual = taylor_series(d * h, i)
+                    self.assertEqual(expected[i].subs(a, d), actual)
 
 
 if __name__ == "__main__":
