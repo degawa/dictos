@@ -7,7 +7,7 @@ Symbolic discretization tools for the finite difference method on a regular and 
 ### Finite Difference
 Tom, a university student assigned to a Computational Fluid Dynamics Laboratory, asks dictos.
 
-Tom: "As part of my graduation research theme, I need to write a program simulating incompressible fluid flow in the finite difference method."
+Tom: "As part of my graduation research theme, I need to write a program simulating incompressible fluid flow using the finite difference method."
 "I can find finite difference coefficients on the net. There are very thankful, but there are derived by discretization on the regular grid."
 "I need the coefficients on the staggered grid. Dictos, can you provide those?"
 
@@ -173,6 +173,7 @@ Dictos: "Not supported yet. I will support explicit and compact filters."
 - [ ] add examples
 - [ ] error handling
 - [ ] update tests
+- [ ] provide install method
 
 ## Finite Difference Coefficients
 ### Central Finite Difference on the Regular Grid
