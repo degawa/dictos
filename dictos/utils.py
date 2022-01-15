@@ -133,7 +133,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
 
         numr = [c * denom_lcm for c in coef_rational]
         # list of numerator divided by the least common multiple.
-        print(numr)
+
         has_Rational = any(n.q != 1 for n in numr)
         max_denominator *= 10
         # rationalization is incomplete
