@@ -131,7 +131,7 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
     numr_coef = numr.as_poly(f_set).coeffs()
     denom_coef = denom.as_poly(f_set).coeffs()
     # extract numerator and denomitaor from the polynomial
-    # TODO: raise error if length of denom_coef is greater than 1
+    # TODO: #7 raise error if length of denom_coef is greater than 1
 
     coef = [derivative(num / denom_coef[0], x, deriv) for num in numr_coef]
     # get coefficients of each terms as a list. Another expression

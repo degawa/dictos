@@ -26,9 +26,9 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
             corresponding to the stencil.
     """
 
-    # TODO: raise error when len(stencil)==0
-    # TODO: raise error when at least a number in the stencil appears more than once.
-    # TODO: sorting the stencil
+    # TODO: #2 raise error when len(stencil)==0
+    # TODO: #3 raise error when at least a number in the stencil appears more than once.
+    # TODO: #4 sorting the stencil
 
     return [stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
 
@@ -120,7 +120,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
     # including the error coused by the binary representation.
     # It is necessary to discuss the argument
     # when increasing the formal accuracy of discretization.
-    # TODO: calculate the argument of `limit_denominator` from the smallest coefficient, that is the largest denominator
+    # TODO: #1 calculate the argument of `limit_denominator` from the smallest coefficient, that is the largest denominator
 
     denom = [c.q for c in coef_rational]
     denom_lcm = int(np.lcm.reduce(np.array(denom)))
@@ -154,7 +154,7 @@ def dot_product(numr, f_set, evaluate=False):
         sympy Expr: dot product of the passed two lists.
     """
 
-    # TODO: raise error when numr and f_set have different lengths
+    # TODO: #5 raise error when numr and f_set have different lengths
 
     begin_ = len(f_set) - 1  # exclude first term
     end_ = -1  # to generate numbers up to 0 using range()
