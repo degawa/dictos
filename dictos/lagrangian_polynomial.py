@@ -17,7 +17,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
         ValueError: if degree of polynomial is less than 1.
 
     Returns:
-        sympy Expr: a Lagrange basis polynomial $l(x)|_{xset[point_at]}$.
+        sympy Expr: a Lagrange basis polynomial $l(x)|_{x_set[point_at]}$.
 
     Examples:
         >>> from dictos import lagrangian_polynomial as lp
@@ -30,6 +30,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
         raise ValueError("degree of polynomial has to be greater than 0")
 
     # TODO: #6 raise error when at least one coordinate values in the x_set appears more than once.
+    # TODO: #22 raise error when degree and len(x_set) are inconsistent
 
     num_set = degree + 1
     # n+1 points are required to construct an n-th degree polynomial.
@@ -43,7 +44,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
     # create indices indicating set of coordinate values
     # used to construct the polynomial
     # once create `[0, 1, 2, ...]`
-    # and then remove an index, `0`` for example, indicating the point
+    # and then remove an index, `0` for example, indicating the point
     # where Lagrangian basis polynomial is defined
 
     return sp.prod([(x - x_set[j]) / (x_set[point_at] - x_set[j]) for j in index])
@@ -82,10 +83,11 @@ def lagrangian_poly(x, x_set, f_set):
     """
     if len(x_set) != len(f_set):
         raise ValueError(
-            "The number of elements of xSet({:d}) and fSet({:d}) are different.".format(
+            "The number of elements of x_set({:d}) and f_fet({:d}) are different.".format(
                 len(x_set), len(f_set)
             )
         )
+    # TODO: #21 raise error when len(x_set) == 1
 
     num_set = len(x_set)
     degree = num_set - 1
