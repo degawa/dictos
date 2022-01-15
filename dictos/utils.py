@@ -111,24 +111,37 @@ def simplify_coefficients(coef, as_numr_denom=False):
     coef_num = [c if c.is_number else sp.poly(c).coeffs()[0] for c in coef]
     # extract numbers from list of coefficients like [1/h**2, ...].
 
-    coef_rational = [
-        sp.Rational(fr.Fraction(str(c)).limit_denominator(100000)) for c in coef_num
-    ]
-    # rationalize coefficients.
-    # The argument of `fraction.Fraction` must be a string in this case.
-    # `limit_denominator` is used to avoid represent a real number
-    # including the error coused by the binary representation.
-    # It is necessary to discuss the argument
-    # when increasing the formal accuracy of discretization.
-    # TODO: #1 calculate the argument of `limit_denominator` from the smallest coefficient, that is the largest denominator
+    # rationalize coefficients and then divide those into numerator and denominator.
+    # Execute while numbers other than one are contained in the coefficients' denominator.
+    has_Rational = True
+    max_denominator = 1000000  # fraction's default value
+    significant_digits = 16  # approx significant digits of Float in decimal notation.
+    while has_Rational and max_denominator <= 10 ** significant_digits:
+        coef_rational = [
+            sp.Rational(fr.Fraction(str(c)).limit_denominator(max_denominator))
+            # TODO: #15 refactor to `sp.Rational(str(c)).limit_denominator(max_denominator)`
+            for c in coef_num
+        ]
+        # rationalize coefficients.
+        # The argument of `fraction.Fraction` must be a string in this case.
+        # `limit_denominator` is used to avoid represent a real number
+        # including the error coused by the binary representation.
+        # It is necessary to discuss the argument
+        # when increasing the formal accuracy of discretization.
 
-    denom = [c.q for c in coef_rational]
-    denom_lcm = int(np.lcm.reduce(np.array(denom)))
-    # extract denomenator of each coefficient
-    # and calculate the least common multiple.
+        denom = [c.q for c in coef_rational]
+        denom_lcm = int(np.lcm.reduce(np.array(denom)))
+        # extract denomenator of each coefficient
+        # and calculate the least common multiple.
 
-    numr = [c * denom_lcm for c in coef_rational]
-    # list of numerator divided by the least common multiple.
+        numr = [c * denom_lcm for c in coef_rational]
+        # list of numerator divided by the least common multiple.
+
+        has_Rational = any(n.q != 1 for n in numr)
+        max_denominator *= 10
+        # rationalization is incomplete
+        # if the numerator contains at least a number other than 1.
+        # retry rationalizaiton with larger maximum value of the denominator.
 
     if as_numr_denom:
         return numr, denom_lcm
