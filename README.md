@@ -173,3 +173,106 @@ Dictos: "Not supported yet. I will support explicit and compact filters."
 - [ ] add examples
 - [ ] error handling
 - [ ] update tests
+
+## Finite Difference Coefficients
+### Central Finite Difference on the Regular Grid
+#### Notation
+
+|||
+|:--|:--|
+|![S=\{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5\}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+S%3D%5C%7B-5%2C+-4%2C+-3%2C+-2%2C+-1%2C+0%2C+1%2C+2%2C+3%2C+4%2C+5%5C%7D)|stencil|
+|![n_s](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+n_s%0A)|numerator|
+|![d](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+d)|denominator|
+|![h](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+h)|interval between grid points|
+
+#### 1st-order derivative
+On the regular grid, the 1st-order derivative is calculated by the following equation:
+
+![f_i^{(1)} = \frac{1}{d\cdot h}\sum_{s\in S} n_s f_{i+s}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%281%29%7D+%3D+%5Cfrac%7B1%7D%7Bd%5Ccdot+h%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D)
+
+
+| Order of Accuracy |  -5   |  -4   |  -3   |  -2   |  -1   |   0   |   1   |   2   |   3   |   4   |   5   | Denominator |  Trunctaion Error  |
+| :---------------: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---------: | :----------------- |
+|         2         |   0   |   0   |   0   |   0   |  -1   |   0   |   1   |   0   |   0   |   0   |   0   |      2      | -f^(3)*h**2/6      |
+|         4         |   0   |   0   |   0   |   1   |  -8   |   0   |   8   |  -1   |   0   |   0   |   0   |     12      | f^(5)*h**4/30      |
+|         6         |   0   |   0   |  -1   |   9   |  -45  |   0   |  45   |  -9   |   1   |   0   |   0   |     60      | -f^(7)*h**6/140    |
+|         8         |   0   |   3   |  -32  |  168  | -672  |   0   |  672  | -168  |  32   |  -3   |   0   |     840     | f^(9)*h**8/630     |
+|        10         |  -2   |  25   | -150  |  600  | -2100 |   0   | 2100  | -600  |  150  |  -25  |   2   |    2520     | -f^(11)*h**10/2772 |
+
+
+Note that these coefficients are NOT for a usual equation:
+
+![f_i^{(1)} = a\frac{f_{i+1}-f_{i-1}}{2h} + b\frac{f_{i+2}-f_{i-2}}{4h} + c\frac{f_{i+3}-f_{i-3}}{6h}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%281%29%7D+%3D+a%5Cfrac%7Bf_%7Bi%2B1%7D-f_%7Bi-1%7D%7D%7B2h%7D+%2B+b%5Cfrac%7Bf_%7Bi%2B2%7D-f_%7Bi-2%7D%7D%7B4h%7D+%2B+c%5Cfrac%7Bf_%7Bi%2B3%7D-f_%7Bi-3%7D%7D%7B6h%7D)
+
+#### 2nd-order derivative
+The 2nd-order derivative is calculated by the following equation:
+
+![f_i^{(2)} = \frac{1}{d\cdot h^2}\sum_{s\in S} n_s f_{i+s}
+](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%282%29%7D+%3D+%5Cfrac%7B1%7D%7Bd%5Ccdot+h%5E2%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D%0A)
+
+| Order of Accuracy |  -5   |  -4   |  -3   |  -2   |  -1   |   0    |   1   |   2   |   3   |   4   |   5   | Denominator |  Trunctaion Error   |
+| :---------------: | :---: | :---: | :---: | :---: | :---: | :----: | :---: | :---: | :---: | :---: | :---: | :---------: | :------------------ |
+|         2         |   0   |   0   |   0   |   0   |   1   |   -2   |   1   |   0   |   0   |   0   |   0   |      1      | -f^(4)*h**2/12      |
+|         4         |   0   |   0   |   0   |  -1   |  16   |  -30   |  16   |  -1   |   0   |   0   |   0   |     12      | f^(6)*h**4/90       |
+|         6         |   0   |   0   |   2   |  -27  |  270  |  -490  |  270  |  -27  |   2   |   0   |   0   |     180     | -f^(8)*h**6/560     |
+|         8         |   0   |  -9   |  128  | -1008 | 8064  | -14350 | 8064  | -1008 |  128  |  -9   |   0   |    5040     | f^(10)*h**8/3150    |
+|        10         |   8   | -125  | 1000  | -6000 | 42000 | -73766 | 42000 | -6000 | 1000  | -125  |   8   |    25200    | -f^(12)*h**10/16632 |
+
+Note that these coefficients are NOT for a usual equation:
+
+![f_i^{(2)} = a\frac{f_{i+1}-2f_i+f_{i-1}}{h^2} + b\frac{f_{i+2}-2f_i+f_{i-2}}{(2h)^2} + c\frac{f_{i+3}-2f_i+f_{i-3}}{(3h)^2}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%282%29%7D+%3D+a%5Cfrac%7Bf_%7Bi%2B1%7D-2f_i%2Bf_%7Bi-1%7D%7D%7Bh%5E2%7D+%2B+b%5Cfrac%7Bf_%7Bi%2B2%7D-2f_i%2Bf_%7Bi-2%7D%7D%7B%282h%29%5E2%7D+%2B+c%5Cfrac%7Bf_%7Bi%2B3%7D-2f_i%2Bf_%7Bi-3%7D%7D%7B%283h%29%5E2%7D)
+### Central Finite Difference on the Staggered Grid
+#### Notation
+
+|||
+|:--|:--|
+|![S=\{-4.5, -3.5, -2.5, -1.5,-0.5, 0, 0.5, 1.5, 2.5, 3.5, 4.5\}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+S%3D%5C%7B-4.5%2C+-3.5%2C+-2.5%2C+-1.5%2C-0.5%2C+0%2C+0.5%2C+1.5%2C+2.5%2C+3.5%2C+4.5%5C%7D)|stencil|
+|![n_s](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+n_s%0A)|numerator|
+|![d](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+d)|denominator|
+|![h](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+h)|interval between grid points|
+
+#### 1st-order derivative
+On the staggered grid, the 1st-order derivative is calculated by the equation as it is on the regular grid:
+
+![f_i^{(1)} = \frac{1}{d\cdot h}\sum_{s\in S} n_s f_{i+s}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%281%29%7D+%3D+%5Cfrac%7B1%7D%7Bd%5Ccdot+h%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D)
+
+| Order of Accuracy | -4.5  | -3.5  |  -2.5   |  -1.5  |   -0.5    |   0   |   0.5    |   1.5   |  2.5   |  3.5   |  4.5  | Denominator |     Trunctaion Error     |
+| :---------------: | :---: | :---: | :-----: | :----: | :-------: | :---: | :------: | :-----: | :----: | :----: | :---: | :---------: | :----------------------- |
+|         2         |   0   |   0   |    0    |   0    |    -1     |   0   |    1     |    0    |   0    |   0    |   0   |      1      | -f^(3)*h**2/24           |
+|         4         |   0   |   0   |    0    |   1    |    -27    |   0   |    27    |   -1    |   0    |   0    |   0   |     24      | 3*f^(5)*h**4/640         |
+|         6         |   0   |   0   |   -9    |  125   |   -2250   |   0   |   2250   |  -125   |   9    |   0    |   0   |    1920     | -5*f^(7)*h**6/7168       |
+|         8         |   0   |  75   |  -1029  |  8575  |  -128625  |   0   |  128625  |  -8575  |  1029  |  -75   |   0   |   107520    | 35*f^(9)*h**8/294912     |
+|        10         | -1225 | 18225 | -142884 | 926100 | -12502350 |   0   | 12502350 | -926100 | 142884 | -18225 | 1225  |  10321920   | -63*f^(11)*h**10/2883584 |
+
+#### higher-order derivative
+On the staggered grid, the odd-order derivative is calculated at each cell center, and the even-order derivative is calculated at each point.
+This means we can reuse the equations for 2nd, 4th, 6th...-order derivative on the regular grid. However, to maintain consistency between 2nd-order derivative and 1st-order derivative of 1st-order derivate, the 2nd-order derivative is calculated as the 1st-order derivative of the 1st-order derivative. The higher-order derivatives than 2nd-order are calculated in the same way.
+
+The stencil width will be wider, but the consistency is more important.
+
+## Interpolation Coefficients
+### Notation
+
+|||
+|:--|:--|
+|![S=\{-4.5, -3.5, -2.5, -1.5,-0.5, 0.5, 1.5, 2.5, 3.5, 4.5\}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+S%3D%5C%7B-4.5%2C+-3.5%2C+-2.5%2C+-1.5%2C-0.5%2C+0.5%2C+1.5%2C+2.5%2C+3.5%2C+4.5%5C%7D)|stencil|
+|![n_s](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+n_s%0A)|numerator|
+|![d](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+d)|denominator|
+|![h](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+h)|interval between grid points|
+
+### Central Interpolation on the Staggered Grid
+The central interpolation is calculated by the following equation:
+
+![\overline{f}_i = \frac{1}{d}\sum_{s\in S} n_s f_{i+s}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+%5Coverline%7Bf%7D_i+%3D+%5Cfrac%7B1%7D%7Bd%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D%0A)
+
+| Order of Accuracy | -4.5  | -3.5  | -2.5  | -1.5  | -0.5  |  0.5  |  1.5  |  2.5  |  3.5  |  4.5  | Denominator |    Trunctaion Error     |
+| :---------------: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---------: | :---------------------- |
+|         2         |   0   |   0   |   0   |   0   |   1   |   1   |   0   |   0   |   0   |   0   |      2      | -f^(2)*h**2/8           |
+|         4         |   0   |   0   |   0   |  -1   |   9   |   9   |  -1   |   0   |   0   |   0   |     16      | 3*f^(4)*h**4/128        |
+|         6         |   0   |   0   |   3   |  -25  |  150  |  150  |  -25  |   3   |   0   |   0   |     256     | -5*f^(6)*h**6/1024      |
+|         8         |   0   |  -5   |  49   | -245  | 1225  | 1225  | -245  |  49   |  -5   |   0   |    2048     | 35*f^(8)*h**8/32768     |
+|        10         |  35   | -405  | 2268  | -8820 | 39690 | 39690 | -8820 | 2268  | -405  |  35   |    65536    | -63*f^(10)*h**10/262144 |
+
+The above coefficients can not be used to the more general interpolation equation expressed as follows:
+
+![\overline{f}_i = a\frac{f_{i+1}+f_{i-1}}{2} +b\frac{f_{i+2}+f_{i-2}}{2}+c\frac{f_{i+3}+f_{i-3}}{2}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+%5Coverline%7Bf%7D_i+%3D+a%5Cfrac%7Bf_%7Bi%2B1%7D%2Bf_%7Bi-1%7D%7D%7B2%7D+%2Bb%5Cfrac%7Bf_%7Bi%2B2%7D%2Bf_%7Bi-2%7D%7D%7B2%7D%2Bc%5Cfrac%7Bf_%7Bi%2B3%7D%2Bf_%7Bi-3%7D%7D%7B2%7D)
