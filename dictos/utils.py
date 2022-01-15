@@ -118,9 +118,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
     significant_digits = 16  # approx significant digits of Float in decimal notation.
     while has_Rational and max_denominator <= 10 ** significant_digits:
         coef_rational = [
-            sp.Rational(fr.Fraction(str(c)).limit_denominator(max_denominator))
-            # TODO: #15 refactor to `sp.Rational(str(c)).limit_denominator(max_denominator)`
-            for c in coef_num
+            sp.Rational(str(c)).limit_denominator(max_denominator) for c in coef_num
         ]
         # rationalize coefficients.
         # The argument of `fraction.Fraction` must be a string in this case.
@@ -136,7 +134,7 @@ def simplify_coefficients(coef, as_numr_denom=False):
 
         numr = [c * denom_lcm for c in coef_rational]
         # list of numerator divided by the least common multiple.
-
+        print(numr)
         has_Rational = any(n.q != 1 for n in numr)
         max_denominator *= 10
         # rationalization is incomplete
