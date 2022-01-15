@@ -36,7 +36,7 @@ def equation(stencil, same_subscripts_as_stencil=False):
         >>> intp.equation([-1.5, -0.5, 0.5, 1.5],same_subscripts_as_stencil=True)
         9*f_{-0.5}/16 - f_{-1.5}/16 + 9*f_{0.5}/16 - f_{1.5}/16
     """
-    # TODO: raise error when stencil contains 0
+    # TODO: #8 raise error when stencil contains 0
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
     f_set = create_function_symbols(x_set, DEFAULT_FUNCTION, same_subscripts_as_stencil)
@@ -81,7 +81,7 @@ def coefficients(stencil, as_numr_denom=False):
         >>> intp.coefficients([-1.5, -0.5, 0.5, 1.5], as_numr_denom=True)
         ([-1, 9, 9, -1], 16)
     """
-    # TODO: raise error when stencil contains 0
+    # TODO: #9 raise error when stencil contains 0
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
     f_set = create_function_symbols(x_set, DEFAULT_FUNCTION)
@@ -97,7 +97,7 @@ def coefficients(stencil, as_numr_denom=False):
     numr_coef = numr.as_poly(f_set).coeffs()
     denom_coef = denom.as_poly(f_set).coeffs()
     # extract numerator and denomitaor the polynomial
-    # TODO: raise error if length of denom_coef is greater than 1
+    # TODO: #10 raise error if length of denom_coef is greater than 1
 
     coef = [num / denom_coef[0] for num in numr_coef]
     # get coefficients of each terms as a list. Another expression
@@ -129,7 +129,7 @@ def truncation_error(stencil, interval=DEFAULT_INTERVAL):
         >>> intp.truncation_error([-1.5, -0.5, 0.5, 1.5])
         3*f^(4)*h**4/128
     """
-    # TODO: raise error when stencil contains 0
+    # TODO: #11 raise error when stencil contains 0
 
     coef = coefficients(stencil)
     # derive interpolation coefficients based on given stencil

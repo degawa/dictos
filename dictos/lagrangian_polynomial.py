@@ -29,7 +29,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
     if degree <= 0:
         raise ValueError("degree of polynomial has to be greater than 0")
 
-    # TODO: raise error when at least one coordinate values in the x_set appears more than once.
+    # TODO: #6 raise error when at least one coordinate values in the x_set appears more than once.
 
     num_set = degree + 1
     # n+1 points are required to construct an n-th degree polynomial.
