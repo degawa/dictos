@@ -1,6 +1,5 @@
 import sympy as sp
 import numpy as np
-import fractions as fr
 
 
 DEFAULT_INDEPENDENT_VARIABLE = "x"  # str for independent variable symbol
