@@ -55,3 +55,30 @@ class ViolateDegreeOfPolynomialAssumption(LagrangianPolynomialError):
 
     def __str__(self) -> str:
         return self.message
+
+
+class InconsistentDataSetAndDegreeOfPolynomialError(LagrangianPolynomialError):
+    """
+    Exception raised for errors
+    that there is an inconsistency between the degree of polynomial
+    and number of data set.
+
+    Attributes:
+        degree (int): degree of polynomial which causedthe error.
+        x_set (list of int or float): set of independend variable
+            which caused the error.
+        message (str): Explanation of the error.
+    """
+
+    def __init__(self, degree: int, x_set: list) -> None:
+        self.degree = degree
+        self.x_set = x_set
+        self.message = (
+            "Inconsistency between the degree of polynomial and data set. "
+            + "The degree of polynomial ({}) must be the number of data set ({}) - 1.".format(
+                degree, len(x_set)
+            )
+        )
+
+    def __str__(self) -> str:
+        return self.message

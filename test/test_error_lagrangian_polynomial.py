@@ -10,6 +10,7 @@ import sympy as sp
 from dictos.error.lagrangian_polynomial import (
     InconsistentDataSetError,
     ViolateDegreeOfPolynomialAssumption,
+    InconsistentDataSetAndDegreeOfPolynomialError,
 )
 
 
@@ -48,6 +49,24 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
         with self.subTest(degree):
             if degree <= 0:
                 raise ViolateDegreeOfPolynomialAssumption(degree)
+
+    @unittest.expectedFailure
+    def test_error_stencil_InconsistentDataSetAndDegreeOfPolynomialError(self):
+        """
+        test suite for error.lagrangian_polynomial.InconsistentDataSetAndDegreeOfPolynomialError.
+        """
+
+        degree = 4
+        x_set = [1, 2, 3]
+        with self.subTest(degree, x_set):
+            if degree != len(x_set) + 1:
+                raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
+
+        degree = 2
+        x_set = [1, 2]
+        with self.subTest(degree, x_set):
+            if degree != len(x_set) + 1:
+                raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
 
 
 if __name__ == "__main__":
