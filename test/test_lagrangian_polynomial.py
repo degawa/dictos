@@ -10,7 +10,7 @@ import sympy as sp
 from dictos.lagrangian_polynomial import lagrangian_basis, lagrangian_poly, derivative
 
 
-class UtilsTest(unittest.TestCase):
+class LagrangianPolynomialTest(unittest.TestCase):
     def test_lagrangian_basis(self):
         """
         test suite for lagrangian_polynomial.lagrangian_basis.

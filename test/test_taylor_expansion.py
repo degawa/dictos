@@ -12,7 +12,7 @@ import random
 from dictos.taylor_expansion import taylor_series, derivative_symbol
 
 
-class UtilsTest(unittest.TestCase):
+class TaylorExpansionTest(unittest.TestCase):
     def test_derivative_symbol(self):
         """
         test suite for taylor_expansion.derivative_symbol.
