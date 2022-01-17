@@ -15,11 +15,11 @@ class ContainsZeroError(StencilError):
         message (str): Explanation of the error.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.message = (
             "The stencil contains `0`. "
             "Remove `0` from the stencil using `.remove(0)` etc."
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.message
