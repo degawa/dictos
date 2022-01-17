@@ -217,3 +217,17 @@ def has_zero(stencil: list) -> bool:
         bool: True if the stencil has 0.
     """
     return 0 in stencil
+
+
+def has_duplicated_points(stencil: list) -> bool:
+    """
+    Returns True if there is at least one duplicated points in the stencil.
+
+    Args:
+        stencil (list of int or float): stencil on regular or
+            staggered grid.
+
+    Returns:
+        bool: True if there is at least one duplicated points in the stencil.
+    """
+    return len(stencil) != len(set(stencil))

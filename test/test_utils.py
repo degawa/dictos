@@ -19,6 +19,7 @@ from dictos.utils import (
     dot_product,
     div,
     has_zero,
+    has_duplicated_points,
 )
 
 _stencil_half_width = 20  # up to 20th order accuracy
@@ -472,6 +473,30 @@ class UtilsTest(unittest.TestCase):
             with self.subTest(stencil):
                 expected = False
                 actual = has_zero(stencil)
+                self.assertEqual(expected, actual)
+
+    def test_has_duplicated_points(self):
+        """test suite for utils.has_dupulicated_points.
+        1. returns True if there is at least one dupulicated point.
+        2. returns False if there is no dupulicated point.
+        """
+
+        # 1
+        for c in range(100):
+            stencil = random_int(-c, c)
+            stencil.append(random.randint(-c, c))
+            random.shuffle(stencil)
+            with self.subTest(stencil):
+                expected = True
+                actual = has_duplicated_points(stencil)
+                self.assertEqual(expected, actual)
+
+        # 2
+        for c in range(100):
+            stencil = random_int(-c, c)
+            with self.subTest(stencil):
+                expected = False
+                actual = has_duplicated_points(stencil)
                 self.assertEqual(expected, actual)
 
 
