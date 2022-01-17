@@ -7,7 +7,10 @@ sys.path.insert(1, "..")
 import unittest
 import sympy as sp
 
-from dictos.error.lagrangian_polynomial import InconsistentDataSetError
+from dictos.error.lagrangian_polynomial import (
+    InconsistentDataSetError,
+    ViolateDegreeOfPolynomialAssumption,
+)
 
 
 class ErrorLagrangianPolynomialTest(unittest.TestCase):
@@ -29,6 +32,22 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
         with self.subTest(x_set, f_set):
             if len(x_set) != len(f_set):
                 raise InconsistentDataSetError(x_set, f_set)
+
+    @unittest.expectedFailure
+    def test_error_stencil_ViolateDegreeOfPolynomialAssumption(self):
+        """
+        test suite for error.lagrangian_polynomial.ViolateDegreeOfPolynomialAssumption.
+        """
+
+        degree = 1
+        with self.subTest(degree):
+            if degree <= 0:
+                raise ViolateDegreeOfPolynomialAssumption(degree)
+
+        degree = 0
+        with self.subTest(degree):
+            if degree <= 0:
+                raise ViolateDegreeOfPolynomialAssumption(degree)
 
 
 if __name__ == "__main__":

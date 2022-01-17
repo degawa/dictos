@@ -31,3 +31,27 @@ class InconsistentDataSetError(LagrangianPolynomialError):
     def __str__(self) -> str:
         return self.message
 
+
+class ViolateDegreeOfPolynomialAssumption(LagrangianPolynomialError):
+    """
+    Exception raised for errors
+    that violate a theoretical assumption imposed
+    on the degree of polynomial (degree > 0)
+
+    Attributes:
+        degree (int): degree of polynomial which causedthe error.
+        message (str): Explanation of the error.
+    """
+
+    def __init__(self, degree: int) -> None:
+        self.degree = degree
+        self.message = (
+            "Violates the theoretical assumption "
+            + "imposed on the degree of polynomial. "
+            + "The degree of polynomial has to be greater than 0 (passed value: {})".format(
+                degree
+            )
+        )
+
+    def __str__(self) -> str:
+        return self.message
