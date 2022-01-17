@@ -10,7 +10,7 @@ import sympy as sp
 from dictos.finite_difference import equation, coefficients, truncation_error
 
 
-class UtilsTest(unittest.TestCase):
+class FiniteDifferenceTest(unittest.TestCase):
     def test_equation(self):
         """
         test suite for finite_difference.equation.

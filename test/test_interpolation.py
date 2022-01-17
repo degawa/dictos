@@ -10,7 +10,7 @@ import sympy as sp
 from dictos.interpolation import equation, coefficients, truncation_error
 
 
-class UtilsTest(unittest.TestCase):
+class InterpolationTest(unittest.TestCase):
     def test_equation(self):
         """
         test suite for interplation.equation.
