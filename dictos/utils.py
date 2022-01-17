@@ -203,3 +203,17 @@ def div(eq, denom):
     # `(1/(12*h))*(f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})`,
     # unlike the result we want as follows:
     # `(f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)`
+
+
+def has_zero(stencil: list) -> bool:
+    """
+    Return True if the stencil has 0.
+
+    Args:
+        stencil (list of int or float): stencil on regular or
+            staggered grid.
+
+    Returns:
+        bool: True if the stencil has 0.
+    """
+    return 0 in stencil

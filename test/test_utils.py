@@ -18,6 +18,7 @@ from dictos.utils import (
     simplify_coefficients,
     dot_product,
     div,
+    has_zero,
 )
 
 _stencil_half_width = 20  # up to 20th order accuracy
@@ -449,6 +450,28 @@ class UtilsTest(unittest.TestCase):
 
                 actual = simplify_coefficients(coef, as_numr_denom=True)
 
+                self.assertEqual(expected, actual)
+
+    def test_has_zero(self):
+        """test suite for utils.has_zero.
+        1. returns True if stencil has 0
+        2. returns False if stencil doesn't have 0
+        """
+
+        # 1
+        for c in range(100):
+            stencil = random_int(-c, c)
+            with self.subTest(stencil):
+                expected = True
+                actual = has_zero(stencil)
+                self.assertEqual(expected, actual)
+
+        # 2
+        for c in range(100):
+            stencil = random_int(-c, c, exclude=[0])
+            with self.subTest(stencil):
+                expected = False
+                actual = has_zero(stencil)
                 self.assertEqual(expected, actual)
 
 
