@@ -1,9 +1,36 @@
+from .utils import find_duplicated_points
+
+
 class StencilError(Exception):
     """
     Base class for error related to stencil.
     """
 
     pass
+
+
+class DuplicatedPointError(StencilError):
+    """
+    Exception raised for errors
+    that at least a point is duplicated in the stencil.
+
+    Attributes:
+        stencil (list of int or list of float):
+            stencil which caused the error.
+        message (str): Explanation of the error.
+    """
+
+    def __init__(self, stencil: list) -> None:
+        self.stencil = stencil
+        self.message = (
+            "The stencil has at least one duplicated point. "
+            "Remove/fix duplicated point(s) {} from the stencil.".format(
+                find_duplicated_points(self.stencil)
+            )
+        )
+
+    def __str__(self) -> str:
+        return self.message
 
 
 class ContainsZeroError(StencilError):
