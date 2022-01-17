@@ -48,9 +48,7 @@ class ViolateDegreeOfPolynomialAssumption(LagrangianPolynomialError):
         self.message = (
             "Violates the theoretical assumption "
             + "imposed on the degree of polynomial. "
-            + "The degree of polynomial has to be greater than 0 (passed value: {})".format(
-                degree
-            )
+            + "The degree of polynomial ({}) has to be greater than 0.".format(degree)
         )
 
     def __str__(self) -> str:
