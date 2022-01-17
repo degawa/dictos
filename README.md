@@ -227,23 +227,23 @@ Note that these coefficients are NOT for a usual equation:
 
 |||
 |:--|:--|
-|![S=\{-4.5, -3.5, -2.5, -1.5,-0.5, 0, 0.5, 1.5, 2.5, 3.5, 4.5\}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+S%3D%5C%7B-4.5%2C+-3.5%2C+-2.5%2C+-1.5%2C-0.5%2C+0%2C+0.5%2C+1.5%2C+2.5%2C+3.5%2C+4.5%5C%7D)|stencil|
+|![S=\{-4.5, -3.5, -2.5, -1.5,-0.5, 0.5, 1.5, 2.5, 3.5, 4.5\}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+S%3D%5C%7B-4.5%2C+-3.5%2C+-2.5%2C+-1.5%2C-0.5%2C+0.5%2C+1.5%2C+2.5%2C+3.5%2C+4.5%5C%7D)|stencil|
 |![n_s](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+n_s%0A)|numerator|
 |![d](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+d)|denominator|
 |![h](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+h)|interval between grid points|
 
 #### 1st-order derivative
-On the staggered grid, the 1st-order derivative is calculated by the equation as it is on the regular grid:
+On the staggered grid, the 1st-order derivative is calculated by the equation with the same form as it on the regular grid:
 
 ![f_i^{(1)} = \frac{1}{d\cdot h}\sum_{s\in S} n_s f_{i+s}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%281%29%7D+%3D+%5Cfrac%7B1%7D%7Bd%5Ccdot+h%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D)
 
-| Order of Accuracy | -4.5  | -3.5  |  -2.5   |  -1.5  |   -0.5    |   0   |   0.5    |   1.5   |  2.5   |  3.5   |  4.5  | Denominator |     Trunctaion Error     |
-| :---------------: | :---: | :---: | :-----: | :----: | :-------: | :---: | :------: | :-----: | :----: | :----: | :---: | :---------: | :----------------------- |
-|         2         |   0   |   0   |    0    |   0    |    -1     |   0   |    1     |    0    |   0    |   0    |   0   |      1      | -f^(3)*h**2/24           |
-|         4         |   0   |   0   |    0    |   1    |    -27    |   0   |    27    |   -1    |   0    |   0    |   0   |     24      | 3*f^(5)*h**4/640         |
-|         6         |   0   |   0   |   -9    |  125   |   -2250   |   0   |   2250   |  -125   |   9    |   0    |   0   |    1920     | -5*f^(7)*h**6/7168       |
-|         8         |   0   |  75   |  -1029  |  8575  |  -128625  |   0   |  128625  |  -8575  |  1029  |  -75   |   0   |   107520    | 35*f^(9)*h**8/294912     |
-|        10         | -1225 | 18225 | -142884 | 926100 | -12502350 |   0   | 12502350 | -926100 | 142884 | -18225 | 1225  |  10321920   | -63*f^(11)*h**10/2883584 |
+| Order of Accuracy | -4.5  | -3.5  |  -2.5   |  -1.5  |   -0.5    |   0.5    |   1.5   |  2.5   |  3.5   |  4.5  | Denominator |     Trunctaion Error     |
+| :---------------: | :---: | :---: | :-----: | :----: | :-------: | :------: | :-----: | :----: | :----: | :---: | :---------: | :----------------------- |
+|         2         |   0   |   0   |    0    |   0    |    -1     |    1     |    0    |   0    |   0    |   0   |      1      | -f^(3)*h**2/24           |
+|         4         |   0   |   0   |    0    |   1    |    -27    |    27    |   -1    |   0    |   0    |   0   |     24      | 3*f^(5)*h**4/640         |
+|         6         |   0   |   0   |   -9    |  125   |   -2250   |   2250   |  -125   |   9    |   0    |   0   |    1920     | -5*f^(7)*h**6/7168       |
+|         8         |   0   |  75   |  -1029  |  8575  |  -128625  |  128625  |  -8575  |  1029  |  -75   |   0   |   107520    | 35*f^(9)*h**8/294912     |
+|        10         | -1225 | 18225 | -142884 | 926100 | -12502350 | 12502350 | -926100 | 142884 | -18225 | 1225  |  10321920   | -63*f^(11)*h**10/2883584 |
 
 #### higher-order derivative
 On the staggered grid, the odd-order derivative is calculated at each cell center, and the even-order derivative is calculated at each point.
