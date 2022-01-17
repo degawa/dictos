@@ -9,6 +9,21 @@ class StencilError(Exception):
     pass
 
 
+class TooNarrowError(StencilError):
+    """
+    Exception raised for errors that the stencil is too narrow.
+    """
+
+    def __init__(self, stencil: list) -> None:
+        self.message = (
+            "The stencil width {} is too narrow. ".format(len(stencil))
+            + "Use a stencil containing at least 2 points."
+        )
+
+    def __str__(self) -> str:
+        return self.message
+
+
 class DuplicatedPointError(StencilError):
     """
     Exception raised for errors
