@@ -9,7 +9,7 @@ class LagrangianPolynomialError(Exception):
 class InconsistentDataSetError(LagrangianPolynomialError):
     """
     Exception raised for errors
-    that at least a point is duplicated in the stencil.
+    that data set of independent variable and function are inconsistent.
 
     Attributes:
         x_set (list of int or float): set of independend variable
