@@ -9,6 +9,7 @@ from .utils import (
     simplify_coefficients,
     dot_product,
     div,
+    extract_coefficients_as_numer_denom,
 )
 from .lagrangian_polynomial import lagrangian_poly, derivative
 from .taylor_expansion import taylor_series, derivative_symbol
@@ -131,9 +132,8 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
     # [-2*h, -h, 0, h, 2*h] -> [f_0, f_1, f_2, f_3, f_4]
 
     x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
-    numr, denom = lagrangian_poly(x, x_set, f_set).as_numer_denom()
-    numr_coef = numr.as_poly(f_set).coeffs()
-    denom_coef = denom.as_poly(f_set).coeffs()
+    poly = lagrangian_poly(x, x_set, f_set)
+    numr_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
     # extract numerator and denomitaor from the polynomial
     # TODO: #7 raise error if length of denom_coef is greater than 1
 

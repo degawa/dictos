@@ -231,3 +231,25 @@ def has_duplicated_points(stencil: list) -> bool:
         bool: True if there is at least one duplicated points in the stencil.
     """
     return len(stencil) != len(set(stencil))
+
+
+def extract_coefficients_as_numer_denom(expr, f_set):
+    """
+    Extract coefficients as numerator and denominator
+    from the polynomial in sympy Expr.
+
+    Args:
+        expr (sympy Expr): a polynomial from which coefficients are extracted.
+        f_set (list or tuple of sympy symbols): set of functions.
+
+    Returns:
+        list of sympy numbers, list of sympy numbers:
+            numerator and denominator of coefficients.
+    """
+
+    numer, denom = expr.as_numer_denom()
+    numer_coef = numer.as_poly(f_set).coeffs()
+    denom_coef = denom.as_poly(f_set).coeffs()
+    # extract numerator and denominator from the polynomial
+
+    return numer_coef, denom_coef
