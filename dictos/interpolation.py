@@ -7,6 +7,7 @@ from .utils import (
     create_coordinate_symbols,
     create_function_symbols,
     simplify_coefficients,
+    extract_coefficients_as_numer_denom,
 )
 from .lagrangian_polynomial import lagrangian_basis, lagrangian_poly
 from .taylor_expansion import taylor_series
@@ -93,9 +94,8 @@ def coefficients(stencil, as_numr_denom=False):
     eq = lagrangian_poly(x, x_set, f_set)
     # construct lagrangian interpolation polynomial
 
-    numr, denom = sp.simplify(eq.subs(x, 0)).as_numer_denom()
-    numr_coef = numr.as_poly(f_set).coeffs()
-    denom_coef = denom.as_poly(f_set).coeffs()
+    poly = sp.simplify(eq.subs(x, 0))
+    numr_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
     # extract numerator and denomitaor the polynomial
     # TODO: #10 raise error if length of denom_coef is greater than 1
 
