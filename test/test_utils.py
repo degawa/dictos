@@ -62,7 +62,7 @@ class UtilsTest(unittest.TestCase):
     def test_create_coordinate_symbols(self):
         """
         test suite for utils.create_coordinate_symbols.
-        1. it returns [n*h] when [n] is passed.
+        1.
         2. it returns [a*h b*h c*h ...] when [a b c ...] is passed.
         3. it returns [a*dx b*dx c*dx ...] when [a b c ...] and 'dx' are passed.
         4. it raise error when empty list is passed.
@@ -70,20 +70,10 @@ class UtilsTest(unittest.TestCase):
         """
 
         # subtest 1
-        # it returns [n*h] when [n] is passed.
-        num = random_int(-_stencil_half_width, _stencil_half_width, exclude=[0])
-        for n in num:
-            with self.subTest(n):
-                stencil = [n]
-                expected = create_coordinate_symbols(stencil)
-
-                h = sp.symbols(DEFAULT_INTERVAL)
-                actual = [n * h]
-                self.assertEqual(expected, actual)
 
         # subtest 2
         # it returns [a*h b*h c*h ...] when [a b c ...] is passed.
-        num = random_int(1, _stencil_half_width)
+        num = random_int(2, _stencil_half_width)
         for n in num:
             with self.subTest(n):
                 stencil = [i for i in range(n)]
@@ -93,19 +83,9 @@ class UtilsTest(unittest.TestCase):
                 actual = [i * h for i in range(n)]
                 self.assertEqual(expected, actual)
 
-        # uncomment test after implement error raising when len(stencil)==0
-        # with self.subTest():
-        #     with self.assertRaises(Exception):
-        #         create_coordinate_symbols([])
-
-        # uncomment test after implement error raising when at least a number in the stencil appears more than once.
-        # with self.subTest():
-        #     with self.assertRaises(Exception):
-        #         create_coordinate_symbols([1, 1])
-
         # subtest 3
         # it returns [a*dx b*dx c*dx ...] when [a b c ...] and 'dx' are passed.
-        num = random_int(1, _stencil_half_width)
+        num = random_int(2, _stencil_half_width)
         for n in num:
             with self.subTest(n):
                 interval = random_string(random.randint(1, _max_symbol_length))
@@ -120,40 +100,22 @@ class UtilsTest(unittest.TestCase):
     def test_create_function_symbols(self):
         """
         test suite for utils.create_function_symbols.
-        1. it returns [f_{0}] when [n*h] is passed.
+        1.
         2. it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
-        3. it returns [g_{0}] when [n*h] and 'g' are passed.
+        3.
         4. it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
-        5. it returns [f_{n}] when [n*h] and same_subscripts_as_stencil=True are passed.
+        5.
         6. it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
-        7. it returns [g_{n}] when [n*h], 'g', and same_subscripts_as_stencil=True are passed.
+        7.
         8. it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
         9. it raise error when empty list is passed.
         """
 
         # subtest 1
-        # it returns [f_{0}] when [n*h] is passed.
-        num = random_int(-_stencil_half_width, _stencil_half_width)
-        for n in num:
-            with self.subTest(n):
-                x = create_coordinate_symbols([n])
-                expected = create_function_symbols(x)
-
-                f = DEFAULT_FUNCTION
-                actual = (sp.symbols(f + "_0"),)
-                self.assertEqual(expected, actual)
-
-                # staggered grid case
-                x = create_coordinate_symbols([n / 2])
-                expected = create_function_symbols(x)
-
-                f = DEFAULT_FUNCTION
-                actual = (sp.symbols(f + "_0"),)
-                self.assertEqual(expected, actual)
 
         # subtest 2
         # it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
-        num = random_int(1, _stencil_half_width)
+        num = random_int(2, _stencil_half_width)
         for n in num:
             with self.subTest(n):
                 stencil = [i for i in range(n)]
@@ -174,24 +136,6 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, actual)
 
         # subtest 3
-        # it returns [g_{0}] when [n*h] and 'g' are passed.
-        num = random_int(-_stencil_half_width, _stencil_half_width)
-        for n in num:
-            with self.subTest(n):
-                f = random_string(random.randint(1, _max_symbol_length))
-
-                x = create_coordinate_symbols([n])
-                expected = create_function_symbols(x, function=f)
-
-                actual = (sp.symbols(f + "_0"),)
-                self.assertEqual(expected, actual)
-
-                # staggered grid case
-                x = create_coordinate_symbols([n / 2])
-                expected = create_function_symbols(x, function=f)
-
-                actual = (sp.symbols(f + "_0"),)
-                self.assertEqual(expected, actual)
 
         # subtest 4
         # it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
@@ -216,26 +160,6 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, actual)
 
         # subtest 5
-        # it returns [f_{n}] when [n*h] and same_subscripts_as_stencil=True are passed.
-        num = random_int(-_stencil_half_width, _stencil_half_width)
-        for n in num:
-            with self.subTest(n):
-                x = create_coordinate_symbols([n])
-                expected = create_function_symbols(x, same_subscripts_as_stencil=True)
-
-                f = DEFAULT_FUNCTION
-                actual = (sp.symbols(f + "_{%d}" % n),)
-                self.assertEqual(expected, actual)
-
-                # staggered grid case
-                stencil = [n / 2] if n != 0 else [n]
-                x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(x, same_subscripts_as_stencil=True)
-
-                f = DEFAULT_FUNCTION
-                str = f + "_{%2.1f}" % (n / 2) if n != 0 else f + "_{%d}" % (n)
-                actual = (sp.symbols(str),)
-                self.assertEqual(expected, actual)
 
         # subtest 6
         # it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
@@ -269,29 +193,6 @@ class UtilsTest(unittest.TestCase):
                 self.assertEqual(expected, actual)
 
         # subtest 7
-        # it returns [g_{n}] when [n*h], 'g', and same_subscripts_as_stencil=True are passed.
-        num = random_int(-_stencil_half_width, _stencil_half_width)
-        for n in num:
-            with self.subTest(n):
-                f = random_string(random.randint(1, _max_symbol_length))
-
-                x = create_coordinate_symbols([n])
-                expected = create_function_symbols(
-                    x, function=f, same_subscripts_as_stencil=True
-                )
-
-                actual = (sp.symbols(f + "_{%d}" % n),)
-                self.assertEqual(expected, actual)
-
-                # staggered grid case
-                x = create_coordinate_symbols([n / 2 if n != 0 else n])
-                expected = create_function_symbols(
-                    x, function=f, same_subscripts_as_stencil=True
-                )
-
-                str = f + "_{%2.1f}" % (n / 2) if n != 0 else f + "_{%d}" % (n)
-                actual = (sp.symbols(str),)
-                self.assertEqual(expected, actual)
 
         # subtest 8
         # it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
@@ -342,7 +243,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 1
         # it returns sympy integers list when sympy integers list is passed.
-        for len_ in random_int(1, _stencil_half_width * 2):
+        for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
                 numr = [
                     sp.Number(
@@ -359,7 +260,7 @@ class UtilsTest(unittest.TestCase):
         # subtest 2
         # it returns integer list when list of sympy symbols is passed.
         h = sp.symbols(random_string(5))
-        for len_ in random_int(1, _stencil_half_width * 2):
+        for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
                 numr = [
                     random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
@@ -374,7 +275,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 3
         # it returns list of sympy rational when sympy number list is passed.
-        for len_ in random_int(1, _stencil_half_width * 2):
+        for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
                 denom = [sp.Number(random.randint(1, 1000)) for _ in range(len_)]
                 numr = [
@@ -393,7 +294,7 @@ class UtilsTest(unittest.TestCase):
         # subtest 4
         # it returns list of sympy rational when list of sympy symbols is passed.
         h = sp.symbols(random_string(5))
-        for len_ in random_int(1, _stencil_half_width * 2):
+        for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
                 denom = [sp.Number(random.randint(1, 1000)) for _ in range(len_)]
                 numr = [
@@ -411,7 +312,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 5
         # it returns sympy integers list when sympy integers list is passed.
-        for len_ in random_int(1, _stencil_half_width * 2):
+        for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
                 numr = [
                     sp.Number(
@@ -428,7 +329,7 @@ class UtilsTest(unittest.TestCase):
         # subtest 6
         # it returns tuple of integer list and a integer when list of sympy symbols and as_numr_denom=True are passed.
         h = sp.symbols(random_string(5))
-        for len_ in random_int(1, _stencil_half_width * 2):
+        for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
                 numr = [
                     random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
