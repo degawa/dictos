@@ -203,3 +203,53 @@ def div(eq, denom):
     # `(1/(12*h))*(f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})`,
     # unlike the result we want as follows:
     # `(f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)`
+
+
+def has_zero(stencil: list) -> bool:
+    """
+    Return True if the stencil has 0.
+
+    Args:
+        stencil (list of int or float): stencil on regular or
+            staggered grid.
+
+    Returns:
+        bool: True if the stencil has 0.
+    """
+    return 0 in stencil
+
+
+def has_duplicated_points(stencil: list) -> bool:
+    """
+    Returns True if there is at least one duplicated points in the stencil.
+
+    Args:
+        stencil (list of int or float): stencil on regular or
+            staggered grid.
+
+    Returns:
+        bool: True if there is at least one duplicated points in the stencil.
+    """
+    return len(stencil) != len(set(stencil))
+
+
+def extract_coefficients_as_numer_denom(expr, f_set):
+    """
+    Extract coefficients as numerator and denominator
+    from the polynomial in sympy Expr.
+
+    Args:
+        expr (sympy Expr): a polynomial from which coefficients are extracted.
+        f_set (list or tuple of sympy symbols): set of functions.
+
+    Returns:
+        list of sympy numbers, list of sympy numbers:
+            numerator and denominator of coefficients.
+    """
+
+    numer, denom = expr.as_numer_denom()
+    numer_coef = numer.as_poly(f_set).coeffs()
+    denom_coef = denom.as_poly(f_set).coeffs()
+    # extract numerator and denominator from the polynomial
+
+    return numer_coef, denom_coef

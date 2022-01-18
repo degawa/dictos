@@ -9,6 +9,7 @@ from .utils import (
     simplify_coefficients,
     dot_product,
     div,
+    extract_coefficients_as_numer_denom,
 )
 from .lagrangian_polynomial import lagrangian_poly, derivative
 from .taylor_expansion import taylor_series, derivative_symbol
@@ -46,6 +47,8 @@ def equation(
         >>> fd.equation([-1.5, -0.5, 0, 0.5, 1.5], deriv=1)
         (f_0 - 27*f_1 + 27*f_3 - f_4)/(24*h)
     """
+    # TODO: #34 raise error when deriv is less than 0
+
     x_set = create_coordinate_symbols(stencil, interval)
     f_set = create_function_symbols(x_set, DEFAULT_FUNCTION, same_subscripts_as_stencil)
     # create set of coordinate and function symbols from stencil.
@@ -120,6 +123,8 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
         >>> fd.coefficients([-1.5, -0.5, 0, 0.5, 1.5], deriv=1, as_numr_denom=True)
         ([1, -27, 0, 27, -1], 24)
     """
+    # TODO: #34 raise error when deriv is less than 0
+
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
     f_set = create_function_symbols(x_set, DEFAULT_FUNCTION)
     # create set of coordinate and function symbols from stencil.
@@ -127,9 +132,8 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
     # [-2*h, -h, 0, h, 2*h] -> [f_0, f_1, f_2, f_3, f_4]
 
     x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
-    numr, denom = lagrangian_poly(x, x_set, f_set).as_numer_denom()
-    numr_coef = numr.as_poly(f_set).coeffs()
-    denom_coef = denom.as_poly(f_set).coeffs()
+    poly = lagrangian_poly(x, x_set, f_set)
+    numr_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
     # extract numerator and denomitaor from the polynomial
     # TODO: #7 raise error if length of denom_coef is greater than 1
 
@@ -168,6 +172,8 @@ def truncation_error(stencil, deriv, interval=DEFAULT_INTERVAL):
         >>> fd.truncation_error([-2, -1, 0, 1, 2], deriv=2)
         f^(6)*h**4/90
     """
+    # TODO: #34 raise error when deriv is less than 0
+
     coef = coefficients(stencil, deriv)
     # derive finite difference coefficients based on given stencil
 

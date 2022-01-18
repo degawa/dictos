@@ -63,7 +63,7 @@ def lagrangian_poly(x, x_set, f_set):
         x_set (list or tuple of sympy symbols):
             set of coordinate values.
         f_set (list or tuple of sympy symbols):
-            set of coordinate values.
+            set of functions.
 
     Raises:
         ValueError: if length of x_set and f_set are different.
