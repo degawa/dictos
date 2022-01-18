@@ -243,6 +243,11 @@ def extract_coefficients_as_numer_denom(expr, f_set):
         expr (sympy Expr): a polynomial from which coefficients are extracted.
         f_set (list or tuple of sympy symbols): set of functions.
 
+    Raises:
+        UnexpectedDenominatorError: if
+            type of denom_coef is not list or tuple or
+            type of denom_coef is list or tuple, but its length is greater than 1.
+
     Returns:
         list of sympy numbers, list [1] of sympy numbers:
             numerator and denominator of coefficients.
