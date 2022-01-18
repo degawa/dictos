@@ -135,7 +135,6 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
     poly = lagrangian_poly(x, x_set, f_set)
     numr_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
     # extract numerator and denomitaor from the polynomial
-    # TODO: #7 raise error if length of denom_coef is greater than 1
 
     coef = [derivative(num / denom_coef[0], x, deriv) for num in numr_coef]
     # get coefficients of each terms as a list. Another expression

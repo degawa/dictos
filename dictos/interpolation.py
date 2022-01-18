@@ -97,7 +97,6 @@ def coefficients(stencil, as_numr_denom=False):
     poly = sp.simplify(eq.subs(x, 0))
     numr_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
     # extract numerator and denomitaor the polynomial
-    # TODO: #10 raise error if length of denom_coef is greater than 1
 
     coef = [num / denom_coef[0] for num in numr_coef]
     # get coefficients of each terms as a list. Another expression

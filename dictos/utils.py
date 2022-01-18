@@ -1,6 +1,7 @@
 import sympy as sp
 import numpy as np
 
+from .error.internal import UnexpectedDenominatorError
 
 DEFAULT_INDEPENDENT_VARIABLE = "x"  # str for independent variable symbol
 DEFAULT_INTERVAL = "h"  # str for interval symbol
@@ -243,7 +244,7 @@ def extract_coefficients_as_numer_denom(expr, f_set):
         f_set (list or tuple of sympy symbols): set of functions.
 
     Returns:
-        list of sympy numbers, list of sympy numbers:
+        list of sympy numbers, list [1] of sympy numbers:
             numerator and denominator of coefficients.
     """
 
@@ -251,5 +252,14 @@ def extract_coefficients_as_numer_denom(expr, f_set):
     numer_coef = numer.as_poly(f_set).coeffs()
     denom_coef = denom.as_poly(f_set).coeffs()
     # extract numerator and denominator from the polynomial
+
+    def unexpected_type():
+        return (type(denom_coef) is not list and type(denom_coef) is not tuple) or (
+            (type(denom_coef) is list or type(denom_coef) is tuple)
+            and len(denom_coef) > 1
+        )
+
+    if unexpected_type():
+        raise UnexpectedDenominatorError(denom_coef)
 
     return numer_coef, denom_coef
