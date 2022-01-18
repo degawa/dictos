@@ -16,7 +16,7 @@ from dictos.error.lagrangian_polynomial import (
 
 class ErrorLagrangianPolynomialTest(unittest.TestCase):
     @unittest.expectedFailure
-    def test_error_stencil_InconsistentDataSetError(self):
+    def test_error_lagrangian_polynomial_InconsistentDataSetError(self):
         """
         test suite for error.lagrangian_polynomial.InconsistentDataSetError.
         """
@@ -35,7 +35,7 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
                 raise InconsistentDataSetError(x_set, f_set)
 
     @unittest.expectedFailure
-    def test_error_stencil_ViolateDegreeOfPolynomialAssumption(self):
+    def test_error_lagrangian_polynomial_ViolateDegreeOfPolynomialAssumption(self):
         """
         test suite for error.lagrangian_polynomial.ViolateDegreeOfPolynomialAssumption.
         """
@@ -51,7 +51,9 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
                 raise ViolateDegreeOfPolynomialAssumption(degree)
 
     @unittest.expectedFailure
-    def test_error_stencil_InconsistentDataSetAndDegreeOfPolynomialError(self):
+    def test_error_lagrangian_polynomial_InconsistentDataSetAndDegreeOfPolynomialError(
+        self,
+    ):
         """
         test suite for error.lagrangian_polynomial.InconsistentDataSetAndDegreeOfPolynomialError.
         """
