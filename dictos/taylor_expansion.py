@@ -70,3 +70,5 @@ def derivative_symbol(function, deriv):
         f^(3)
     """
     return sp.symbols(function + "^(%d)" % deriv)
+    # TODO: #32 raise error when deriv is less than 0
+    # TODO: #33 return `"f"` not `"f^(0)"` when deriv is 0
