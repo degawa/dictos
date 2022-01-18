@@ -261,5 +261,9 @@ def extract_coefficients_as_numer_denom(expr, f_set):
 
     if unexpected_type():
         raise UnexpectedDenominatorError(denom_coef)
+        # raise error if
+        # - type of denom_coef is not list or tuple
+        # or
+        # - type of denom_coef is list or tuple, but its length is greater than 1
 
     return numer_coef, denom_coef
