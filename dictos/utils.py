@@ -24,7 +24,8 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
 
     Raises:
         TooNarrowError: if stencil is too narrow.
-        DuplicatedPointError: if at least a number in the stencil appears more than once.
+        DuplicatedPointError: if at least a number in the stencil
+            appears more than once.
 
     Returns:
         list of sympy symbols: list of coordinates
