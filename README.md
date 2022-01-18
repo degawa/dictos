@@ -8,23 +8,27 @@ Symbolic discretization tools for the finite difference method on a regular and 
 Tom, a university student assigned to a Computational Fluid Dynamics Laboratory, asks dictos.
 
 Tom: "As part of my graduation research theme, I need to write a program simulating incompressible fluid flow using the finite difference method."
-"I can find finite difference coefficients on the net. There are very thankful, but there are derived by discretization on the regular grid."
+"I can find finite difference coefficients on the net. There are very thankful, but those are derived on the regular grid."
 "I need the coefficients on the staggered grid. Dictos, can you provide those?"
 
 Dictos: "Yes, I can."
 
 Tom: "How should I do? I'm not good at computer operation and programming."
 
-Dictos: "Import the `finite_difference` module and pass a **relative** stencil to `equation`."
+Dictos: "Import the `finite_difference` module and pass a **relative** stencil to `equation`. I derive a finite difference equation at `0`."
 ```Python
 import dictos.finite_difference as fd
 
 stencil = [-2, -1, 0, 1, 2]
 # stencil [i-2, i-1, i, i+1, i+2] relative to i.
+# o---o---x---o---o
+# -2  -1  0   1   2
 print(fd.equation(stencil, deriv=1))
 # (f_0 - 8*f_1 + 8*f_3 - f_4)/(12*h)
 
-stencil = [-1.5, -0.5, 0, 0.5, 1.5]
+stencil = [-1.5, -0.5, 0.5, 1.5]
+#    +---+-x-+---+
+# -1.5-0.5 0 0.5 1.5
 print(fd.equation(stencil, deriv=1))
 # (f_0 - 27*f_1 + 27*f_3 - f_4)/(24*h)
 ```
@@ -35,7 +39,7 @@ Dictos: "use `same_subscripts_as_stencil` option."
 ```Python
 import dictos.finite_difference as fd
 
-stencil = [-1.5, -0.5, 0, 0.5, 1.5]
+stencil = [-1.5, -0.5, 0.5, 1.5]
 print(fd.equation(stencil, deriv=1, same_subscripts_as_stencil=True))
 # (-27*f_{-0.5} + f_{-1.5} + 27*f_{0.5} - f_{1.5})/(24*h)
 ```
@@ -46,7 +50,7 @@ import dictos.finite_difference as fd
 
 stencil = [-1.5, -0.5, 0, 0.5, 1.5]
 print(fd.equation(stencil, deriv=1, same_subscripts_as_stencil=True, evaluate=False))
-# (f_{-1.5} - 27*f_{-0.5} + 0*f_{0} + 27*f_{0.5} - f_{1.5})/(24*h)
+# (f_{-1.5} - 27*f_{-0.5} + 27*f_{0.5} - f_{1.5})/(24*h)
 ```
 
 Tom: "Well... can I extract the coefficients?"
@@ -55,12 +59,12 @@ Dictos: "`coefficients` may be your best friends."
 ```Python
 import dictos.finite_difference as fd
 
-stencil = [-1.5, -0.5, 0, 0.5, 1.5]
+stencil = [-1.5, -0.5, 0.5, 1.5]
 print(fd.coefficients(stencil, deriv=1))
-# [1/24, -9/8, 0, 9/8, -1/24]
+# [1/24, -9/8, 9/8, -1/24]
 
 print(fd.coefficients(stencil, deriv=1, as_numr_denom=True))
-# ([1, -27, 0, 27, -1], 24)
+# ([1, -27, 27, -1], 24)
 ```
 
 Tom: "Thanks!"
@@ -71,11 +75,13 @@ Tom: "Thanks!"
 Tom: "I found that interpolation is also necessary for numerical simulations on the staggered grid. Dictos, can you provide the interpolation equation?"
 
 Dictos: "Import the `interpolation` module. The usability is almost the same as the `finite_difference`."
-"Do not contain `0` in the stencil because the module derives the interpolation equation at `0`."
+"Do not contain `0` in the stencil because the I derive the interpolation equation at `0`."
 ```Python
 import dictos.interpolation as intp
 
 stencil = [-1.5, -0.5, 0.5, 1.5]
+#    +---+-x-+---+
+# -1.5-0.5 0 0.5 1.5
 print(intp.equation(stencil))
 # -f_0/16 + 9*f_1/16 + 9*f_2/16 - f_3/16
 
@@ -95,7 +101,7 @@ Tom: "Thanks!"
 ### Extrapolation
 ...A few days later
 
-Tom: "I need to extrapolate the velocity outside the boundaries when computing grid points near boundaries. How complicated the staggered grid is!"
+Tom: "I need to extrapolate the velocity outside the boundaries when computing differences at grid points near boundaries. How complicated the staggered grid is!"
 "Dictos, can you provide the extrapolation equation?"
 
 Dictos: "It is possible to pass one-sided stencil to `interpolation`"
@@ -103,9 +109,13 @@ Dictos: "It is possible to pass one-sided stencil to `interpolation`"
 import dictos.interpolation as intp
 
 stencil = [1, 2]
+# x---o---o
+# 0   1   2
 print(intp.equation(stencil,same_subscripts_as_stencil=True))
 # 2*f_{1} - f_{2}
 
+#  o---o---o---x
+# -3  -2  -1   0
 stencil = [-3, -2, -1]
 print(intp.equation(stencil,same_subscripts_as_stencil=True))
 # 3*f_{-1} - 3*f_{-2} + f_{-3}
@@ -124,13 +134,15 @@ Dictos: "`truncation_error`. `finite_differene` and `interplation` have `truncat
 import dictos.finite_difference as fd
 import dictos.interpolation as intp
 
-print(fd.truncation_error([-0.5, 0, 0.5], deriv=1))
+# finite difference
+print(fd.truncation_error([-0.5, 0.5], deriv=1))
 # -f^(3)*h**2/24
-print(fd.truncation_error([-1.5, -0.5, 0, 0.5, 1.5], deriv=1))
+print(fd.truncation_error([-1.5, -0.5, 0.5, 1.5], deriv=1))
 # 3*f^(5)*h**4/640
-print(fd.truncation_error([-2.5, -1.5, -0.5, 0, 0.5, 1.5, 2.5], deriv=1))
+print(fd.truncation_error([-2.5, -1.5, -0.5, 0.5, 1.5, 2.5], deriv=1))
 # -5*f^(7)*h**6/7168
 
+# interpolation
 print(intp.truncation_error([-0.5, 0.5]))
 # -f^(2)*h**2/8
 print(intp.truncation_error([-1.5, -0.5, 0.5, 1.5]))
@@ -138,6 +150,7 @@ print(intp.truncation_error([-1.5, -0.5, 0.5, 1.5]))
 print(intp.truncation_error([-2.5, -1.5, -0.5, 0.5, 1.5, 2.5]))
 # -5*f^(6)*h**6/1024
 
+# extrapolation
 print(intp.truncation_error([1, 2]))
 # f^(2)*h**2
 print(intp.truncation_error([1, 2, 3]))
@@ -247,7 +260,7 @@ On the staggered grid, the 1st-order derivative is calculated by the equation wi
 
 #### higher-order derivative
 On the staggered grid, the odd-order derivative is calculated at each cell center, and the even-order derivative is calculated at each point.
-This means we can reuse the equations for 2nd, 4th, 6th...-order derivative on the regular grid. However, to maintain consistency between 2nd-order derivative and 1st-order derivative of 1st-order derivate, the 2nd-order derivative is calculated as the 1st-order derivative of the 1st-order derivative. The higher-order derivatives than 2nd-order are calculated in the same way.
+This means we can reuse the equations for even-order derivative on the regular grid. However, to maintain consistency between 2nd-order derivative and 1st-order derivative of 1st-order derivate, the 2nd-order derivative is calculated as the 1st-order derivative of the 1st-order derivative. The higher-order derivatives than 2nd-order must be calculated in the same way.
 
 The stencil width will be wider, but the consistency is more important.
 
