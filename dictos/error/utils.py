@@ -1,3 +1,7 @@
+"""
+Utilities for handling data to make exception messages.
+"""
+
 import collections
 
 

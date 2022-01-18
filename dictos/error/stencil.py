@@ -1,3 +1,7 @@
+"""
+Custom exceptions for errors related to stencil.
+"""
+
 from .utils import find_duplicated_points
 
 

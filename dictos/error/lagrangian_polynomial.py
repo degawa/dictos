@@ -1,3 +1,8 @@
+"""
+Custom exceptions for errors related to Lagrangian Polynomial.
+"""
+
+
 class LagrangianPolynomialError(Exception):
     """
     Base class for error related to Lagrangian Polynomial.
