@@ -37,23 +37,21 @@ class InconsistentDataSetError(LagrangianPolynomialError):
         return self.message
 
 
-class ViolateDegreeOfPolynomialAssumptionError(LagrangianPolynomialError):
+class DegreeOfPolynomialIsNotNaturalNumberError(LagrangianPolynomialError):
     """
     Exception raised for errors
-    that violate a theoretical assumption imposed
-    on the degree of polynomial (degree > 0)
+    that the degree of polynomial is not the naturarl number.
 
     Attributes:
-        degree (int): degree of polynomial which causedthe error.
+        degree (int): degree of polynomial which caused the error.
         message (str): Explanation of the error.
     """
 
     def __init__(self, degree: int) -> None:
         self.degree = degree
         self.message = (
-            "Violates the theoretical assumption "
-            + "imposed on the degree of polynomial. "
-            + "The degree of polynomial ({}) has to be greater than 0.".format(degree)
+            "The degree of polynomial ({}) is not the natural number. ".format(degree)
+            + "Specify the degree of polynomial greater than 0."
         )
 
     def __str__(self) -> str:

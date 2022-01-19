@@ -1,7 +1,7 @@
 import sympy as sp
 
 from .error.lagrangian_polynomial import (
-    ViolateDegreeOfPolynomialAssumptionError,
+    DegreeOfPolynomialIsNotNaturalNumberError,
     InconsistentDataSetAndDegreeOfPolynomialError,
     InconsistentDataSetError,
 )
@@ -40,7 +40,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
         (x - x1)*(x - x2)*(x - x3)/((x0 - x1)*(x0 - x2)*(x0 - x3))
     """
     if degree <= 0:
-        raise ViolateDegreeOfPolynomialAssumptionError(degree)
+        raise DegreeOfPolynomialIsNotNaturalNumberError(degree)
         # raise error if
         # - meaningless degree of polynomial is specified
     if x_set is not None:
