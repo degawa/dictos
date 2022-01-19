@@ -1,5 +1,13 @@
 import sympy as sp
 
+from .error.lagrangian_polynomial import (
+    DegreeOfPolynomialIsNotNaturalNumberError,
+    InconsistentDataSetAndDegreeOfPolynomialError,
+    InconsistentDataSetError,
+)
+from .error.stencil import DuplicatedPointError, TooNarrowError
+from .utils import has_duplicated_points
+
 
 def lagrangian_basis(x, degree, point_at, x_set=None):
     """
@@ -14,7 +22,12 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
             set of coordinate values. Defaults to None.
 
     Raises:
-        ValueError: if degree of polynomial is less than 1.
+        ViolateDegreeOfPolynomialAssumption:
+            if degree of polynomial is less than 1.
+        DuplicatedPointError: if at least a number in the stencil
+            appears more than once.
+        InconsistentDataSetAndDegreeOfPolynomialError:
+            if degree and len(x_set) are inconsistent.
 
     Returns:
         sympy Expr: a Lagrange basis polynomial $l(x)|_{x_set[point_at]}$.
@@ -27,10 +40,18 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
         (x - x1)*(x - x2)*(x - x3)/((x0 - x1)*(x0 - x2)*(x0 - x3))
     """
     if degree <= 0:
-        raise ValueError("degree of polynomial has to be greater than 0")
-
-    # TODO: #6 raise error when at least one coordinate values in the x_set appears more than once.
-    # TODO: #22 raise error when degree and len(x_set) are inconsistent
+        raise DegreeOfPolynomialIsNotNaturalNumberError(degree)
+        # raise error if
+        # - meaningless degree of polynomial is specified
+    if x_set is not None:
+        if has_duplicated_points(x_set):
+            raise DuplicatedPointError(x_set)
+            # raise error if
+            # - at least a number in the stencil appears more than once.
+        if len(x_set) != degree + 1:
+            raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
+            # raise error if
+            # - degree and len(x_set) are inconsistent.
 
     num_set = degree + 1
     # n+1 points are required to construct an n-th degree polynomial.
@@ -66,7 +87,8 @@ def lagrangian_poly(x, x_set, f_set):
             set of functions.
 
     Raises:
-        ValueError: if length of x_set and f_set are different.
+        InconsistentDataSetError: if x_set and f_set are inconsistent.
+        TooNarrowError: if stencil is too narrow.
 
     Returns:
         sympy Expr: a Lagrangian polynomial.
@@ -82,12 +104,13 @@ def lagrangian_poly(x, x_set, f_set):
         f0*x*(-dx + x)/(2*dx**2) - f1*(-dx + x)*(dx + x)/dx**2 + f2*x*(dx + x)/(2*dx**2)
     """
     if len(x_set) != len(f_set):
-        raise ValueError(
-            "The number of elements of x_set({:d}) and f_fet({:d}) are different.".format(
-                len(x_set), len(f_set)
-            )
-        )
-    # TODO: #21 raise error when len(x_set) == 1
+        raise InconsistentDataSetError(x_set, f_set)
+        # raise error if
+        # x_set and f_set are inconsistent.
+    if len(x_set) <= 1:
+        raise TooNarrowError(x_set)
+        # raise error if
+        # - stencil is too narrow
 
     num_set = len(x_set)
     degree = num_set - 1

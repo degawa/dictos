@@ -1,6 +1,8 @@
 import sympy as sp
 import numpy as np
 
+from .error.internal import UnexpectedDenominatorError
+from .error.stencil import TooNarrowError, DuplicatedPointError
 
 DEFAULT_INDEPENDENT_VARIABLE = "x"  # str for independent variable symbol
 DEFAULT_INTERVAL = "h"  # str for interval symbol
@@ -20,13 +22,24 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
         interval (str, optional): an interval symbol like `dx`.
             Defaults to DEFAULT_INTERVAL.
 
+    Raises:
+        TooNarrowError: if stencil is too narrow.
+        DuplicatedPointError: if at least a number in the stencil
+            appears more than once.
+
     Returns:
         list of sympy symbols: list of coordinates
             corresponding to the stencil.
     """
 
-    # TODO: #2 raise error when len(stencil)==0
-    # TODO: #3 raise error when at least a number in the stencil appears more than once.
+    if len(stencil) < 2:
+        raise TooNarrowError(stencil)
+        # raise error if
+        # - stencil is too narrow to coompute finite difference or interpolation
+    if has_duplicated_points(stencil):
+        raise DuplicatedPointError(stencil)
+        # raise error if
+        # - at least a number in the stencil appears more than once.
     # TODO: #4 sorting the stencil
 
     return [stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
@@ -242,8 +255,13 @@ def extract_coefficients_as_numer_denom(expr, f_set):
         expr (sympy Expr): a polynomial from which coefficients are extracted.
         f_set (list or tuple of sympy symbols): set of functions.
 
+    Raises:
+        UnexpectedDenominatorError: if
+            type of denom_coef is not list or tuple or
+            type of denom_coef is list or tuple, but its length is greater than 1.
+
     Returns:
-        list of sympy numbers, list of sympy numbers:
+        list of sympy numbers, list [1] of sympy numbers:
             numerator and denominator of coefficients.
     """
 
@@ -251,5 +269,18 @@ def extract_coefficients_as_numer_denom(expr, f_set):
     numer_coef = numer.as_poly(f_set).coeffs()
     denom_coef = denom.as_poly(f_set).coeffs()
     # extract numerator and denominator from the polynomial
+
+    def unexpected_type():
+        return (type(denom_coef) is not list and type(denom_coef) is not tuple) or (
+            (type(denom_coef) is list or type(denom_coef) is tuple)
+            and len(denom_coef) > 1
+        )
+
+    if unexpected_type():
+        raise UnexpectedDenominatorError(denom_coef)
+        # raise error if
+        # - type of denom_coef is not list or tuple
+        # or
+        # - type of denom_coef is list or tuple, but its length is greater than 1
 
     return numer_coef, denom_coef
