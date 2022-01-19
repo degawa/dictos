@@ -89,5 +89,8 @@ def derivative_symbol(function, deriv):
         # raise error if
         # - unsupproted order of derivative (< 0).
 
-    return sp.symbols(function + "^(%d)" % deriv)
-    # TODO: #33 return `"f"` not `"f^(0)"` when deriv is 0
+    return (
+        sp.symbols(function) if deriv == 0 else sp.symbols(function + "^(%d)" % deriv)
+    )
+    # when deriv == 0, return `"f"` not `"f^(0)"`
+    # when deriv >  0, return `"f^(deriv)"`
