@@ -266,7 +266,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                 % (half_width * 2 + 1)
             ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
-                actual = coefficients(stencil, 1, as_numr_denom=True)
+                actual = coefficients(stencil, 1, as_numer_denom=True)
                 self.assertEqual(expected[half_width], actual)
 
     def test_truncation_error(self):

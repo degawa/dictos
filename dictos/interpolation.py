@@ -55,14 +55,14 @@ def equation(stencil, same_subscripts_as_stencil=False):
     # calculate dot product of the coef and function values.
 
 
-def coefficients(stencil, as_numr_denom=False):
+def coefficients(stencil, as_numer_denom=False):
     """
     derive interpolation coefficients based on given stencil.
 
     Args:
         stencil (list of int): relative point numbers
             used for discretization.
-        as_numr_denom (bool, optional): flag to return the numerator
+        as_numer_denom (bool, optional): flag to return the numerator
             and denominator separately.
             Defaults to False.
 
@@ -83,7 +83,7 @@ def coefficients(stencil, as_numr_denom=False):
         [1/2, 1/2]
         >>> intp.coefficients([-1.5, -0.5, 0.5, 1.5])
         [-1/16, 9/16, 9/16, -1/16]
-        >>> intp.coefficients([-1.5, -0.5, 0.5, 1.5], as_numr_denom=True)
+        >>> intp.coefficients([-1.5, -0.5, 0.5, 1.5], as_numer_denom=True)
         ([-1, 9, 9, -1], 16)
     """
     if has_zero(stencil):
@@ -101,15 +101,15 @@ def coefficients(stencil, as_numr_denom=False):
     # construct lagrangian interpolation polynomial
 
     poly = sp.simplify(eq.subs(x, 0))
-    numr_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
+    numer_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
     # extract numerator and denomitaor the polynomial
 
-    coef = [num / denom_coef[0] for num in numr_coef]
+    coef = [num / denom_coef[0] for num in numer_coef]
     # get coefficients of each terms as a list. Another expression
     # `derivative(lagrangian_poly(x, x_set, f_set), x, deriv).as_poly(f_set).coeffs()`
     # erases terms with a coefficient of 0.
 
-    return simplify_coefficients(coef, as_numr_denom)
+    return simplify_coefficients(coef, as_numer_denom)
     # simplify floating-point number coefficients to ratioanl numbers
 
 

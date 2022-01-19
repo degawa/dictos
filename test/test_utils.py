@@ -236,8 +236,8 @@ class UtilsTest(unittest.TestCase):
         2. it returns integer list when list of sympy symbols is passed.
         3. it returns list of sympy rational when sympy number list is passed.
         4. it returns list of sympy rational when list of sympy symbols is passed.
-        5. it returns tuple of integer list and a integer when sympy integer list and as_numr_denom=True are passed.
-        6. it returns tuple of integer list and a integer when list of sympy symbols and as_numr_denom=True are passed.
+        5. it returns tuple of integer list and a integer when sympy integer list and as_numer_denom=True are passed.
+        6. it returns tuple of integer list and a integer when list of sympy symbols and as_numer_denom=True are passed.
         7.
         """
 
@@ -245,15 +245,15 @@ class UtilsTest(unittest.TestCase):
         # it returns sympy integers list when sympy integers list is passed.
         for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
-                numr = [
+                numer = [
                     sp.Number(
                         random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
                     )
                     for _ in range(len_)
                 ]
-                expected = [n / 1 for n in numr]
+                expected = [n / 1 for n in numer]
 
-                actual = simplify_coefficients(numr)
+                actual = simplify_coefficients(numer)
 
                 self.assertEqual(expected, actual)
 
@@ -262,12 +262,12 @@ class UtilsTest(unittest.TestCase):
         h = sp.symbols(random_string(5))
         for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
-                numr = [
+                numer = [
                     random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
                     for _ in range(len_)
                 ]
-                coef = [n * h for n in numr]
-                expected = [n / 1 for n in numr]
+                coef = [n * h for n in numer]
+                expected = [n / 1 for n in numer]
 
                 actual = simplify_coefficients(coef)
 
@@ -278,14 +278,14 @@ class UtilsTest(unittest.TestCase):
         for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
                 denom = [sp.Number(random.randint(1, 1000)) for _ in range(len_)]
-                numr = [
+                numer = [
                     sp.Number(
                         random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
                     )
                     for _ in range(len_)
                 ]
-                coef = [numr[i] / denom[i] for i in range(len_)]
-                expected = [sp.Rational(numr[i], denom[i]) for i in range(len_)]
+                coef = [numer[i] / denom[i] for i in range(len_)]
+                expected = [sp.Rational(numer[i], denom[i]) for i in range(len_)]
 
                 actual = simplify_coefficients(coef)
 
@@ -297,14 +297,14 @@ class UtilsTest(unittest.TestCase):
         for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
                 denom = [sp.Number(random.randint(1, 1000)) for _ in range(len_)]
-                numr = [
+                numer = [
                     sp.Number(
                         random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
                     )
                     for _ in range(len_)
                 ]
-                coef = [numr[i] / denom[i] * h for i in range(len_)]
-                expected = [sp.Rational(numr[i], denom[i]) for i in range(len_)]
+                coef = [numer[i] / denom[i] * h for i in range(len_)]
+                expected = [sp.Rational(numer[i], denom[i]) for i in range(len_)]
 
                 actual = simplify_coefficients(coef)
 
@@ -314,32 +314,32 @@ class UtilsTest(unittest.TestCase):
         # it returns sympy integers list when sympy integers list is passed.
         for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
-                numr = [
+                numer = [
                     sp.Number(
                         random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
                     )
                     for _ in range(len_)
                 ]
-                expected = ([n / 1 for n in numr], 1)
+                expected = ([n / 1 for n in numer], 1)
 
-                actual = simplify_coefficients(numr, as_numr_denom=True)
+                actual = simplify_coefficients(numer, as_numer_denom=True)
 
                 self.assertEqual(expected, actual)
 
         # subtest 6
-        # it returns tuple of integer list and a integer when list of sympy symbols and as_numr_denom=True are passed.
+        # it returns tuple of integer list and a integer when list of sympy symbols and as_numer_denom=True are passed.
         h = sp.symbols(random_string(5))
         for len_ in random_int(2, _stencil_half_width * 2):
             with self.subTest(len_):
-                numr = [
+                numer = [
                     random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
                     for _ in range(len_)
                 ]
 
-                coef = [n * h for n in numr]
-                expected = ([n / 1 for n in numr], 1)
+                coef = [n * h for n in numer]
+                expected = ([n / 1 for n in numer], 1)
 
-                actual = simplify_coefficients(coef, as_numr_denom=True)
+                actual = simplify_coefficients(coef, as_numer_denom=True)
 
                 self.assertEqual(expected, actual)
 
@@ -351,7 +351,7 @@ class UtilsTest(unittest.TestCase):
                     60,
                 )
 
-                actual = simplify_coefficients(coef, as_numr_denom=True)
+                actual = simplify_coefficients(coef, as_numer_denom=True)
 
                 self.assertEqual(expected, actual)
 

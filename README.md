@@ -63,7 +63,7 @@ stencil = [-1.5, -0.5, 0.5, 1.5]
 print(fd.coefficients(stencil, deriv=1))
 # [1/24, -9/8, 9/8, -1/24]
 
-print(fd.coefficients(stencil, deriv=1, as_numr_denom=True))
+print(fd.coefficients(stencil, deriv=1, as_numer_denom=True))
 # ([1, -27, 27, -1], 24)
 ```
 
@@ -92,7 +92,7 @@ print(intp.equation(stencil, same_subscripts_as_stencil=True))
 print(intp.coefficients(stencil))
 # [-1/16, 9/16, 9/16, -1/16]
 
-print(intp.coefficients(stencil, as_numr_denom=True))
+print(intp.coefficients(stencil, as_numer_denom=True))
 # ([-1, 9, 9, -1], 16)
 ```
 

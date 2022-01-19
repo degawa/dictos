@@ -79,9 +79,9 @@ def equation(
         # `evaluate=False` derives an sorted expression you may want,
         # (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h).
     else:
-        numr, denom = coefficients(stencil, deriv, as_numr_denom=True)
+        numer, denom = coefficients(stencil, deriv, as_numer_denom=True)
         eq = div(
-            dot_product(numr, f_set),
+            dot_product(numer, f_set),
             denom * sp.symbols(interval) ** deriv,
         )
         # get coefficients as numerator and denominator and then
@@ -94,7 +94,7 @@ def equation(
     return eq
 
 
-def coefficients(stencil, deriv=1, as_numr_denom=False):
+def coefficients(stencil, deriv=1, as_numer_denom=False):
     """
     derive finite difference coefficients based on given stencil.
 
@@ -102,7 +102,7 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
         stencil (list of int): relative point numbers
             used for discretization.
         deriv (int, optional): order of derivative. Defaults to 1.
-        as_numr_denom (bool, optional): flag to return the numerator
+        as_numer_denom (bool, optional): flag to return the numerator
             and denominator separately.
             Defaults to False.
 
@@ -124,7 +124,7 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
         [1/12, -2/3, 0, 2/3, -1/12]
         >>> fd.coefficients([-1.5, -0.5, 0, 0.5, 1.5], deriv=1)
         [1/24, -9/8, 0, 9/8, -1/24]
-        >>> fd.coefficients([-1.5, -0.5, 0, 0.5, 1.5], deriv=1, as_numr_denom=True)
+        >>> fd.coefficients([-1.5, -0.5, 0, 0.5, 1.5], deriv=1, as_numer_denom=True)
         ([1, -27, 0, 27, -1], 24)
     """
     if deriv < 1:
@@ -140,15 +140,15 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
 
     x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
     poly = lagrangian_poly(x, x_set, f_set)
-    numr_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
+    numer_coef, denom_coef = extract_coefficients_as_numer_denom(poly, f_set)
     # extract numerator and denomitaor from the polynomial
 
-    coef = [derivative(num / denom_coef[0], x, deriv) for num in numr_coef]
+    coef = [derivative(num / denom_coef[0], x, deriv) for num in numer_coef]
     # get coefficients of each terms as a list. Another expression
     # `derivative(lagrangian_poly(x, x_set, f_set), x, deriv).as_poly(f_set).coeffs()`
     # erases terms with a coefficient of 0.
 
-    return simplify_coefficients(coef, as_numr_denom)
+    return simplify_coefficients(coef, as_numer_denom)
     # simplify floating-point number coefficients to ratioanl numbers
 
 
