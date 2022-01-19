@@ -3,6 +3,7 @@ import numpy as np
 
 from .error.internal import UnexpectedDenominatorError
 from .error.stencil import TooNarrowError, DuplicatedPointError
+from .error.linear_algebra import InconsistentDataSetError
 
 DEFAULT_INDEPENDENT_VARIABLE = "x"  # str for independent variable symbol
 DEFAULT_INTERVAL = "h"  # str for interval symbol
@@ -173,11 +174,16 @@ def dot_product(numr, f_set, evaluate=False):
         evaluate (bool, optional): flag to evaluate the result.
             Defaults to False.
 
+    Raises:
+        InconsistentDataSetError: if two lists are inconsistent.
+
     Returns:
         sympy Expr: dot product of the passed two lists.
     """
-
-    # TODO: #5 raise error when numr and f_set have different lengths
+    if len(numr) != len(f_set):
+        raise InconsistentDataSetError(numr, f_set)
+        # raise error if
+        # two lists are inconsistent.
 
     begin_ = len(f_set) - 1  # exclude first term
     end_ = -1  # to generate numbers up to 0 using range()
