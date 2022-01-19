@@ -8,9 +8,11 @@ from .utils import (
     create_function_symbols,
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
+    has_zero,
 )
 from .lagrangian_polynomial import lagrangian_basis, lagrangian_poly
 from .taylor_expansion import taylor_series
+from .error.stencil import ContainsZeroError
 
 
 def equation(stencil, same_subscripts_as_stencil=False):
@@ -37,7 +39,6 @@ def equation(stencil, same_subscripts_as_stencil=False):
         >>> intp.equation([-1.5, -0.5, 0.5, 1.5],same_subscripts_as_stencil=True)
         9*f_{-0.5}/16 - f_{-1.5}/16 + 9*f_{0.5}/16 - f_{1.5}/16
     """
-    # TODO: #8 raise error when stencil contains 0
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
     f_set = create_function_symbols(x_set, DEFAULT_FUNCTION, same_subscripts_as_stencil)
@@ -65,6 +66,9 @@ def coefficients(stencil, as_numr_denom=False):
             and denominator separately.
             Defaults to False.
 
+    Raises:
+        ContainsZeroError: if stencil contains 0.
+
     Returns:
         list of sympy Rational: simplified coefficients.
             or
@@ -82,7 +86,9 @@ def coefficients(stencil, as_numr_denom=False):
         >>> intp.coefficients([-1.5, -0.5, 0.5, 1.5], as_numr_denom=True)
         ([-1, 9, 9, -1], 16)
     """
-    # TODO: #9 raise error when stencil contains 0
+    if has_zero(stencil):
+        raise ContainsZeroError
+        # raise error if stencil contains 0
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
     f_set = create_function_symbols(x_set, DEFAULT_FUNCTION)
@@ -128,7 +134,6 @@ def truncation_error(stencil, interval=DEFAULT_INTERVAL):
         >>> intp.truncation_error([-1.5, -0.5, 0.5, 1.5])
         3*f^(4)*h**4/128
     """
-    # TODO: #11 raise error when stencil contains 0
 
     coef = coefficients(stencil)
     # derive interpolation coefficients based on given stencil
