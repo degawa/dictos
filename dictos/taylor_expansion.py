@@ -43,18 +43,17 @@ def taylor_series(around, up_to):
     # set the function symbol.
     # For a futere enhancement (specifying function symbol by users).
 
-    deriv_orders = range(1, up_to + 1)  # +1 is correction for exclusive stop
-    # list of order of derivative [1, 2, 3, ..., up_to]
+    deriv_orders = range(up_to + 1)  # +1 is correction for exclusive stop
+    # list of order of derivative [0, 1, 2, 3, ..., up_to]
 
     df_set = [derivative_symbol(func, i) for i in deriv_orders]
-    # derivatives of function f [f^(1), f^(2), f^(3), ..., f^(up_to)]
+    # derivatives of function f [f, f^(1), f^(2), f^(3), ..., f^(up_to)]
 
     h = around
     coef = [h ** i * sp.Rational(1, sp.factorial(i)) for i in deriv_orders]
-    # coefficient each term [h, h**2/2, h**3/6, ..., h**up_to/up_to!]
+    # coefficient each term [1, h, h**2/2, h**3/6, ..., h**up_to/up_to!]
 
-    f = sp.symbols(func)
-    series = f + sum([df_set[i] * coef[i] for i in range(len(df_set))])
+    series = sum([df_set[i] * coef[i] for i in range(len(df_set))])
     # calculate summation of each term
 
     return series
