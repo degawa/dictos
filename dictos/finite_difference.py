@@ -13,6 +13,7 @@ from .utils import (
 )
 from .lagrangian_polynomial import lagrangian_poly, derivative
 from .taylor_expansion import taylor_series, derivative_symbol
+from .error.finite_difference import UnsupportedOrderOfDerivativeError
 
 
 def equation(
@@ -47,7 +48,6 @@ def equation(
         >>> fd.equation([-1.5, -0.5, 0, 0.5, 1.5], deriv=1)
         (f_0 - 27*f_1 + 27*f_3 - f_4)/(24*h)
     """
-    # TODO: #34 raise error when deriv is less than 0
 
     x_set = create_coordinate_symbols(stencil, interval)
     f_set = create_function_symbols(x_set, DEFAULT_FUNCTION, same_subscripts_as_stencil)
@@ -106,6 +106,10 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
             and denominator separately.
             Defaults to False.
 
+    Raises:
+        UnsupportedOrderOfDerivativeError: if
+            unsupported order of derivative (deriv < 1) is passed.
+
     Returns:
         list of sympy Rational: simplified coefficients.
             or
@@ -123,7 +127,10 @@ def coefficients(stencil, deriv=1, as_numr_denom=False):
         >>> fd.coefficients([-1.5, -0.5, 0, 0.5, 1.5], deriv=1, as_numr_denom=True)
         ([1, -27, 0, 27, -1], 24)
     """
-    # TODO: #34 raise error when deriv is less than 0
+    if deriv < 1:
+        raise UnsupportedOrderOfDerivativeError(deriv)
+        # raise error
+        # - if unsupported order of derivative (deriv < 1)
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
     f_set = create_function_symbols(x_set, DEFAULT_FUNCTION)
@@ -171,7 +178,6 @@ def truncation_error(stencil, deriv, interval=DEFAULT_INTERVAL):
         >>> fd.truncation_error([-2, -1, 0, 1, 2], deriv=2)
         f^(6)*h**4/90
     """
-    # TODO: #34 raise error when deriv is less than 0
 
     coef = coefficients(stencil, deriv)
     # derive finite difference coefficients based on given stencil
