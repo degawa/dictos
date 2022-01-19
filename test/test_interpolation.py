@@ -166,7 +166,7 @@ class InterpolationTest(unittest.TestCase):
             ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
                 stencil.remove(0)
-                actual = coefficients(stencil, as_numr_denom=True)
+                actual = coefficients(stencil, as_numer_denom=True)
                 self.assertEqual(expected[half_width], actual)
 
         expected = [
@@ -205,7 +205,7 @@ class InterpolationTest(unittest.TestCase):
                 % width
             ):
                 stencil = [i for i in range(1, width + 1)]
-                actual = coefficients(stencil, as_numr_denom=True)
+                actual = coefficients(stencil, as_numer_denom=True)
                 self.assertEqual(expected[width], actual)
 
     def test_truncation_error(self):

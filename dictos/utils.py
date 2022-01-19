@@ -99,17 +99,17 @@ def create_function_symbols(
     return f_set
 
 
-def simplify_coefficients(coef, as_numr_denom=False):
+def simplify_coefficients(coef, as_numer_denom=False):
     """
     simplify coefficients in floating-point number
     to ratioanl numbers.
-    When as_numr_denom flag is set, this returns the numberator and
+    When as_numer_denom flag is set, this returns the numberator and
     denominator separately.
 
     Args:
         coef (list of sympy Mul and numbers): finite difference and
             interpolation coefficients to be simplified.
-        as_numr_denom (bool, optional): flag to return the numerator
+        as_numer_denom (bool, optional): flag to return the numerator
             and denominator separately.
             Defaults to False.
 
@@ -145,32 +145,32 @@ def simplify_coefficients(coef, as_numr_denom=False):
         # extract denomenator of each coefficient
         # and calculate the least common multiple.
 
-        numr = [c * denom_lcm for c in coef_rational]
+        numer = [c * denom_lcm for c in coef_rational]
         # list of numerator divided by the least common multiple.
 
-        has_Rational = any(n.q != 1 for n in numr)
+        has_Rational = any(n.q != 1 for n in numer)
         max_denominator *= 10
         # rationalization is incomplete
         # if the numerator contains at least a number other than 1.
         # retry rationalizaiton with larger maximum value of the denominator.
 
-    if as_numr_denom:
-        return numr, denom_lcm
+    if as_numer_denom:
+        return numer, denom_lcm
     else:
-        return [n / denom_lcm for n in numr]
+        return [n / denom_lcm for n in numer]
 
 
-def dot_product(numr, f_set, evaluate=False):
+def dot_product(numer, f_set, evaluate=False):
     """
     calculate dot product of two list
     containing sympy numbers and symbols without evaluation.
 
     Args:
-        numr (list of sympy Mul and numbers):
+        numer (list of sympy Mul and numbers):
             list of numerator of coefficients.
             The list length must be equal to it of f_set.
         f_set (list of sympy symbols): list of function symbols.
-            The list length must be equal to it of numr.
+            The list length must be equal to it of numer.
         evaluate (bool, optional): flag to evaluate the result.
             Defaults to False.
 
@@ -180,17 +180,17 @@ def dot_product(numr, f_set, evaluate=False):
     Returns:
         sympy Expr: dot product of the passed two lists.
     """
-    if len(numr) != len(f_set):
-        raise InconsistentDataSetError(numr, f_set)
+    if len(numer) != len(f_set):
+        raise InconsistentDataSetError(numer, f_set)
         # raise error if
         # two lists are inconsistent.
 
     begin_ = len(f_set) - 1  # exclude first term
     end_ = -1  # to generate numbers up to 0 using range()
     step_ = -1
-    eq = sp.Mul(numr[begin_], f_set[begin_], evaluate=evaluate)
+    eq = sp.Mul(numer[begin_], f_set[begin_], evaluate=evaluate)
     for i in range(begin_ + step_, end_, step_):
-        eq = sp.Add(eq, sp.Mul(numr[i], f_set[i], evaluate=evaluate), evaluate=evaluate)
+        eq = sp.Add(eq, sp.Mul(numer[i], f_set[i], evaluate=evaluate), evaluate=evaluate)
     # there is no way to accumulate a list of sympy symbols
     # without evalulation.
     # So for-loop and sympy.Add and .Mul are used.
