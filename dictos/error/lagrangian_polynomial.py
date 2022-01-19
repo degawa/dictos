@@ -37,7 +37,7 @@ class InconsistentDataSetError(LagrangianPolynomialError):
         return self.message
 
 
-class ViolateDegreeOfPolynomialAssumption(LagrangianPolynomialError):
+class ViolateDegreeOfPolynomialAssumptionError(LagrangianPolynomialError):
     """
     Exception raised for errors
     that violate a theoretical assumption imposed
