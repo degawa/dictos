@@ -31,7 +31,8 @@ class UnexpectedDenominatorError(InternalError):
             + str(type(denom))
             + length
             + ". "
-            + "Confirm input/output data to/from and internal operation of sympy function(s)."
+            + "Confirm input/output data to/from sympy function(s) "
+            + "and its internal operation."
         )
 
     def __str__(self) -> str:
