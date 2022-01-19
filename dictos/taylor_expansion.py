@@ -1,6 +1,10 @@
 import sympy as sp
 
 from .utils import DEFAULT_FUNCTION
+from .error.taylor_expansion import (
+    UnsupportedOrderOfDerivativeError,
+    NumberOfExpansionTermsIsNotNaturalNumberError,
+)
 
 
 def taylor_series(around, up_to):
@@ -28,11 +32,18 @@ def taylor_series(around, up_to):
         >>> te.taylor_series(2*h, 4)
         f + 2*f^(1)*h + 2*f^(2)*h**2 + 4*f^(3)*h**3/3 + 2*f^(4)*h**4/3
     """
+    num_term = up_to + 1
+    # number of series expansion terms including the first term.
+    if num_term < 0:
+        raise NumberOfExpansionTermsIsNotNaturalNumberError(num_term)
+        # raise error if
+        # - number of series expansion terms is not the natural number.
+
     func = DEFAULT_FUNCTION
     # set the function symbol.
     # For a futere enhancement (specifying function symbol by users).
 
-    deriv_orders = range(1, up_to + 1)
+    deriv_orders = range(1, up_to + 1)  # +1 is correction for exclusive stop
     # list of order of derivative [1, 2, 3, ..., up_to]
 
     df_set = [derivative_symbol(func, i) for i in deriv_orders]
@@ -57,6 +68,10 @@ def derivative_symbol(function, deriv):
         function (str): function symbol
         deriv (int): order of derivative
 
+    Raises:
+        UnsupportedOrderOfDerivativeError: if
+            unsupproted order of derivative (< 0) is passed.
+
     Returns:
         sympy symbol: n-th derivative of function
 
@@ -69,6 +84,10 @@ def derivative_symbol(function, deriv):
         >>> te.derivative_symbol("f", 3)
         f^(3)
     """
+    if deriv < 0:
+        raise UnsupportedOrderOfDerivativeError(deriv)
+        # raise error if
+        # - unsupproted order of derivative (< 0).
+
     return sp.symbols(function + "^(%d)" % deriv)
-    # TODO: #32 raise error when deriv is less than 0
     # TODO: #33 return `"f"` not `"f^(0)"` when deriv is 0

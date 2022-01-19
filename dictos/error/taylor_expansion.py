@@ -30,3 +30,24 @@ class UnsupportedOrderOfDerivativeError(TaylroExpansionError):
 
     def __str__(self) -> str:
         return self.message
+
+
+class NumberOfExpansionTermsIsNotNaturalNumberError(TaylroExpansionError):
+    """
+    Exception raised for errors
+    that the number of series expansion terms is not the natural number.
+
+    Attributes:
+        term (int): number of terms which caused the error.
+        message (str): Explanation of the error.
+    """
+
+    def __init__(self, term: int) -> None:
+        self.message = (
+            "The number of series expansion terms {} ".format(term)
+            + "is not the natural number. "
+            + "Specify ther number of terms greater than 0."
+        )
+
+    def __str__(self) -> str:
+        return self.message
