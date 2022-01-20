@@ -6,6 +6,7 @@ sys.path.insert(1, "..")
 
 import unittest
 import sympy as sp
+import random
 
 from dictos.interpolation import equation, coefficients, truncation_error
 
@@ -57,12 +58,18 @@ class InterpolationTest(unittest.TestCase):
             - 5 * f_8 / 126
             + f_9 / 252,
         ]
-        for half_width in range(1, 6):
-            with self.subTest("%d-point central interpolation" % (half_width * 2)):
-                stencil = [i for i in range(-half_width, half_width + 1)]
-                stencil.remove(0)
-                actual = equation(stencil)
-                self.assertEqual(expected[half_width], actual)
+        for shuffle in [False, True]:
+            for half_width in range(1, 6):
+                with self.subTest(
+                    "%d-point central interpolation, stencil shuffle = %r"
+                    % (half_width * 2, shuffle)
+                ):
+                    stencil = [i for i in range(-half_width, half_width + 1)]
+                    stencil.remove(0)
+                    if shuffle:
+                        random.shuffle(stencil)
+                    actual = equation(stencil)
+                    self.assertEqual(expected[half_width], actual)
 
         expected = [
             0,
@@ -91,11 +98,17 @@ class InterpolationTest(unittest.TestCase):
             - 9 * f_7
             + f_8,
         ]
-        for width in range(2, 10):
-            with self.subTest("%d-point extrapolation" % (width * 2)):
-                stencil = [i for i in range(1, width + 1)]
-                actual = equation(stencil)
-                self.assertEqual(expected[width], actual)
+        for shuffle in [False, True]:
+            for width in range(2, 10):
+                with self.subTest(
+                    "%d-point extrapolation, stencil shuffle = %r"
+                    % (width * 2, shuffle)
+                ):
+                    stencil = [i for i in range(1, width + 1)]
+                    if shuffle:
+                        random.shuffle(stencil)
+                    actual = equation(stencil)
+                    self.assertEqual(expected[width], actual)
 
     def test_coefficients(self):
         """
@@ -142,13 +155,17 @@ class InterpolationTest(unittest.TestCase):
                 sp.Rational(1, 252),
             ],
         ]
-        for half_width in range(1, 6):
-            with self.subTest(
-                "coefficients of %d-point central interpolation" % (half_width * 2)
-            ):
-                stencil = [i for i in range(-half_width, half_width + 1)]
-                stencil.remove(0)
-                actual = coefficients(stencil)
+        for shuffle in [False, True]:
+            for half_width in range(1, 6):
+                with self.subTest(
+                    "coefficients of %d-point central interpolation, stencil shuffle = %r"
+                    % (half_width * 2, shuffle)
+                ):
+                    stencil = [i for i in range(-half_width, half_width + 1)]
+                    stencil.remove(0)
+                    if shuffle:
+                        random.shuffle(stencil)
+                    actual = coefficients(stencil)
                 self.assertEqual(expected[half_width], actual)
 
         expected = [
@@ -181,11 +198,17 @@ class InterpolationTest(unittest.TestCase):
             [8, -28, 56, -70, 56, -28, 8, -1],
             [9, -36, 84, -126, 126, -84, 36, -9, 1],
         ]
-        for width in range(2, 10):
-            with self.subTest("coefficients of %d-point extrapolation" % width):
-                stencil = [i for i in range(1, width + 1)]
-                actual = coefficients(stencil)
-                self.assertEqual(expected[width], actual)
+        for shuffle in [False, True]:
+            for width in range(2, 10):
+                with self.subTest(
+                    "coefficients of %d-point extrapolation, stencil shuffle = %r"
+                    % (width, shuffle)
+                ):
+                    stencil = [i for i in range(1, width + 1)]
+                    if shuffle:
+                        random.shuffle(stencil)
+                    actual = coefficients(stencil)
+                    self.assertEqual(expected[width], actual)
 
         expected = [
             0,
@@ -199,14 +222,17 @@ class InterpolationTest(unittest.TestCase):
             ([8, -28, 56, -70, 56, -28, 8, -1], 1),
             ([9, -36, 84, -126, 126, -84, 36, -9, 1], 1),
         ]
-        for width in range(2, 10):
-            with self.subTest(
-                "coefficients as numerator and denominator of %d-point extrapolation"
-                % width
-            ):
-                stencil = [i for i in range(1, width + 1)]
-                actual = coefficients(stencil, as_numer_denom=True)
-                self.assertEqual(expected[width], actual)
+        for shuffle in [False, True]:
+            for width in range(2, 10):
+                with self.subTest(
+                    "coefficients as numerator and denominator of %d-point extrapolation, stencil shuffle = %r"
+                    % (width, shuffle)
+                ):
+                    stencil = [i for i in range(1, width + 1)]
+                    if shuffle:
+                        random.shuffle(stencil)
+                    actual = coefficients(stencil, as_numer_denom=True)
+                    self.assertEqual(expected[width], actual)
 
     def test_truncation_error(self):
         """

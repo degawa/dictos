@@ -6,6 +6,7 @@ sys.path.insert(1, "..")
 
 import unittest
 import sympy as sp
+import random
 
 from dictos.finite_difference import equation, coefficients, truncation_error
 
@@ -59,13 +60,17 @@ class FiniteDifferenceTest(unittest.TestCase):
             )
             / (2520 * h),
         ]
-        for half_width in range(1, 6):
-            with self.subTest(
-                "%d-point central difference for 1st derivative" % (half_width * 2 + 1)
-            ):
-                stencil = [i for i in range(-half_width, half_width + 1)]
-                actual = equation(stencil, 1)
-                self.assertEqual(expected[half_width], actual)
+        for shuffle in [False, True]:
+            for half_width in range(1, 6):
+                with self.subTest(
+                    "%d-point central difference for 1st derivative, stencil shuffle = %r"
+                    % (half_width * 2 + 1, shuffle)
+                ):
+                    stencil = [i for i in range(-half_width, half_width + 1)]
+                    if shuffle:
+                        random.shuffle(stencil)
+                    actual = equation(stencil, 1)
+                    self.assertEqual(expected[half_width], actual)
 
         expected = [
             0,
@@ -108,13 +113,17 @@ class FiniteDifferenceTest(unittest.TestCase):
             )
             / (25200 * h ** 2),
         ]
-        for half_width in range(1, 6):
-            with self.subTest(
-                "%d-point central difference for 2nd derivative" % (half_width * 2 + 1)
-            ):
-                stencil = [i for i in range(-half_width, half_width + 1)]
-                actual = equation(stencil, 2)
-                self.assertEqual(expected[half_width], actual)
+        for shuffle in [False, True]:
+            for half_width in range(1, 6):
+                with self.subTest(
+                    "%d-point central difference for 2nd derivative, stencil shuffle = %r"
+                    % (half_width * 2 + 1, shuffle),
+                ):
+                    stencil = [i for i in range(-half_width, half_width + 1)]
+                    if shuffle:
+                        random.shuffle(stencil)
+                    actual = equation(stencil, 2)
+                    self.assertEqual(expected[half_width], actual)
 
         expected = [
             0,
@@ -185,13 +194,16 @@ class FiniteDifferenceTest(unittest.TestCase):
             )
             / (2520 * h),
         ]
-        for width in range(1, 11):
-            with self.subTest(
-                "%d-point forward difference for 1st derivative" % (width + 1)
-            ):
-                stencil = [i for i in range(width + 1)]
-                actual = equation(stencil, 1)
-                self.assertEqual(expected[width], actual)
+        for shuffle in [False, True]:
+            for width in range(1, 11):
+                with self.subTest(
+                    "%d-point forward difference for 1st derivative, stencil shuffle = %r"
+                    % (width + 1, shuffle)
+                ):
+                    stencil = [i for i in range(width + 1)]
+                    random.shuffle(stencil)
+                    actual = equation(stencil, 1)
+                    self.assertEqual(expected[width], actual)
 
     def test_coefficients(self):
         """
@@ -252,6 +264,16 @@ class FiniteDifferenceTest(unittest.TestCase):
                 actual = coefficients(stencil, 1)
                 self.assertEqual(expected[half_width], actual)
 
+        for half_width in range(1, 6):
+            with self.subTest(
+                "coefficents of %d-point central difference for 1st derivative"
+                % (half_width * 2 + 1)
+            ):
+                stencil = [i for i in range(-half_width, half_width + 1)]
+                random.shuffle(stencil)
+                actual = coefficients(stencil, 1)
+                self.assertEqual(expected[half_width], actual)
+
         expected = [
             0,
             ([-1, 0, 1], 2),
@@ -266,6 +288,16 @@ class FiniteDifferenceTest(unittest.TestCase):
                 % (half_width * 2 + 1)
             ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
+                actual = coefficients(stencil, 1, as_numer_denom=True)
+                self.assertEqual(expected[half_width], actual)
+
+        for half_width in range(1, 6):
+            with self.subTest(
+                "numerator and denominator of coefficients of %d-point central difference for 1st derivative"
+                % (half_width * 2 + 1)
+            ):
+                stencil = [i for i in range(-half_width, half_width + 1)]
+                random.shuffle(stencil)
                 actual = coefficients(stencil, 1, as_numer_denom=True)
                 self.assertEqual(expected[half_width], actual)
 
