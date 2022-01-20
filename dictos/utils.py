@@ -42,11 +42,13 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
         # raise error if
         # - at least a number in the stencil appears more than once.
 
-    stencil.sort()
+    sorted_stencil = stencil[:]
+    sorted_stencil.sort()
     # sorting the stencil to obtain an equation
     # in which terms are arranged in the order of the stencil.
+    # a local variable is used to not change the passed stencil.
 
-    return [stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
+    return [sorted_stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
 
 
 def create_function_symbols(
