@@ -41,7 +41,10 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
         raise DuplicatedPointError(stencil)
         # raise error if
         # - at least a number in the stencil appears more than once.
-    # TODO: #4 sorting the stencil
+
+    stencil.sort()
+    # sorting the stencil to obtain an equation
+    # in which terms are arranged in the order of the stencil.
 
     return [stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
 
@@ -190,7 +193,9 @@ def dot_product(numer, f_set, evaluate=False):
     step_ = -1
     eq = sp.Mul(numer[begin_], f_set[begin_], evaluate=evaluate)
     for i in range(begin_ + step_, end_, step_):
-        eq = sp.Add(eq, sp.Mul(numer[i], f_set[i], evaluate=evaluate), evaluate=evaluate)
+        eq = sp.Add(
+            eq, sp.Mul(numer[i], f_set[i], evaluate=evaluate), evaluate=evaluate
+        )
     # there is no way to accumulate a list of sympy symbols
     # without evalulation.
     # So for-loop and sympy.Add and .Mul are used.
