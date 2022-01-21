@@ -10,6 +10,11 @@ import random
 from dictos.spec import (
     has_zero,
     has_duplicated_points,
+    narrower_than_minimum_width,
+    is_not_natrual_number,
+    is_not_assumed_legth,
+    are_different_legth,
+    _MINIMUM_STENCIL_WIDTH,
 )
 from gen import random_int
 
@@ -60,6 +65,60 @@ class SpecTest(unittest.TestCase):
                 expected = False
                 actual = has_duplicated_points(stencil)
                 self.assertEqual(expected, actual)
+
+    def test_narrower_than_minimum_width(self):
+        """test suite for spec.narrower_than_minimum_width."""
+
+        for c in random_int(-100, 100):
+            with self.subTest(c):
+                stencil = list(range(c))
+                expected = True if c < _MINIMUM_STENCIL_WIDTH else False
+                actual = narrower_than_minimum_width(stencil)
+                self.assertEqual(expected, actual)
+
+    def test_is_not_natrual_number(self):
+        """test suite for spec.is_not_natrual_number."""
+
+        for c in random_int(-100, 100):
+            with self.subTest(c):
+                expected = True if c <= 0 else False
+                actual = is_not_natrual_number(c)
+                self.assertEqual(expected, actual)
+
+            with self.subTest(c):
+                expected = True if c < 0 else False
+                actual = is_not_natrual_number(c, include_zero=True)
+                self.assertEqual(expected, actual)
+
+    def test_is_not_assumed_legth(self):
+        """test suite for spec.is_not_assumed_legth."""
+
+        for c in random_int(1, 100):
+            with self.subTest(c):
+                stencil = list(range(c))
+                self.assertTrue(is_not_assumed_legth(stencil, c + 1))
+
+            with self.subTest(c):
+                stencil = list(range(c))
+                self.assertFalse(is_not_assumed_legth(stencil, c))
+
+    def test_are_different_legth(self):
+        """test suite for spec.are_different_legth."""
+
+        for c in random_int(1, 100):
+            with self.subTest(c):
+                list1 = list(range(c))
+                list2 = list(range(c))
+                self.assertFalse(are_different_legth(list1, list2))
+
+            with self.subTest(c):
+                list1 = list(range(c + 1))
+                list2 = list(range(c))
+                self.assertTrue(are_different_legth(list1, list2))
+
+                list1 = list(range(c))
+                list2 = list(range(c + 1))
+                self.assertTrue(are_different_legth(list1, list2))
 
 
 if __name__ == "__main__":
