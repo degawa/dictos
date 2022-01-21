@@ -10,7 +10,7 @@ from .utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
 )
-from .lagrangian_polynomial import lagrangian_basis, lagrangian_poly
+from .lagrangian_polynomial import lagrangian_poly
 from .taylor_expansion import taylor_series
 from .error.stencil import ContainsZeroError
 
