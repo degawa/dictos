@@ -8,7 +8,6 @@ import unittest
 import sympy as sp
 import numpy as np
 import random
-import string
 
 from dictos.utils import (
     DEFAULT_INTERVAL,
@@ -22,40 +21,7 @@ from dictos.utils import (
     has_duplicated_points,
     extract_coefficients_as_numer_denom,
 )
-
-_stencil_half_width = 20  # up to 20th order accuracy
-_max_symbol_length = 10
-
-
-def random_string(len):
-    """generate n-length random string
-
-    Args:
-        len (integer): length of string
-    """
-
-    return "".join(random.choices(string.ascii_letters + string.digits, k=len))
-
-
-def random_int(min, max, exclude=None):
-    """generate random list of integers from min to max.
-    Integers listed in exclude are excluded
-
-    Args:
-        min (integer): minimum value of integer in the list.
-        max (integer): maximum value of integer in the list.
-        exclude (list of integer): integers to be excluded from the list.
-            Defaults to None.
-    """
-    num = list(range(min, max + 1))
-
-    if exclude is not None:
-        for i in exclude:
-            num.remove(i)
-
-    random.shuffle(num)
-
-    return num
+from gen import random_string, random_int, _stencil_half_width, _max_symbol_length
 
 
 class UtilsTest(unittest.TestCase):
