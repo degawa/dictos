@@ -20,12 +20,12 @@ def narrower_than_minimum_width(data_set) -> bool:
     return len(data_set) < _MINIMUM_STENCIL_WIDTH
 
 
-def is_not_natrual_number(number: int, include_zero: bool = False) -> bool:
+def is_not_natrual_number(number, include_zero: bool = False) -> bool:
     """
     Returns True if `number` is not the natural number.
 
     Args:
-        number (int): an integer number to be checked.
+        number : an integer number to be checked.
         include_zero (bool, optional): A flag to swith to include 0
             in the natural numbers.
             Defaults to False.
@@ -91,12 +91,12 @@ def is_not_assumed_legth(list: list, assumed_length: int) -> bool:
     return not is_assumed_legth(list, assumed_length)
 
 
-def is_natural_number(number: int, include_zero: bool = False) -> bool:
+def is_natural_number(number, include_zero: bool = False) -> bool:
     """
     Returns True if `number` is the natural number.
 
     Args:
-        number (int): an integer number to be checked.
+        number : an integer number to be checked.
         include_zero (bool, optional): A flag to swith to include 0
             in the natural numbers.
             Defaults to False.
