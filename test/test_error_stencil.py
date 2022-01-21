@@ -6,7 +6,7 @@ sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.utils import has_zero, has_duplicated_points
+from dictos.spec import has_zero, has_duplicated_points
 from dictos.error.stencil import ContainsZeroError, DuplicatedPointError, TooNarrowError
 
 

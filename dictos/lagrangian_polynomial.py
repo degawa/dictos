@@ -6,7 +6,7 @@ from .error.lagrangian_polynomial import (
     InconsistentDataSetError,
 )
 from .error.stencil import DuplicatedPointError, TooNarrowError
-from .utils import has_duplicated_points
+from .spec import has_duplicated_points
 
 
 def lagrangian_basis(x, degree, point_at, x_set=None):
