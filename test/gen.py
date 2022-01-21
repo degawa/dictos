@@ -4,8 +4,8 @@ import random
 import string
 
 
-_stencil_half_width = 20  # up to 20th order accuracy
-_max_symbol_length = 10
+STENCIL_HALF_WIDTH = 20  # up to 20th order accuracy
+MAX_SYMBOL_LENGTH = 10
 
 
 def random_string(len):
