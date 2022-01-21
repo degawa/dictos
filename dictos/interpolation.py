@@ -1,5 +1,6 @@
 import sympy as sp
 
+from .spec import has_zero
 from .utils import (
     DEFAULT_INTERVAL,
     DEFAULT_FUNCTION,
@@ -8,7 +9,6 @@ from .utils import (
     create_function_symbols,
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
-    has_zero,
 )
 from .lagrangian_polynomial import lagrangian_basis, lagrangian_poly
 from .taylor_expansion import taylor_series
