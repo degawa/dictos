@@ -16,7 +16,7 @@ from gen import random_int
 
 class SpecTest(unittest.TestCase):
     def test_has_zero(self):
-        """test suite for utils.has_zero.
+        """test suite for spec.has_zero.
         1. returns True if stencil has 0
         2. returns False if stencil doesn't have 0
         """
@@ -38,7 +38,7 @@ class SpecTest(unittest.TestCase):
                 self.assertEqual(expected, actual)
 
     def test_has_duplicated_points(self):
-        """test suite for utils.has_dupulicated_points.
+        """test suite for spec.has_dupulicated_points.
         1. returns True if there is at least one dupulicated point.
         2. returns False if there is no dupulicated point.
         """
