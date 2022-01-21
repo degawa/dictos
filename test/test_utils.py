@@ -8,7 +8,6 @@ import unittest
 import sympy as sp
 import numpy as np
 import random
-import string
 
 from dictos.utils import (
     DEFAULT_INTERVAL,
@@ -22,40 +21,7 @@ from dictos.utils import (
     has_duplicated_points,
     extract_coefficients_as_numer_denom,
 )
-
-_stencil_half_width = 20  # up to 20th order accuracy
-_max_symbol_length = 10
-
-
-def random_string(len):
-    """generate n-length random string
-
-    Args:
-        len (integer): length of string
-    """
-
-    return "".join(random.choices(string.ascii_letters + string.digits, k=len))
-
-
-def random_int(min, max, exclude=None):
-    """generate random list of integers from min to max.
-    Integers listed in exclude are excluded
-
-    Args:
-        min (integer): minimum value of integer in the list.
-        max (integer): maximum value of integer in the list.
-        exclude (list of integer): integers to be excluded from the list.
-            Defaults to None.
-    """
-    num = list(range(min, max + 1))
-
-    if exclude is not None:
-        for i in exclude:
-            num.remove(i)
-
-    random.shuffle(num)
-
-    return num
+from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
 
 
 class UtilsTest(unittest.TestCase):
@@ -73,7 +39,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 2
         # it returns [a*h b*h c*h ...] when [a b c ...] is passed.
-        num = random_int(2, _stencil_half_width)
+        num = random_int(2, STENCIL_HALF_WIDTH)
         for n in num:
             with self.subTest(n):
                 stencil = [i for i in range(n)]
@@ -85,10 +51,10 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 3
         # it returns [a*dx b*dx c*dx ...] when [a b c ...] and 'dx' are passed.
-        num = random_int(2, _stencil_half_width)
+        num = random_int(2, STENCIL_HALF_WIDTH)
         for n in num:
             with self.subTest(n):
-                interval = random_string(random.randint(1, _max_symbol_length))
+                interval = random_string(random.randint(1, MAX_SYMBOL_LENGTH))
                 h = sp.symbols(interval)
 
                 stencil = [i for i in range(n)]
@@ -115,7 +81,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 2
         # it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
-        num = random_int(2, _stencil_half_width)
+        num = random_int(2, STENCIL_HALF_WIDTH)
         for n in num:
             with self.subTest(n):
                 stencil = [i for i in range(n)]
@@ -139,10 +105,10 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 4
         # it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
-        num = random_int(2, _stencil_half_width)
+        num = random_int(2, STENCIL_HALF_WIDTH)
         for n in num:
             with self.subTest(n):
-                f = random_string(random.randint(1, _max_symbol_length))
+                f = random_string(random.randint(1, MAX_SYMBOL_LENGTH))
 
                 stencil = [i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
@@ -163,7 +129,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 6
         # it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
-        num = random_int(2, _stencil_half_width)
+        num = random_int(2, STENCIL_HALF_WIDTH)
         for n in num:
             with self.subTest(n):
                 stencil = [i for i in range(n)]
@@ -196,10 +162,10 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 8
         # it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
-        num = random_int(2, _stencil_half_width)
+        num = random_int(2, STENCIL_HALF_WIDTH)
         for n in num:
             with self.subTest(n):
-                f = random_string(random.randint(1, _max_symbol_length))
+                f = random_string(random.randint(1, MAX_SYMBOL_LENGTH))
 
                 stencil = [i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
@@ -243,7 +209,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 1
         # it returns sympy integers list when sympy integers list is passed.
-        for len_ in random_int(2, _stencil_half_width * 2):
+        for len_ in random_int(2, STENCIL_HALF_WIDTH * 2):
             with self.subTest(len_):
                 numer = [
                     sp.Number(
@@ -260,7 +226,7 @@ class UtilsTest(unittest.TestCase):
         # subtest 2
         # it returns integer list when list of sympy symbols is passed.
         h = sp.symbols(random_string(5))
-        for len_ in random_int(2, _stencil_half_width * 2):
+        for len_ in random_int(2, STENCIL_HALF_WIDTH * 2):
             with self.subTest(len_):
                 numer = [
                     random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
@@ -275,7 +241,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 3
         # it returns list of sympy rational when sympy number list is passed.
-        for len_ in random_int(2, _stencil_half_width * 2):
+        for len_ in random_int(2, STENCIL_HALF_WIDTH * 2):
             with self.subTest(len_):
                 denom = [sp.Number(random.randint(1, 1000)) for _ in range(len_)]
                 numer = [
@@ -294,7 +260,7 @@ class UtilsTest(unittest.TestCase):
         # subtest 4
         # it returns list of sympy rational when list of sympy symbols is passed.
         h = sp.symbols(random_string(5))
-        for len_ in random_int(2, _stencil_half_width * 2):
+        for len_ in random_int(2, STENCIL_HALF_WIDTH * 2):
             with self.subTest(len_):
                 denom = [sp.Number(random.randint(1, 1000)) for _ in range(len_)]
                 numer = [
@@ -312,7 +278,7 @@ class UtilsTest(unittest.TestCase):
 
         # subtest 5
         # it returns sympy integers list when sympy integers list is passed.
-        for len_ in random_int(2, _stencil_half_width * 2):
+        for len_ in random_int(2, STENCIL_HALF_WIDTH * 2):
             with self.subTest(len_):
                 numer = [
                     sp.Number(
@@ -329,7 +295,7 @@ class UtilsTest(unittest.TestCase):
         # subtest 6
         # it returns tuple of integer list and a integer when list of sympy symbols and as_numer_denom=True are passed.
         h = sp.symbols(random_string(5))
-        for len_ in random_int(2, _stencil_half_width * 2):
+        for len_ in random_int(2, STENCIL_HALF_WIDTH * 2):
             with self.subTest(len_):
                 numer = [
                     random.randint(np.iinfo(np.int32).min, np.iinfo(np.int32).max)
