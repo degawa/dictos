@@ -15,7 +15,7 @@ from .spec import (
 )
 
 
-def lagrangian_basis(x, degree, point_at, x_set=None):
+def lagrangian_basis(x, degree: int, point_at: int, x_set: list = None):
     """
     create Lagrangian basis from give coordinate symbols.
 
@@ -131,7 +131,7 @@ def lagrangian_poly(x, x_set, f_set):
     # at coordinates and the Lagrangian basis polynomials.
 
 
-def derivative(expr, x, deriv=1):
+def derivative(expr, x, deriv: int = 1):
     """calculate symbolically a derivative at x=0.
 
     Args:
