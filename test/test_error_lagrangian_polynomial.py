@@ -12,6 +12,8 @@ from dictos.error.lagrangian_polynomial import (
     DegreeOfPolynomialIsNotNaturalNumberError,
     InconsistentDataSetAndDegreeOfPolynomialError,
 )
+from dictos.error.stencil import DuplicatedPointError, TooNarrowError
+from dictos.lagrangian_polynomial import lagrangian_basis, lagrangian_poly
 
 
 class ErrorLagrangianPolynomialTest(unittest.TestCase):
@@ -69,6 +71,44 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
         with self.subTest(degree, x_set):
             if degree != len(x_set) + 1:
                 raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
+
+    def test_error_lagrangian_polynomial_exception(
+        self,
+    ):
+        """
+        test suite for exception in lagrangian_polynomial.
+        """
+
+        x = sp.symbols("x")
+        dx = sp.symbols("dx")
+        degree = 0
+        with self.subTest("lagrangian_basis with invalid degree %d" % degree):
+            with self.assertRaises(DegreeOfPolynomialIsNotNaturalNumberError):
+                lagrangian_basis(x, degree, 0)
+
+        degree = 2
+        x_set = [0, 0, dx]
+        with self.subTest("lagrangian_basis with invalid x_set"):
+            with self.assertRaises(DuplicatedPointError):
+                lagrangian_basis(x, degree, 0, x_set)
+
+        degree = 3
+        x_set = [0, dx, 2 * dx]
+        with self.subTest("lagrangian_basis with inconsistent degree and x_set"):
+            with self.assertRaises(InconsistentDataSetAndDegreeOfPolynomialError):
+                lagrangian_basis(x, degree, 0, x_set)
+
+        x_set = [0, dx, 2 * dx]
+        f_set = sp.symbols("f0:{:d}".format(len(x_set) + 1))
+        with self.subTest("lagrangian_poly with inconsistent x_set and f_set"):
+            with self.assertRaises(InconsistentDataSetError):
+                lagrangian_poly(x, x_set, f_set)
+
+        x_set = [0]
+        f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+        with self.subTest("lagrangian_poly with too narrow x_set"):
+            with self.assertRaises(TooNarrowError):
+                lagrangian_poly(x, x_set, f_set)
 
 
 if __name__ == "__main__":
