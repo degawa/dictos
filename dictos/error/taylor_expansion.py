@@ -46,7 +46,7 @@ class NumberOfExpansionTermsIsNotNaturalNumberError(TaylroExpansionError):
         self.message = (
             "The number of series expansion terms {} ".format(term)
             + "is not the natural number. "
-            + "Specify ther number of terms greater than 0."
+            + "Specify the number of terms greater than 0."
         )
 
     def __str__(self) -> str:
