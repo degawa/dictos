@@ -4,11 +4,9 @@ import numpy as np
 from .spec import (
     has_duplicated_points,
     narrower_than_minimum_width,
-    are_different_length,
 )
 from .error.internal import UnexpectedDenominatorError
 from .error.stencil import TooNarrowError, DuplicatedPointError
-from .error.linear_algebra import InconsistentDataSetError
 
 DEFAULT_INDEPENDENT_VARIABLE = "x"  # str for independent variable symbol
 DEFAULT_INTERVAL = "h"  # str for interval symbol
@@ -166,72 +164,6 @@ def simplify_coefficients(coef, as_numer_denom=False):
         return numer, denom_lcm
     else:
         return [n / denom_lcm for n in numer]
-
-
-def dot_product(numer, f_set, evaluate=False):
-    """
-    calculate dot product of two list
-    containing sympy numbers and symbols without evaluation.
-
-    Args:
-        numer (list of sympy Mul and numbers):
-            list of numerator of coefficients.
-            The list length must be equal to it of f_set.
-        f_set (list of sympy symbols): list of function symbols.
-            The list length must be equal to it of numer.
-        evaluate (bool, optional): flag to evaluate the result.
-            Defaults to False.
-
-    Raises:
-        InconsistentDataSetError: if two lists are inconsistent.
-
-    Returns:
-        sympy Expr: dot product of the passed two lists.
-    """
-    if are_different_length(numer, f_set):
-        raise InconsistentDataSetError(numer, f_set)
-        # raise error if
-        # two lists are inconsistent.
-
-    begin_ = len(f_set) - 1  # exclude first term
-    end_ = -1  # to generate numbers up to 0 using range()
-    step_ = -1
-    eq = sp.Mul(numer[begin_], f_set[begin_], evaluate=evaluate)
-    for i in range(begin_ + step_, end_, step_):
-        eq = sp.Add(
-            eq, sp.Mul(numer[i], f_set[i], evaluate=evaluate), evaluate=evaluate
-        )
-    # there is no way to accumulate a list of sympy symbols
-    # without evalulation.
-    # So for-loop and sympy.Add and .Mul are used.
-    # The for-loop is downstepped
-    # so that the result are sorted when it is printed.
-    # The result of the accumulation, `((-a*f_{-1} +b*f_{0}) + a*f_{1})`,
-    # is printed as `a*f_{1} + b*f_{0} - a*f_{-1}`.
-    # downstepping is used for sorting.
-
-    return eq
-
-
-def div(eq, denom):
-    """
-    calculate division of two sympy Expr.
-    The result is always evaluated.
-
-    Args:
-        eq (sympy Expr): Algebraic expression to be devided
-        denom (sympy Expr): Algebraic expression to divide.
-            The Expr must be a single term.
-
-    Returns:
-        sympy Expr: result of division eq/denom.
-    """
-    return sp.Mul(eq, 1 / denom)
-    # calculate Mul with evaluate=True,
-    # because the result with evaluate=False will be like
-    # `(1/(12*h))*(f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})`,
-    # unlike the result we want as follows:
-    # `(f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)`
 
 
 def extract_coefficients_as_numer_denom(expr, f_set):
