@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - added new module to describe the specifitions of methods used in dictos. #42, #50, #52, #53, #54
 - added CHANGELOG.md.
 - added linalg module. #51
+- added version number in `__version__.py` and import in `__init__.py`. #45
 
 ## [0.2.1] - 2022-01-21
 ### Fixes
