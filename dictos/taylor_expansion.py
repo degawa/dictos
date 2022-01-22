@@ -1,5 +1,6 @@
 import sympy as sp
 
+from .spec import is_not_natrual_number
 from .utils import DEFAULT_FUNCTION
 from .error.taylor_expansion import (
     UnsupportedOrderOfDerivativeError,
@@ -34,7 +35,7 @@ def taylor_series(around, up_to):
     """
     num_term = up_to + 1
     # number of series expansion terms including the first term.
-    if num_term < 0:
+    if is_not_natrual_number(num_term, include_zero=True):
         raise NumberOfExpansionTermsIsNotNaturalNumberError(num_term)
         # raise error if
         # - number of series expansion terms is not the natural number.
@@ -83,7 +84,7 @@ def derivative_symbol(function, deriv):
         >>> te.derivative_symbol("f", 3)
         f^(3)
     """
-    if deriv < 0:
+    if is_not_natrual_number(deriv, include_zero=True):
         raise UnsupportedOrderOfDerivativeError(deriv)
         # raise error if
         # - unsupproted order of derivative (< 0).
