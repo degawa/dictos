@@ -17,9 +17,9 @@ class InconsistentDataSetError(LinearAlgebraError):
     that data set of two vectors are inconsistent.
 
     Attributes:
-        vec1 (list of int or float, or sympy Mul): set of a vector
+        vec1 (list of int or float, or sympy Mul): a vector
             which caused the error.
-        vec2 (list of int or float, or sympy Mul): set of a vector
+        vec2 (list of int or float, or sympy Mul): a vector
             which caused the error.
         message (str): Explanation of the error.
     """
