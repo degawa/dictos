@@ -17,11 +17,11 @@ from .error.finite_difference import UnsupportedOrderOfDerivativeError
 
 
 def equation(
-    stencil,
-    deriv=1,
-    interval=DEFAULT_INTERVAL,
-    same_subscripts_as_stencil=False,
-    evaluate=True,
+    stencil: list,
+    deriv: int = 1,
+    interval: str = DEFAULT_INTERVAL,
+    same_subscripts_as_stencil: bool = False,
+    evaluate: bool = True,
 ):
     """
     derive finite difference equation based on given stencil.
@@ -91,7 +91,7 @@ def equation(
     return eq
 
 
-def coefficients(stencil, deriv=1, as_numer_denom=False):
+def coefficients(stencil: list, deriv: int = 1, as_numer_denom: bool = False):
     """
     derive finite difference coefficients based on given stencil.
 
@@ -149,7 +149,7 @@ def coefficients(stencil, deriv=1, as_numer_denom=False):
     # simplify floating-point number coefficients to ratioanl numbers
 
 
-def truncation_error(stencil, deriv, interval=DEFAULT_INTERVAL):
+def truncation_error(stencil: list, deriv: int, interval: str = DEFAULT_INTERVAL):
     """
     derive the leading-order of error term
     in the finite difference equation based on the given stencil.

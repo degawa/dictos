@@ -16,7 +16,7 @@ from .taylor_expansion import taylor_series
 from .error.stencil import ContainsZeroError
 
 
-def equation(stencil, same_subscripts_as_stencil=False):
+def equation(stencil: list, same_subscripts_as_stencil: bool = False):
     """
     derive interpolation equation based on given stencil.
     The equation compute interpolation at stencil = 0
@@ -56,7 +56,7 @@ def equation(stencil, same_subscripts_as_stencil=False):
     # calculate dot product of the coef and function values.
 
 
-def coefficients(stencil, as_numer_denom=False):
+def coefficients(stencil: list, as_numer_denom: bool = False):
     """
     derive interpolation coefficients based on given stencil.
 
@@ -114,7 +114,7 @@ def coefficients(stencil, as_numer_denom=False):
     # simplify floating-point number coefficients to ratioanl numbers
 
 
-def truncation_error(stencil, interval=DEFAULT_INTERVAL):
+def truncation_error(stencil: list, interval: str = DEFAULT_INTERVAL):
     """
     derive the leading-order of error term
     in the interpolation equation based on the given stencil
