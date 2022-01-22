@@ -1,8 +1,6 @@
 import sympy as sp
 
-from .spec import (
-    are_different_length,
-)
+from .spec import are_different_length
 from .error.linear_algebra import InconsistentDataSetError
 
 
