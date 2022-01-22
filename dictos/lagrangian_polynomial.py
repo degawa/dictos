@@ -6,7 +6,13 @@ from .error.lagrangian_polynomial import (
     InconsistentDataSetError,
 )
 from .error.stencil import DuplicatedPointError, TooNarrowError
-from .spec import has_duplicated_points
+from .spec import (
+    has_duplicated_points,
+    is_not_natrual_number,
+    is_not_assumed_legth,
+    are_different_legth,
+    narrower_than_minimum_width,
+)
 
 
 def lagrangian_basis(x, degree, point_at, x_set=None):
@@ -39,7 +45,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
         >>> lp.lagrangian_basis(x, degree=3, point_at=0)
         (x - x1)*(x - x2)*(x - x3)/((x0 - x1)*(x0 - x2)*(x0 - x3))
     """
-    if degree <= 0:
+    if is_not_natrual_number(degree):
         raise DegreeOfPolynomialIsNotNaturalNumberError(degree)
         # raise error if
         # - meaningless degree of polynomial is specified
@@ -48,7 +54,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
             raise DuplicatedPointError(x_set)
             # raise error if
             # - at least a number in the stencil appears more than once.
-        if len(x_set) != degree + 1:
+        if is_not_assumed_legth(x_set, assumed_length=degree + 1):
             raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
             # raise error if
             # - degree and len(x_set) are inconsistent.
@@ -103,11 +109,11 @@ def lagrangian_poly(x, x_set, f_set):
         >>> lp.lagrangian_poly(x, x_set, f_set)
         f0*x*(-dx + x)/(2*dx**2) - f1*(-dx + x)*(dx + x)/dx**2 + f2*x*(dx + x)/(2*dx**2)
     """
-    if len(x_set) != len(f_set):
+    if are_different_legth(x_set, f_set):
         raise InconsistentDataSetError(x_set, f_set)
         # raise error if
         # x_set and f_set are inconsistent.
-    if len(x_set) <= 1:
+    if narrower_than_minimum_width(x_set):
         raise TooNarrowError(x_set)
         # raise error if
         # - stencil is too narrow
