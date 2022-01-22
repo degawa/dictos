@@ -1,7 +1,11 @@
 import sympy as sp
 import numpy as np
 
-from .spec import has_duplicated_points
+from .spec import (
+    has_duplicated_points,
+    narrower_than_minimum_width,
+    are_different_legth,
+)
 from .error.internal import UnexpectedDenominatorError
 from .error.stencil import TooNarrowError, DuplicatedPointError
 from .error.linear_algebra import InconsistentDataSetError
@@ -34,7 +38,7 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
             corresponding to the stencil.
     """
 
-    if len(stencil) < 2:
+    if narrower_than_minimum_width(stencil):
         raise TooNarrowError(stencil)
         # raise error if
         # - stencil is too narrow to coompute finite difference or interpolation
@@ -186,7 +190,7 @@ def dot_product(numer, f_set, evaluate=False):
     Returns:
         sympy Expr: dot product of the passed two lists.
     """
-    if len(numer) != len(f_set):
+    if are_different_legth(numer, f_set):
         raise InconsistentDataSetError(numer, f_set)
         # raise error if
         # two lists are inconsistent.
