@@ -12,7 +12,7 @@ def narrower_than_minimum_width(data_set) -> bool:
     the minimum value specified in the spec.py.
 
     Args:
-        data_set (list): data set to be checked.
+        data_set (list or tuple): data set to be checked.
 
     Returns:
         bool: True if stencil used in data_set is narrower.
@@ -36,7 +36,7 @@ def is_not_natrual_number(number, include_zero: bool = False) -> bool:
     return not is_natural_number(number, include_zero)
 
 
-def has_zero(stencil: list) -> bool:
+def has_zero(stencil) -> bool:
     """
     Return True if the stencil has 0.
 
@@ -50,7 +50,7 @@ def has_zero(stencil: list) -> bool:
     return 0 in stencil
 
 
-def has_duplicated_points(stencil: list) -> bool:
+def has_duplicated_points(stencil) -> bool:
     """
     Returns True if there is at least one duplicated points in the stencil.
 
@@ -64,12 +64,12 @@ def has_duplicated_points(stencil: list) -> bool:
     return len(stencil) != len(set(stencil))
 
 
-def are_different_length(list1: list, list2: list) -> bool:
+def are_different_length(list1, list2) -> bool:
     """Return True if length of two lists are different.
 
     Args:
-        list1 (list): a list to be checked.
-        list2 (list): a list to be checked.
+        list1 (list or tuple): a list to be checked.
+        list2 (list or tuple): a list to be checked.
 
     Returns:
         bool: True if length of two lists are different.
@@ -77,12 +77,12 @@ def are_different_length(list1: list, list2: list) -> bool:
     return not are_same_length(list1, list2)
 
 
-def is_not_assumed_length(list: list, assumed_length: int) -> bool:
+def is_not_assumed_length(list, assumed_length: int) -> bool:
     """
     Return Ture if the list length is not the assumed length.
 
     Args:
-        list (list): a list to be checked.
+        list (list or tuple): a list to be checked.
         assumed_length (int): assumed length of the list.
 
     Returns:
@@ -108,12 +108,12 @@ def is_natural_number(number, include_zero: bool = False) -> bool:
     return isinstance(number, int) and number >= lower_bound
 
 
-def are_same_length(list1: list, list2: list) -> bool:
+def are_same_length(list1, list2) -> bool:
     """Return True if length of two lists are the same.
 
     Args:
-        list1 (list): a list to be checked.
-        list2 (list): a list to be checked.
+        list1 (list or tuple): a list to be checked.
+        list2 (list or tuple): a list to be checked.
 
     Returns:
         bool: True if length of two lists are the same.
@@ -121,12 +121,12 @@ def are_same_length(list1: list, list2: list) -> bool:
     return len(list1) == len(list2)
 
 
-def is_assumed_length(list: list, assumed_length: int) -> bool:
+def is_assumed_length(list, assumed_length: int) -> bool:
     """
     Return Ture if the list length is the assumed length.
 
     Args:
-        list (list): a list to be checked.
+        list (list or tuple): a list to be checked.
         assumed_length (int): assumed length of the list.
 
     Returns:

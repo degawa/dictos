@@ -23,7 +23,7 @@ class InconsistentDataSetError(LagrangianPolynomialError):
         message (str): Explanation of the error.
     """
 
-    def __init__(self, x_set: list, f_set: list) -> None:
+    def __init__(self, x_set, f_set) -> None:
         self.x_set = x_set
         self.f_set = f_set
         self.message = (
@@ -47,7 +47,7 @@ class DegreeOfPolynomialIsNotNaturalNumberError(LagrangianPolynomialError):
         message (str): Explanation of the error.
     """
 
-    def __init__(self, degree: int) -> None:
+    def __init__(self, degree) -> None:
         self.degree = degree
         self.message = (
             "The degree of polynomial ({}) is not the natural number. ".format(degree)
