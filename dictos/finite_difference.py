@@ -81,7 +81,7 @@ def equation(
     else:
         numer, denom = coefficients(stencil, deriv, as_numer_denom=True)
         eq = div(
-            dot_product(numer, f_set),
+            dot_product(numer, f_set, evaluate=False),
             denom * sp.symbols(interval) ** deriv,
         )
         # get coefficients as numerator and denominator and then
