@@ -1,7 +1,11 @@
 import sympy as sp
 import numpy as np
 
-from .spec import has_duplicated_points
+from .spec import (
+    has_duplicated_points,
+    narrower_than_minimum_width,
+    are_different_length,
+)
 from .error.internal import UnexpectedDenominatorError
 from .error.stencil import TooNarrowError, DuplicatedPointError
 from .error.linear_algebra import InconsistentDataSetError
@@ -34,7 +38,7 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
             corresponding to the stencil.
     """
 
-    if len(stencil) < 2:
+    if narrower_than_minimum_width(stencil):
         raise TooNarrowError(stencil)
         # raise error if
         # - stencil is too narrow to coompute finite difference or interpolation
@@ -133,18 +137,16 @@ def simplify_coefficients(coef, as_numer_denom=False):
     # rationalize coefficients and then divide those into numerator and denominator.
     # Execute while numbers other than one are contained in the coefficients' denominator.
     has_Rational = True
-    max_denominator = 1000000  # fraction's default value
+    max_denominator = 1000000  # sympy's default value
     significant_digits = 16  # approx significant digits of Float in decimal notation.
     while has_Rational and max_denominator <= 10 ** significant_digits:
         coef_rational = [
             sp.Rational(str(c)).limit_denominator(max_denominator) for c in coef_num
         ]
         # rationalize coefficients.
-        # The argument of `fraction.Fraction` must be a string in this case.
+        # The argument of `sympy.Rational` must be a string in this case.
         # `limit_denominator` is used to avoid represent a real number
         # including the error coused by the binary representation.
-        # It is necessary to discuss the argument
-        # when increasing the formal accuracy of discretization.
 
         denom = [c.q for c in coef_rational]
         denom_lcm = int(np.lcm.reduce(np.array(denom)))
@@ -186,7 +188,7 @@ def dot_product(numer, f_set, evaluate=False):
     Returns:
         sympy Expr: dot product of the passed two lists.
     """
-    if len(numer) != len(f_set):
+    if are_different_length(numer, f_set):
         raise InconsistentDataSetError(numer, f_set)
         # raise error if
         # two lists are inconsistent.

@@ -20,6 +20,8 @@ from dictos.utils import (
     extract_coefficients_as_numer_denom,
 )
 from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
+from dictos.error.stencil import TooNarrowError, DuplicatedPointError
+from dictos.error.linear_algebra import InconsistentDataSetError
 
 
 class UtilsTest(unittest.TestCase):
@@ -373,6 +375,25 @@ class UtilsTest(unittest.TestCase):
             expected = ([-1, 4, 4, -1], [6])
             actual = extract_coefficients_as_numer_denom(expr, f_set)
             self.assertEqual(expected, actual)
+
+    def test_utils_exception(self):
+        """test suite for exception in utils"""
+
+        stencil = [0]
+        with self.subTest("create_coordinate_symbols with too narrow stencil"):
+            with self.assertRaises(TooNarrowError):
+                create_coordinate_symbols(stencil)
+
+        stencil = [1, 1, 2, 3, 4]
+        with self.subTest("create_coordinate_symbols with invalid stencil"):
+            with self.assertRaises(DuplicatedPointError):
+                create_coordinate_symbols(stencil)
+
+        numer = [sp.core.Number(i) for i in range(4)]
+        f_set = sp.symbols("f_0:{:d}".format(len(numer) + 1))
+        with self.subTest("dot_product with inconsistent numer and f_set"):
+            with self.assertRaises(InconsistentDataSetError):
+                dot_product(numer, f_set)
 
 
 if __name__ == "__main__":
