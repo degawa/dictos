@@ -10,6 +10,7 @@ from .utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
 )
+from .linalg import dot_product
 from .lagrangian_polynomial import lagrangian_poly
 from .taylor_expansion import taylor_series
 from .error.stencil import ContainsZeroError
@@ -51,7 +52,7 @@ def equation(stencil, same_subscripts_as_stencil=False):
     coef = coefficients(stencil)
     # derive interpolation coefficients based on given stencil
 
-    return sp.simplify(sum([coef[i] * f_set[i] for i in range(len(f_set))]))
+    return sp.simplify(dot_product(coef, f_set))
     # calculate dot product of the coef and function values.
 
 
@@ -146,7 +147,7 @@ def truncation_error(stencil, interval=DEFAULT_INTERVAL):
     f_te = [taylor_series(x, num_term) for x in x_set]
     # calculate Taylor series around points in x_set.
 
-    intp_eq = sum([coef[i] * f_te[i] for i in range(len(x_set))])
+    intp_eq = dot_product(coef, f_te)
     # calculate weighted sum of Taylor series.
     # for instance, 2nd-order 2-point interpolation is
     # intp_eq [= f(h)/2 + f(-h)/2)] = f(0) + f^(2)*h**2/2 + ...
