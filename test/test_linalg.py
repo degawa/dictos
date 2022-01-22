@@ -70,6 +70,7 @@ class LinalgTest(unittest.TestCase):
                 )
             actural = dot_product(vec1, vec2, evaluate=False)
             self.assertTrue(sp.simplify(expected) == sp.simplify(actural))
+            # I couldn't find a way to get True when evaluate=False without simplify.
 
     def test_linalg_div(self):
         """test suite for linalg.dot_product"""
