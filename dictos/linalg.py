@@ -6,7 +6,7 @@ from .spec import (
 from .error.linear_algebra import InconsistentDataSetError
 
 
-def dot_product(vec1, vec2, evaluate=True):
+def dot_product(vec1, vec2, evaluate: bool = True):
     """
     calculate dot product of two list
     containing sympy numbers and symbols without evaluation.
