@@ -1,5 +1,6 @@
 import sympy as sp
 
+from .spec import is_not_natrual_number
 from .utils import (
     DEFAULT_FUNCTION,
     DEFAULT_INTERVAL,
@@ -127,7 +128,7 @@ def coefficients(stencil, deriv=1, as_numer_denom=False):
         >>> fd.coefficients([-1.5, -0.5, 0, 0.5, 1.5], deriv=1, as_numer_denom=True)
         ([1, -27, 0, 27, -1], 24)
     """
-    if deriv < 1:
+    if is_not_natrual_number(deriv):
         raise UnsupportedOrderOfDerivativeError(deriv)
         # raise error
         # - if unsupported order of derivative (deriv < 1)
