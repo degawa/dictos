@@ -87,7 +87,8 @@ def lagrangian_poly(x, x_set, f_set):
     from ginve set of coordinates and functions.
 
     Args:
-        x (sympy symbol): symbol representing independent variable.
+        x (sympy symbol):
+            symbol representing independent variable.
         x_set (list or tuple of sympy symbols):
             set of coordinate values.
         f_set (list or tuple of sympy symbols):
