@@ -2,6 +2,7 @@ import sympy as sp
 
 from .spec import is_not_natrual_number
 from .utils import DEFAULT_FUNCTION
+from .linalg import dot_product
 from .error.taylor_expansion import (
     UnsupportedOrderOfDerivativeError,
     NumberOfExpansionTermsIsNotNaturalNumberError,
@@ -59,7 +60,7 @@ def taylor_series(around, up_to):
     coef = [h ** i * sp.Rational(1, sp.factorial(i)) for i in deriv_orders]
     # coefficient each term [1, h, h**2/2, h**3/6, ..., h**up_to/up_to!]
 
-    series = sum([df_set[i] * coef[i] for i in range(len(df_set))])
+    series = dot_product(df_set, coef)
     # calculate summation of each term
 
     return series

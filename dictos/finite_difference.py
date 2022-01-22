@@ -61,10 +61,7 @@ def equation(
     # and then calculate dot product of the coef and function values.
     if evaluate:
         coef = coefficients(stencil, deriv)
-        eq = sp.simplify(
-            sum([coef[i] * f_set[i] for i in range(len(f_set))])
-            / sp.symbols(interval) ** deriv
-        )
+        eq = sp.simplify(dot_product(coef, f_set) / sp.symbols(interval) ** deriv)
         # The result of dot product is divided by interval symbol,
         # because coef does not contain interval symbol like `dx`.
         # In many case, the results obtained by above operations is
@@ -81,7 +78,7 @@ def equation(
     else:
         numer, denom = coefficients(stencil, deriv, as_numer_denom=True)
         eq = div(
-            dot_product(numer, f_set),
+            dot_product(numer, f_set, evaluate=False),
             denom * sp.symbols(interval) ** deriv,
         )
         # get coefficients as numerator and denominator and then
@@ -190,7 +187,7 @@ def truncation_error(stencil, deriv, interval=DEFAULT_INTERVAL):
     f_ts = [taylor_series(x, num_term) for x in x_set]
     # calculate Taylor series around points in x_set.
 
-    fd_eq = sum([coef[i] * f_ts[i] for i in range(len(x_set))])
+    fd_eq = dot_product(coef, f_ts)
     # calculate weighted sum of Taylor series.
     # for instance, 2nd-order 3-point central finite difference
     # for 1st derivative is
