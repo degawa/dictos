@@ -64,7 +64,7 @@ def has_duplicated_points(stencil: list) -> bool:
     return len(stencil) != len(set(stencil))
 
 
-def are_different_legth(list1: list, list2: list) -> bool:
+def are_different_length(list1: list, list2: list) -> bool:
     """Return True if length of two lists are different.
 
     Args:
@@ -74,10 +74,10 @@ def are_different_legth(list1: list, list2: list) -> bool:
     Returns:
         bool: True if length of two lists are different.
     """
-    return not are_same_legth(list1, list2)
+    return not are_same_length(list1, list2)
 
 
-def is_not_assumed_legth(list: list, assumed_length: int) -> bool:
+def is_not_assumed_length(list: list, assumed_length: int) -> bool:
     """
     Return Ture if the list length is not the assumed length.
 
@@ -88,7 +88,7 @@ def is_not_assumed_legth(list: list, assumed_length: int) -> bool:
     Returns:
         bool: True if the list length is not the assumed length.
     """
-    return not is_assumed_legth(list, assumed_length)
+    return not is_assumed_length(list, assumed_length)
 
 
 def is_natural_number(number, include_zero: bool = False) -> bool:
@@ -108,7 +108,7 @@ def is_natural_number(number, include_zero: bool = False) -> bool:
     return isinstance(number, int) and number >= lower_bound
 
 
-def are_same_legth(list1: list, list2: list) -> bool:
+def are_same_length(list1: list, list2: list) -> bool:
     """Return True if length of two lists are the same.
 
     Args:
@@ -121,7 +121,7 @@ def are_same_legth(list1: list, list2: list) -> bool:
     return len(list1) == len(list2)
 
 
-def is_assumed_legth(list: list, assumed_length: int) -> bool:
+def is_assumed_length(list: list, assumed_length: int) -> bool:
     """
     Return Ture if the list length is the assumed length.
 

@@ -4,7 +4,7 @@ import numpy as np
 from .spec import (
     has_duplicated_points,
     narrower_than_minimum_width,
-    are_different_legth,
+    are_different_length,
 )
 from .error.internal import UnexpectedDenominatorError
 from .error.stencil import TooNarrowError, DuplicatedPointError
@@ -188,7 +188,7 @@ def dot_product(numer, f_set, evaluate=False):
     Returns:
         sympy Expr: dot product of the passed two lists.
     """
-    if are_different_legth(numer, f_set):
+    if are_different_length(numer, f_set):
         raise InconsistentDataSetError(numer, f_set)
         # raise error if
         # two lists are inconsistent.

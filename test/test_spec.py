@@ -12,8 +12,8 @@ from dictos.spec import (
     has_duplicated_points,
     narrower_than_minimum_width,
     is_not_natrual_number,
-    is_not_assumed_legth,
-    are_different_legth,
+    is_not_assumed_length,
+    are_different_length,
     _MINIMUM_STENCIL_WIDTH,
 )
 from gen import random_int
@@ -90,35 +90,35 @@ class SpecTest(unittest.TestCase):
                 actual = is_not_natrual_number(c, include_zero=True)
                 self.assertEqual(expected, actual)
 
-    def test_is_not_assumed_legth(self):
-        """test suite for spec.is_not_assumed_legth."""
+    def test_is_not_assumed_length(self):
+        """test suite for spec.is_not_assumed_length."""
 
         for c in random_int(1, 100):
             with self.subTest(c):
                 stencil = list(range(c))
-                self.assertTrue(is_not_assumed_legth(stencil, c + 1))
+                self.assertTrue(is_not_assumed_length(stencil, c + 1))
 
             with self.subTest(c):
                 stencil = list(range(c))
-                self.assertFalse(is_not_assumed_legth(stencil, c))
+                self.assertFalse(is_not_assumed_length(stencil, c))
 
-    def test_are_different_legth(self):
-        """test suite for spec.are_different_legth."""
+    def test_are_different_length(self):
+        """test suite for spec.are_different_length."""
 
         for c in random_int(1, 100):
             with self.subTest(c):
                 list1 = list(range(c))
                 list2 = list(range(c))
-                self.assertFalse(are_different_legth(list1, list2))
+                self.assertFalse(are_different_length(list1, list2))
 
             with self.subTest(c):
                 list1 = list(range(c + 1))
                 list2 = list(range(c))
-                self.assertTrue(are_different_legth(list1, list2))
+                self.assertTrue(are_different_length(list1, list2))
 
                 list1 = list(range(c))
                 list2 = list(range(c + 1))
-                self.assertTrue(are_different_legth(list1, list2))
+                self.assertTrue(are_different_length(list1, list2))
 
 
 if __name__ == "__main__":
