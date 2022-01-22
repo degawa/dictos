@@ -6,7 +6,7 @@ from .spec import (
 from .error.linear_algebra import InconsistentDataSetError
 
 
-def dot_product(vec1, vec2, evaluate=False):
+def dot_product(vec1, vec2, evaluate=True):
     """
     calculate dot product of two list
     containing sympy numbers and symbols without evaluation.
@@ -17,7 +17,7 @@ def dot_product(vec1, vec2, evaluate=False):
         vec2 (list of int or float, or sympy Mul): 1D-list.
             The list length must be equal to it of vec1.
         evaluate (bool, optional): flag to evaluate the result.
-            Defaults to False.
+            Defaults to True.
 
     Raises:
         InconsistentDataSetError: if two lists are inconsistent.
