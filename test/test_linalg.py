@@ -14,6 +14,63 @@ from gen import random_int, random_string
 
 
 class LinalgTest(unittest.TestCase):
+    def test_linalg_dot_product(self):
+        """test suite for linalg.dot_product"""
+
+        num_max = random.randint(1, 10)
+        for n in range(1, num_max):
+            vec1 = random_int(-n, n)
+            vec2 = random_int(-n, n)
+            with self.subTest(
+                "dot_product of 2 vectors with %d elements with evaluate True"
+                % len(vec1)
+            ):
+                expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
+                actural = dot_product(vec1, vec2, evaluate=True)
+                self.assertEqual(expected, actural)
+
+        num_max = random.randint(1, 10)
+        for n in range(1, num_max):
+            vec1 = [sp.symbols(random_string(2)) for _ in range(num_max)]
+            vec2 = [sp.symbols(random_string(2)) for _ in range(num_max)]
+            with self.subTest(
+                "dot_product of 2 vectors with %d elements with evaluate True"
+                % len(vec1)
+            ):
+                expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
+                actural = dot_product(vec1, vec2, evaluate=True)
+                self.assertEqual(expected, actural)
+
+        num_max = random.randint(1, 10)
+        for n in range(1, num_max):
+            vec1 = [sp.symbols(random_string(2)) for _ in range(num_max)]
+            vec2 = [sp.symbols(random_string(2)) for _ in range(num_max)]
+            with self.subTest(
+                "dot_product of 2 vectors with %d elements with evaluate False"
+                % len(vec1)
+            ):
+                expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
+                actural = dot_product(vec1, vec2, evaluate=False)
+                self.assertNotEqual(expected, actural)
+
+        num_max = 3
+        # for n in range(1, num_max):
+        vec1 = [sp.symbols(random_string(2)) for _ in range(num_max)]
+        vec2 = [sp.symbols(random_string(2)) for _ in range(num_max)]
+        with self.subTest(
+            "dot_product of 2 vectors with %d elements with evaluate False" % len(vec1)
+        ):
+            begin_ = len(vec2) - 1
+            end_ = -1
+            step_ = -1
+            expected = sp.Mul(vec1[begin_], vec2[begin_], evaluate=False)
+            for i in range(begin_ + step_, end_, step_):
+                expected = sp.Add(
+                    expected, sp.Mul(vec1[i], vec2[i], expected=False), evaluate=False
+                )
+            actural = dot_product(vec1, vec2, evaluate=False)
+            self.assertTrue(sp.simplify(expected) == sp.simplify(actural))
+
     def test_linalg_div(self):
         """test suite for linalg.dot_product"""
 
