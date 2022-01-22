@@ -152,4 +152,6 @@ def derivative(expr, x, deriv=1):
         2*a
     """
     return sp.simplify(sp.diff(expr, x, deriv).subs([(x, 0)]))
-    # substitute 0 after differentiation
+    # substitute 0 after differentiation.
+    # error handling that deriv is not the natural number is
+    # delegated to sympy.diff.
