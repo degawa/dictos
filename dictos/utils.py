@@ -13,7 +13,7 @@ DEFAULT_INTERVAL = "h"  # str for interval symbol
 DEFAULT_FUNCTION = "f"  # str for function symbol
 
 
-def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
+def create_coordinate_symbols(stencil: list, interval: str = DEFAULT_INTERVAL) -> list:
     """
     create set of coordinate symbols from stencil.
     input a list of numbers like `[-1, 0, 1]` as stencil,
@@ -55,9 +55,9 @@ def create_coordinate_symbols(stencil, interval=DEFAULT_INTERVAL):
 
 
 def create_function_symbols(
-    x_set,
-    function=DEFAULT_FUNCTION,
-    same_subscripts_as_stencil=False,
+    x_set: list,
+    function: str = DEFAULT_FUNCTION,
+    same_subscripts_as_stencil: bool = False,
 ):
     """
     create set of function symbols at coordinates from x_set.
@@ -107,7 +107,7 @@ def create_function_symbols(
     return f_set
 
 
-def simplify_coefficients(coef, as_numer_denom=False):
+def simplify_coefficients(coef, as_numer_denom: bool = False):
     """
     simplify coefficients in floating-point number
     to ratioanl numbers.
