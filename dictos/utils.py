@@ -137,18 +137,16 @@ def simplify_coefficients(coef, as_numer_denom=False):
     # rationalize coefficients and then divide those into numerator and denominator.
     # Execute while numbers other than one are contained in the coefficients' denominator.
     has_Rational = True
-    max_denominator = 1000000  # fraction's default value
+    max_denominator = 1000000  # sympy's default value
     significant_digits = 16  # approx significant digits of Float in decimal notation.
     while has_Rational and max_denominator <= 10 ** significant_digits:
         coef_rational = [
             sp.Rational(str(c)).limit_denominator(max_denominator) for c in coef_num
         ]
         # rationalize coefficients.
-        # The argument of `fraction.Fraction` must be a string in this case.
+        # The argument of `sympy.Rational` must be a string in this case.
         # `limit_denominator` is used to avoid represent a real number
         # including the error coused by the binary representation.
-        # It is necessary to discuss the argument
-        # when increasing the formal accuracy of discretization.
 
         denom = [c.q for c in coef_rational]
         denom_lcm = int(np.lcm.reduce(np.array(denom)))
