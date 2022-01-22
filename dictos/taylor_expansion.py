@@ -9,7 +9,7 @@ from .error.taylor_expansion import (
 )
 
 
-def taylor_series(around, up_to):
+def taylor_series(around, up_to: int):
     """
     calculate Taylor series of f(x) around h
 
@@ -66,7 +66,7 @@ def taylor_series(around, up_to):
     return series
 
 
-def derivative_symbol(function, deriv):
+def derivative_symbol(function: str, deriv: int):
     """
     returns n-th order derivative of function f as a sympy symbol
 
