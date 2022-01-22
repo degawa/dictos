@@ -8,10 +8,9 @@ from .utils import (
     create_coordinate_symbols,
     create_function_symbols,
     simplify_coefficients,
-    dot_product,
-    div,
     extract_coefficients_as_numer_denom,
 )
+from .linalg import dot_product, div
 from .lagrangian_polynomial import lagrangian_poly, derivative
 from .taylor_expansion import taylor_series, derivative_symbol
 from .error.finite_difference import UnsupportedOrderOfDerivativeError
