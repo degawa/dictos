@@ -5,6 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Breaking changes
+- changed default of `dot_product`'s `evaluate` argument to `True`. #62
+
+### Changes
+- changed algorithm computing dot product in `dot_product` when `evaluate=True`. #63
+- replace list comprehension to compute dot products of 2 lists with `dot_product`
+
 ### New features
 - added new module for commonly used in tests to generate random input. #46
 - added new module to describe the specifitions of methods used in dictos. #42, #50, #52, #53, #54
