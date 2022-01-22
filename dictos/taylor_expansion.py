@@ -35,7 +35,7 @@ def taylor_series(around, up_to):
     """
     num_term = up_to + 1
     # number of series expansion terms including the first term.
-    if is_not_natrual_number(num_term, include_zero=True):
+    if is_not_natrual_number(num_term):
         raise NumberOfExpansionTermsIsNotNaturalNumberError(num_term)
         # raise error if
         # - number of series expansion terms is not the natural number.
