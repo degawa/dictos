@@ -15,8 +15,6 @@ from dictos.utils import (
     create_coordinate_symbols,
     create_function_symbols,
     simplify_coefficients,
-    dot_product,
-    div,
     extract_coefficients_as_numer_denom,
 )
 from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
@@ -388,12 +386,6 @@ class UtilsTest(unittest.TestCase):
         with self.subTest("create_coordinate_symbols with invalid stencil"):
             with self.assertRaises(DuplicatedPointError):
                 create_coordinate_symbols(stencil)
-
-        numer = [sp.core.Number(i) for i in range(4)]
-        f_set = sp.symbols("f_0:{:d}".format(len(numer) + 1))
-        with self.subTest("dot_product with inconsistent numer and f_set"):
-            with self.assertRaises(InconsistentDataSetError):
-                dot_product(numer, f_set)
 
 
 if __name__ == "__main__":
