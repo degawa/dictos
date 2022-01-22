@@ -28,7 +28,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
             set of coordinate values. Defaults to None.
 
     Raises:
-        ViolateDegreeOfPolynomialAssumption:
+        DegreeOfPolynomialIsNotNaturalNumberError:
             if degree of polynomial is less than 1.
         DuplicatedPointError: if at least a number in the stencil
             appears more than once.

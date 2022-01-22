@@ -19,6 +19,11 @@ def taylor_series(around, up_to):
         up_to (int): number of terms in the Taylor series
             excluding the first term
 
+    Raises:
+        NumberOfExpansionTermsIsNotNaturalNumberError: if
+            number of series expansion terms including the first term
+            is not the natural number.
+
     Returns:
         sympy Expr: calculated Taylor series.
 
