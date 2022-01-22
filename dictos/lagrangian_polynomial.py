@@ -58,6 +58,7 @@ def lagrangian_basis(x, degree, point_at, x_set=None):
             raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
             # raise error if
             # - degree and len(x_set) are inconsistent.
+    # TODO: #55 raise error when point_at is out of range
 
     num_set = degree + 1
     # n+1 points are required to construct an n-th degree polynomial.
