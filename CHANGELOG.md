@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### New features
 - added new module for commonly used in tests to generate random input. #46
-- added new module to describe the specifitions of methods used in dictos. #42 #50 #53 #54
+- added new module to describe the specifitions of methods used in dictos. #42, #50, #52, #53, #54
 - added CHANGELOG.md.
 
 ## [0.2.1] - 2022-01-21
