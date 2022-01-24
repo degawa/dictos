@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - added CHANGELOG.md.
 - added linalg module. #51
 - added version number in `__version__.py` and import in `__init__.py`. #45
+- added `dictos/error/__init__.py` for packaging. #14
 - added installation settings using pip. #14
 
 ### Repository updates
