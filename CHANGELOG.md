@@ -10,7 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changes
 - changed algorithm computing dot product in `dot_product` when `evaluate=True`. #63
-- replace list comprehension to compute dot products of 2 lists with `dot_product`
+- replaced list comprehension to compute dot products of 2 lists with `dot_product`
 
 ### New features
 - added new module for commonly used in tests to generate random input. #46
