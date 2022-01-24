@@ -2,6 +2,66 @@
 
 Symbolic discretization tools for the finite difference method on a regular and staggered grid.
 
+## Installation
+There are three ways to install dictos.
+
+### install using pip
+The simplest way to install dictos is using pip.
+After cloning the dictos repository, install dictos with the commands below:
+
+```console
+$ git clone https://github.com/degawa/dictos.git
+$ cd dictos
+$ pip install .
+```
+
+### copy dictos directory to your projects
+The second way to install dictos is simply copying the `dictos` directory in the cloned repository to other projects.
+
+The central part of dictos is in `dictos/dictos` directory.
+
+```console
+$ git clone https://github.com/degawa/dictos.git
+$ tree dictos -d
+dictos
+├── dictos
+│   └── error
+└── test
+```
+
+If importing dictos from `main.py`, copy `dictos/dictos` to the same location and then import in `main.py` like below:
+
+```console
+exampleproject/
+└── src/
+    ├── dictos/
+    └── main.py
+```
+
+```python
+from dictos import finite_difference as fd
+```
+
+### add path to `sys.path`
+The third way to install dictos is to set the path to tell the dictos directory to Python.
+
+When dictos is cloned to a directory `/home/hoge/dictos`, add the dictos path to `sys.path` as shown below before importing dictos:
+
+```console
+$ git clone https://github.com/degawa/dictos.git
+$ cd dictos
+$ pwd
+/home/hoge/dictos
+```
+
+```python
+import sys
+
+sys.path.insert(1, "/home/hoge/dictos")
+
+from dictos import finite_difference as fd
+```
+
 ## A Story Telling Features
 
 ### Finite Difference
