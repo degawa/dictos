@@ -10,7 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changes
 - changed algorithm computing dot product in `dot_product` when `evaluate=True`. #63
-- replace list comprehension to compute dot products of 2 lists with `dot_product`
+- replaced list comprehension to compute dot products of 2 lists with `dot_product`
 
 ### New features
 - added new module for commonly used in tests to generate random input. #46
@@ -18,6 +18,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - added CHANGELOG.md.
 - added linalg module. #51
 - added version number in `__version__.py` and import in `__init__.py`. #45
+- added `dictos/error/__init__.py` for packaging. #14
+- added installation settings using pip. #14
+
+### Repository updates
+- added installation guide. #14
 
 ## [0.2.1] - 2022-01-21
 ### Fixes
