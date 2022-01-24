@@ -244,9 +244,7 @@ Dictos: "Not supported yet. I will support explicit and compact filters."
 ## todo
 - [ ] add documents
 - [ ] add examples
-- [ ] error handling
 - [ ] update tests
-- [ ] provide install method
 
 ## Finite Difference Coefficients
 ### Central Finite Difference on the Regular Grid
