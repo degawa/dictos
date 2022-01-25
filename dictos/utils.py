@@ -98,10 +98,10 @@ def create_function_symbols(
         # make the return value's type a tuple.
         # sp.symbols(str) returns sp.core.symbol.Symbol
         # when str does not contain space
-        # althought sp.symbols("_0:{:d}".format(n)) returns tuple
+        # althought sp.symbols(f"_0:{n}") returns tuple
         # when n==1.
     else:
-        f_set = sp.symbols(function + "_0:{:d}".format(len(x_set)))
+        f_set = sp.symbols(function + f"_0:{len(x_set)}")
         # make a tuple of sympy symbols from string.
 
     return f_set
