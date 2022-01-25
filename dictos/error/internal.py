@@ -25,12 +25,9 @@ class UnexpectedDenominatorError(InternalError):
     def __init__(self, denom) -> None:
         length = ""
         if type(denom) is list or type(denom) is tuple:
-            length = "[{}]".format(len(denom))
+            length = f"[{len(denom)}]"
         self.message = (
-            "Unexpected data type of a denominator "
-            + str(type(denom))
-            + length
-            + ". "
+            f"Unexpected data type of a denominator {type(denom)}{length}. "
             + "Confirm input/output data to/from sympy function(s) "
             + "and its internal operation."
         )
