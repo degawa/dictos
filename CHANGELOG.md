@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2022-01-25
 ### Breaking changes
 - changed default of `dot_product`'s `evaluate` argument to `True`. #62
 
@@ -73,7 +74,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - derive interpolation coefficients
   - derive the leading-order of truncation error.
 
-[Unreleased]: https://github.com/degawa/dictos/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/degawa/dictos/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/degawa/dictos/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/degawa/dictos/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/degawa/dictos/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/degawa/dictos/compare/v0.1.0...v0.1.1
