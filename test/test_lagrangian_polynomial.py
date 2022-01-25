@@ -220,7 +220,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
         for i in range(len(expected)):
             with self.subTest("%d-point forward formulation" % point[i]):
                 x_set = [j * h for j in range(point[i])]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = lagrangian_poly(x, x_set, f_set)
 
                 self.assertEqual(expected[i], actual)
@@ -245,7 +245,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
         for i in range(len(expected)):
             with self.subTest("%d-point backward formulation" % point[i]):
                 x_set = [j * h for j in range(-point[i] + 1, 1)]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = lagrangian_poly(x, x_set, f_set)
 
                 self.assertEqual(expected[i], actual)
@@ -268,7 +268,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
                 end_ = (point[i] - 1) // 2 + 1
                 stencil = range(begin_, end_)
                 x_set = [j * h for j in stencil]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = lagrangian_poly(x, x_set, f_set)
 
                 self.assertEqual(expected[i], actual)
@@ -317,7 +317,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
                 "%d-point forward difference for 1st derivative" % point[i]
             ):
                 x_set = [j * h for j in range(point[i])]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = derivative(lagrangian_poly(x, x_set, f_set), x, deriv=1)
 
                 self.assertEqual(expected[i], actual)
@@ -335,7 +335,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
                 "%d-point backward difference for 1st derivative" % point[i]
             ):
                 x_set = [j * h for j in range(-point[i] + 1, 1)]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = derivative(lagrangian_poly(x, x_set, f_set), x, deriv=1)
 
                 self.assertEqual(expected[i], actual)
@@ -354,7 +354,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
                 end_ = (point[i] - 1) // 2 + 1
                 stencil = range(begin_, end_)
                 x_set = [j * h for j in stencil]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = derivative(lagrangian_poly(x, x_set, f_set), x, 1)
 
                 self.assertEqual(expected[i], actual)

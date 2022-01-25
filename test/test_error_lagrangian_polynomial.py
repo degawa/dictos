@@ -99,13 +99,13 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
                 lagrangian_basis(x, degree, 0, x_set)
 
         x_set = [0, dx, 2 * dx]
-        f_set = sp.symbols("f0:{:d}".format(len(x_set) + 1))
+        f_set = sp.symbols(f"f0:{(len(x_set) + 1)}")
         with self.subTest("lagrangian_poly with inconsistent x_set and f_set"):
             with self.assertRaises(InconsistentDataSetError):
                 lagrangian_poly(x, x_set, f_set)
 
         x_set = [0]
-        f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+        f_set = sp.symbols(f"f0:{len(x_set)}")
         with self.subTest("lagrangian_poly with too narrow x_set"):
             with self.assertRaises(TooNarrowError):
                 lagrangian_poly(x, x_set, f_set)
