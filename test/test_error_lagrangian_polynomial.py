@@ -82,7 +82,7 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
         x = sp.symbols("x")
         dx = sp.symbols("dx")
         degree = 0
-        with self.subTest("lagrangian_basis with invalid degree %d" % degree):
+        with self.subTest(f"lagrangian_basis with invalid degree {degree}"):
             with self.assertRaises(DegreeOfPolynomialIsNotNaturalNumberError):
                 lagrangian_basis(x, degree, 0)
 

@@ -136,10 +136,9 @@ class UtilsTest(unittest.TestCase):
 
                 f = DEFAULT_FUNCTION
                 subscript = [
-                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
-                    for i in stencil
+                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
                 ]
-                str = "".join([f + s + " " for s in subscript])
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
@@ -149,10 +148,9 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
                 subscript = [
-                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
-                    for i in stencil
+                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
                 ]
-                str = "".join([f + s + " " for s in subscript])
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
@@ -172,10 +170,9 @@ class UtilsTest(unittest.TestCase):
                 )
 
                 subscript = [
-                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
-                    for i in stencil
+                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
                 ]
-                str = "".join([f + s + " " for s in subscript])
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
@@ -187,10 +184,9 @@ class UtilsTest(unittest.TestCase):
                 )
 
                 subscript = [
-                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
-                    for i in stencil
+                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
                 ]
-                str = "".join([f + s + " " for s in subscript])
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 

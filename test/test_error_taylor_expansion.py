@@ -32,12 +32,12 @@ class ErrorTaylorExpansionTest(unittest.TestCase):
         """
 
         up_to = -1
-        with self.subTest("taylor_series with invalid up_to %d" % up_to):
+        with self.subTest(f"taylor_series with invalid up_to {up_to}"):
             with self.assertRaises(NumberOfExpansionTermsIsNotNaturalNumberError):
                 taylor_series("h", up_to)
 
         deriv = -1
-        with self.subTest("symbols with invalid deriv %d" % deriv):
+        with self.subTest(f"symbols with invalid deriv {deriv}"):
             with self.assertRaises(UnsupportedOrderOfDerivativeError):
                 derivative_symbol("h", deriv)
 

@@ -63,8 +63,7 @@ class FiniteDifferenceTest(unittest.TestCase):
         for shuffle in [False, True]:
             for half_width in range(1, 6):
                 with self.subTest(
-                    "%d-point central difference for 1st derivative, stencil shuffle = %r"
-                    % (half_width * 2 + 1, shuffle)
+                    f"{(half_width * 2 + 1)}-point central difference for 1st derivative, stencil shuffle = {shuffle}"
                 ):
                     stencil = [i for i in range(-half_width, half_width + 1)]
                     if shuffle:
@@ -116,8 +115,7 @@ class FiniteDifferenceTest(unittest.TestCase):
         for shuffle in [False, True]:
             for half_width in range(1, 6):
                 with self.subTest(
-                    "%d-point central difference for 2nd derivative, stencil shuffle = %r"
-                    % (half_width * 2 + 1, shuffle),
+                    f"{(half_width * 2 + 1)}-point central difference for 2nd derivative, stencil shuffle = {shuffle}"
                 ):
                     stencil = [i for i in range(-half_width, half_width + 1)]
                     if shuffle:
@@ -197,8 +195,7 @@ class FiniteDifferenceTest(unittest.TestCase):
         for shuffle in [False, True]:
             for width in range(1, 11):
                 with self.subTest(
-                    "%d-point forward difference for 1st derivative, stencil shuffle = %r"
-                    % (width + 1, shuffle)
+                    f"{(width + 1)}-point forward difference for 1st derivative, stencil shuffle = {shuffle}"
                 ):
                     stencil = [i for i in range(width + 1)]
                     random.shuffle(stencil)
@@ -257,8 +254,7 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         for half_width in range(1, 6):
             with self.subTest(
-                "coefficents of %d-point central difference for 1st derivative"
-                % (half_width * 2 + 1)
+                f"coefficents of {(half_width * 2 + 1)}-point central difference for 1st derivative"
             ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
                 actual = coefficients(stencil, 1)
@@ -266,8 +262,7 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         for half_width in range(1, 6):
             with self.subTest(
-                "coefficents of %d-point central difference for 1st derivative"
-                % (half_width * 2 + 1)
+                f"coefficents of {(half_width * 2 + 1)}-point central difference for 1st derivative"
             ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
                 random.shuffle(stencil)
@@ -284,8 +279,7 @@ class FiniteDifferenceTest(unittest.TestCase):
         ]
         for half_width in range(1, 6):
             with self.subTest(
-                "numerator and denominator of coefficients of %d-point central difference for 1st derivative"
-                % (half_width * 2 + 1)
+                f"numerator and denominator of coefficients of {(half_width * 2 + 1)}-point central difference for 1st derivative"
             ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
                 actual = coefficients(stencil, 1, as_numer_denom=True)
@@ -293,8 +287,7 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         for half_width in range(1, 6):
             with self.subTest(
-                "numerator and denominator of coefficients of %d-point central difference for 1st derivative"
-                % (half_width * 2 + 1)
+                f"numerator and denominator of coefficients of {(half_width * 2 + 1)}-point central difference for 1st derivative"
             ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
                 random.shuffle(stencil)
@@ -329,8 +322,7 @@ class FiniteDifferenceTest(unittest.TestCase):
         ]
         for half_width in range(1, 6):
             with self.subTest(
-                "truncation error of %d-point central difference for 1st derivative"
-                % (half_width * 2 + 1)
+                f"truncation error of {(half_width * 2 + 1)}-point central difference for 1st derivative"
             ):
                 stencil = [i for i in range(-half_width, half_width + 1)]
                 actual = truncation_error(stencil, 1)

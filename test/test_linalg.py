@@ -22,8 +22,7 @@ class LinalgTest(unittest.TestCase):
             vec1 = random_int(-n, n)
             vec2 = random_int(-n, n)
             with self.subTest(
-                "dot_product of 2 vectors with %d elements with evaluate True"
-                % len(vec1)
+                f"dot_product of 2 vectors with {len(vec1)} elements with evaluate True"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
                 actural = dot_product(vec1, vec2, evaluate=True)
@@ -34,8 +33,7 @@ class LinalgTest(unittest.TestCase):
             vec1 = [sp.symbols(random_string(2)) for _ in range(num_max)]
             vec2 = [sp.symbols(random_string(2)) for _ in range(num_max)]
             with self.subTest(
-                "dot_product of 2 vectors with %d elements with evaluate True"
-                % len(vec1)
+                f"dot_product of 2 vectors with {len(vec1)} elements with evaluate True"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
                 actural = dot_product(vec1, vec2, evaluate=True)
@@ -46,8 +44,7 @@ class LinalgTest(unittest.TestCase):
             vec1 = [sp.symbols(random_string(2)) for _ in range(num_max)]
             vec2 = [sp.symbols(random_string(2)) for _ in range(num_max)]
             with self.subTest(
-                "dot_product of 2 vectors with %d elements with evaluate False"
-                % len(vec1)
+                f"dot_product of 2 vectors with {len(vec1)} elements with evaluate False"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
                 actural = dot_product(vec1, vec2, evaluate=False)
@@ -58,7 +55,7 @@ class LinalgTest(unittest.TestCase):
         vec1 = [sp.symbols(random_string(2)) for _ in range(num_max)]
         vec2 = [sp.symbols(random_string(2)) for _ in range(num_max)]
         with self.subTest(
-            "dot_product of 2 vectors with %d elements with evaluate False" % len(vec1)
+            f"dot_product of 2 vectors with {len(vec1)} elements with evaluate False"
         ):
             begin_ = len(vec2) - 1
             end_ = -1
@@ -79,9 +76,7 @@ class LinalgTest(unittest.TestCase):
         for n in range(1, num_max):
             numer = random_int(-n, n)
             denom = random.randint(1, 100)
-            with self.subTest(
-                "dev of %d elements numerator and %d" % (len(numer), denom)
-            ):
+            with self.subTest(f"dev of {len(numer)} elements numerator and {denom}"):
                 expected = sum([n for n in numer]) / denom
                 actural = div(sum([n for n in numer]), denom)
                 self.assertEqual(expected, actural)
@@ -90,9 +85,7 @@ class LinalgTest(unittest.TestCase):
         for n in range(1, num_max):
             numer = [sp.symbols(random_string(2)) for _ in range(num_max)]
             denom = sp.symbols(random_string(2))
-            with self.subTest(
-                "dev of %d elements numerator and %s" % (len(numer), denom)
-            ):
+            with self.subTest(f"dev of {len(numer)} elements numerator and {denom}"):
                 expected = sum([n for n in numer]) / denom
                 actural = div(sum([n for n in numer]), denom)
                 self.assertEqual(expected, actural)
