@@ -87,8 +87,8 @@ def create_function_symbols(
         # such as -2*h and 1.5*h, extract the number as coefficint.
         # coordinate is 0, that is a number, use 0 as the stencil
 
-        subscript = ["_{%d}" % i if i.is_integer else "_{%2.1f}" % i for i in stencil]
-        str = "".join([function + s + " " for s in subscript])
+        subscript = [f"{i}" if i.is_integer else f"{float(i):2.1f}" for i in stencil]
+        str = "".join([function + "_{" + s + "}" + " " for s in subscript])
         # make string "f_{-1} f_{-0.5} ..." to pass `sympy.symbols`.
         # tail space is ignored in `sympy.symbols`
 
@@ -98,10 +98,10 @@ def create_function_symbols(
         # make the return value's type a tuple.
         # sp.symbols(str) returns sp.core.symbol.Symbol
         # when str does not contain space
-        # althought sp.symbols("_0:{:d}".format(n)) returns tuple
+        # althought sp.symbols(f"_0:{n}") returns tuple
         # when n==1.
     else:
-        f_set = sp.symbols(function + "_0:{:d}".format(len(x_set)))
+        f_set = sp.symbols(function + f"_0:{len(x_set)}")
         # make a tuple of sympy symbols from string.
 
     return f_set

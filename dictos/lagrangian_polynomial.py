@@ -64,7 +64,7 @@ def lagrangian_basis(x, degree: int, point_at: int, x_set: list = None):
     # n+1 points are required to construct an n-th degree polynomial.
 
     if x_set is None:
-        x_set = sp.symbols("x0:{:d}".format(num_set))
+        x_set = sp.symbols(f"x0:{num_set}")
         # create set of coordinate values like `(x0, x1, x2, ...)`
 
     index = list(range(num_set))
@@ -107,7 +107,7 @@ def lagrangian_poly(x, x_set, f_set):
         >>> x = sp.symbols("x")
         >>> dx = sp.symbols("dx")
         >>> x_set = [-dx, 0, dx]
-        >>> f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+        >>> f_set = sp.symbols(f"f0:{len(x_set)}")
         >>> lp.lagrangian_poly(x, x_set, f_set)
         f0*x*(-dx + x)/(2*dx**2) - f1*(-dx + x)*(dx + x)/dx**2 + f2*x*(dx + x)/(2*dx**2)
     """

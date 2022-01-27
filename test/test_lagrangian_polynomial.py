@@ -29,7 +29,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
 
         expected = [(x - x1) / (x0 - x1), (x - x0) / (x1 - x0)]
         for i in range(2):
-            with self.subTest("2-point formulation defined at x_set[%d]" % i):
+            with self.subTest(f"2-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=1, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -39,7 +39,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
             (x - x0) * (x - x1) / ((x2 - x0) * (x2 - x1)),
         ]
         for i in range(3):
-            with self.subTest("3-point formulation  defined at x_set[%d]" % i):
+            with self.subTest(f"3-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=2, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -50,7 +50,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
             (x - x0) * (x - x1) * (x - x2) / ((x3 - x0) * (x3 - x1) * (x3 - x2)),
         ]
         for i in range(4):
-            with self.subTest("4-point formulation defined at x_set[%d]" % i):
+            with self.subTest(f"4-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=3, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -82,7 +82,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
             / ((x4 - x0) * (x4 - x1) * (x4 - x2) * (x4 - x3)),
         ]
         for i in range(5):
-            with self.subTest("5-point formulation defined at x_set[%d]" % i):
+            with self.subTest(f"5-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=4, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -95,7 +95,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
             / ((x0 - x1) * (x0 - x2) * (x0 - x3) * (x0 - x4) * (x0 - x5))
         ]
         for i in range(1):
-            with self.subTest("6-point formulation defined at x_set[%d]" % i):
+            with self.subTest(f"6-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=5, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -109,7 +109,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
             / ((x0 - x1) * (x0 - x2) * (x0 - x3) * (x0 - x4) * (x0 - x5) * (x0 - x6))
         ]
         for i in range(1):
-            with self.subTest("7-point formulation defined at x_set[%d]" % i):
+            with self.subTest(f"7-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=6, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -132,7 +132,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
             )
         ]
         for i in range(1):
-            with self.subTest("8-point formulation defined at x_set[%d]" % i):
+            with self.subTest(f"8-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=7, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -157,7 +157,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
             )
         ]
         for i in range(1):
-            with self.subTest("9-point formulation defined at x_set[%d]" % i):
+            with self.subTest(f"9-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=8, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -184,7 +184,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
             )
         ]
         for i in range(1):
-            with self.subTest("10-point formulation defined at x_set[%d]" % i):
+            with self.subTest(f"10-point formulation defined at x_set[{i}]"):
                 actual = lagrangian_basis(x, degree=9, point_at=i)
                 self.assertEqual(expected[i], actual)
 
@@ -218,9 +218,9 @@ class LagrangianPolynomialTest(unittest.TestCase):
         ]
         point = [2, 3, 4, 5]
         for i in range(len(expected)):
-            with self.subTest("%d-point forward formulation" % point[i]):
+            with self.subTest(f"{point[i]}-point forward formulation"):
                 x_set = [j * h for j in range(point[i])]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = lagrangian_poly(x, x_set, f_set)
 
                 self.assertEqual(expected[i], actual)
@@ -243,9 +243,9 @@ class LagrangianPolynomialTest(unittest.TestCase):
         ]
         point = [2, 3, 4, 5]
         for i in range(len(expected)):
-            with self.subTest("%d-point backward formulation" % point[i]):
+            with self.subTest(f"{point[i]}-point backward formulation"):
                 x_set = [j * h for j in range(-point[i] + 1, 1)]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = lagrangian_poly(x, x_set, f_set)
 
                 self.assertEqual(expected[i], actual)
@@ -263,12 +263,12 @@ class LagrangianPolynomialTest(unittest.TestCase):
         ]
         point = [3, 5]
         for i in range(len(expected)):
-            with self.subTest("%d-point forward formulation" % point[i]):
+            with self.subTest(f"{point[i]}-point forward formulation"):
                 begin_ = -(point[i] - 1) // 2
                 end_ = (point[i] - 1) // 2 + 1
                 stencil = range(begin_, end_)
                 x_set = [j * h for j in stencil]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = lagrangian_poly(x, x_set, f_set)
 
                 self.assertEqual(expected[i], actual)
@@ -282,7 +282,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
         expected = [1, 0, -1, 0, 1]
         for i in range(len(expected)):
             n = i + 1
-            with self.subTest("%d-th derivative of sin(x) at x=0" % n):
+            with self.subTest(f"{n}-th derivative of sin(x) at x=0"):
                 actual = derivative(expr, x, deriv=n)
 
                 self.assertEqual(expected[i], actual)
@@ -291,7 +291,7 @@ class LagrangianPolynomialTest(unittest.TestCase):
         expr = sp.exp(x)
         for i in range(5):
             n = i + 1
-            with self.subTest("%d-th derivative of exp(x) at x=0" % n):
+            with self.subTest(f"{n}-th derivative of exp(x) at x=0"):
                 actual = derivative(expr, x, deriv=n)
 
                 self.assertEqual(1, actual)
@@ -314,10 +314,10 @@ class LagrangianPolynomialTest(unittest.TestCase):
         point = [2, 3, 4, 5]
         for i in range(len(expected)):
             with self.subTest(
-                "%d-point forward difference for 1st derivative" % point[i]
+                f"{point[i]}-point forward difference for 1st derivative"
             ):
                 x_set = [j * h for j in range(point[i])]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = derivative(lagrangian_poly(x, x_set, f_set), x, deriv=1)
 
                 self.assertEqual(expected[i], actual)
@@ -332,10 +332,10 @@ class LagrangianPolynomialTest(unittest.TestCase):
         point = [2, 3, 4, 5]
         for i in range(len(expected)):
             with self.subTest(
-                "%d-point backward difference for 1st derivative" % point[i]
+                f"{point[i]}-point backward difference for 1st derivative"
             ):
                 x_set = [j * h for j in range(-point[i] + 1, 1)]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = derivative(lagrangian_poly(x, x_set, f_set), x, deriv=1)
 
                 self.assertEqual(expected[i], actual)
@@ -348,13 +348,13 @@ class LagrangianPolynomialTest(unittest.TestCase):
         point = [3, 5]
         for i in range(len(expected)):
             with self.subTest(
-                "%d-point forward difference for 1st derivative" % point[i]
+                f"{point[i]}-point forward difference for 1st derivative"
             ):
                 begin_ = -(point[i] - 1) // 2
                 end_ = (point[i] - 1) // 2 + 1
                 stencil = range(begin_, end_)
                 x_set = [j * h for j in stencil]
-                f_set = sp.symbols("f0:{:d}".format(len(x_set)))
+                f_set = sp.symbols(f"f0:{len(x_set)}")
                 actual = derivative(lagrangian_poly(x, x_set, f_set), x, 1)
 
                 self.assertEqual(expected[i], actual)

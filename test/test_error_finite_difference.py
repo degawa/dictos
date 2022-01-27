@@ -29,7 +29,7 @@ class ErrorFiniteDifferenceTest(unittest.TestCase):
         """
 
         for deriv in range(-10, 1):
-            with self.subTest("%d-th order of derivative" % deriv):
+            with self.subTest(f"{deriv}-th order of derivative"):
                 with self.assertRaises(UnsupportedOrderOfDerivativeError):
                     coefficients([-2, -1, 0, 1, 2], deriv)
 

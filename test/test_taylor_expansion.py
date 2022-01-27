@@ -21,7 +21,7 @@ class TaylorExpansionTest(unittest.TestCase):
         for _ in range(10):
             n = random.randint(0, np.iinfo(np.int32).max)
             with self.subTest(n):
-                expected = sp.symbols("f^(%d)" % n)
+                expected = sp.symbols(f"f^({n})")
                 actual = derivative_symbol("f", n)
                 self.assertEqual(expected, actual)
 
@@ -102,7 +102,7 @@ class TaylorExpansionTest(unittest.TestCase):
         for d in range(-half_width, half_width + 1):
             for i in range(half_width + 1):
                 with self.subTest(
-                    "Taylor series around %dh up to %d order derivative" % (d, i)
+                    f"Taylor series around {d}h up to {i} order derivative"
                 ):
                     actual = taylor_series(d * h, i)
                     self.assertEqual(expected[i].subs(a, d), actual)

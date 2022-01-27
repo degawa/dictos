@@ -24,7 +24,7 @@ class UnsupportedOrderOfDerivativeError(TaylroExpansionError):
     def __init__(self, deriv: int) -> None:
         self.message = (
             "The Taylor Expansion does not support "
-            + "the derivative of the specified order {}. ".format(deriv)
+            + f"the derivative of the specified order {deriv}. "
             + "Specify an order of derivative greater than 0."
         )
 
@@ -44,7 +44,7 @@ class NumberOfExpansionTermsIsNotNaturalNumberError(TaylroExpansionError):
 
     def __init__(self, term: int) -> None:
         self.message = (
-            "The number of series expansion terms {} ".format(term)
+            f"The number of series expansion terms {term} "
             + "is not the natural number. "
             + "Specify the number of terms greater than 0."
         )

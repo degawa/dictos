@@ -61,7 +61,7 @@ class GenTest(unittest.TestCase):
         with self.subTest("random_string returns str"):
             self.assertTrue(type(string) is str)
 
-        with self.subTest("random_string returns str that has length %d" % strlen):
+        with self.subTest(f"random_string returns str that has length {strlen}"):
             self.assertTrue(len(string) == strlen)
 
 

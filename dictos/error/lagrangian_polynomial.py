@@ -28,9 +28,7 @@ class InconsistentDataSetError(LagrangianPolynomialError):
         self.f_set = f_set
         self.message = (
             "Inconsistent data set of independent variable and function "
-            + "The number of elements of x_set[{:d}] and f_fet[{:d}] are different.".format(
-                len(x_set), len(f_set)
-            )
+            + f"The number of elements of x_set[{len(x_set)}] and f_fet[{len(f_set)}] are different."
         )
 
     def __str__(self) -> str:
@@ -50,7 +48,7 @@ class DegreeOfPolynomialIsNotNaturalNumberError(LagrangianPolynomialError):
     def __init__(self, degree) -> None:
         self.degree = degree
         self.message = (
-            "The degree of polynomial ({}) is not the natural number. ".format(degree)
+            f"The degree of polynomial ({degree}) is not the natural number. "
             + "Specify the degree of polynomial greater than 0."
         )
 
@@ -76,9 +74,7 @@ class InconsistentDataSetAndDegreeOfPolynomialError(LagrangianPolynomialError):
         self.x_set = x_set
         self.message = (
             "Inconsistency between the degree of polynomial and data set. "
-            + "The degree of polynomial ({}) must be the number of data set ({}) - 1.".format(
-                degree, len(x_set)
-            )
+            + f"The degree of polynomial ({degree}) must be the number of data set ({len(x_set)}) - 1."
         )
 
     def __str__(self) -> str:

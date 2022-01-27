@@ -87,7 +87,7 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x)
 
                 f = DEFAULT_FUNCTION
-                actual = sp.symbols((f + "_0:{:d}").format(n))
+                actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
 
                 # staggered grid case
@@ -96,7 +96,7 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x)
 
                 f = DEFAULT_FUNCTION
-                actual = sp.symbols((f + "_0:{:d}").format(n))
+                actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
 
         # subtest 3
@@ -112,7 +112,7 @@ class UtilsTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x, function=f)
 
-                actual = sp.symbols((f + "_0:{:d}").format(n))
+                actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
 
                 # staggered grid case
@@ -120,7 +120,7 @@ class UtilsTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x, function=f)
 
-                actual = sp.symbols((f + "_0:{:d}").format(n))
+                actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
 
         # subtest 5
@@ -136,10 +136,9 @@ class UtilsTest(unittest.TestCase):
 
                 f = DEFAULT_FUNCTION
                 subscript = [
-                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
-                    for i in stencil
+                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
                 ]
-                str = "".join([f + s + " " for s in subscript])
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
@@ -149,10 +148,9 @@ class UtilsTest(unittest.TestCase):
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
                 subscript = [
-                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
-                    for i in stencil
+                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
                 ]
-                str = "".join([f + s + " " for s in subscript])
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
@@ -172,10 +170,9 @@ class UtilsTest(unittest.TestCase):
                 )
 
                 subscript = [
-                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
-                    for i in stencil
+                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
                 ]
-                str = "".join([f + s + " " for s in subscript])
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
@@ -187,10 +184,9 @@ class UtilsTest(unittest.TestCase):
                 )
 
                 subscript = [
-                    "_{%d}" % i if isinstance(i, int) else "_{%2.1f}" % i
-                    for i in stencil
+                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
                 ]
-                str = "".join([f + s + " " for s in subscript])
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 

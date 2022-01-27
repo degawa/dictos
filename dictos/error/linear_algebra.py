@@ -30,9 +30,7 @@ class InconsistentDataSetError(LinearAlgebraError):
         self.message = (
             "Inconsistent data set of two vectors. "
             + "The number of elements of "
-            + "vector 1 [{:d}] and vector 2 [{:d}] are different.".format(
-                len(self.vec1), len(self.vec2)
-            )
+            + f"vector 1 [{len(self.vec1)}] and vector 2 [{len(self.vec2)}] are different."
         )
 
     def __str__(self) -> str:
