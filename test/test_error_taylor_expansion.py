@@ -5,7 +5,6 @@ import sys
 sys.path.insert(1, "..")
 
 import unittest
-import sympy as sp
 
 from dictos.taylor_expansion import taylor_series, derivative_symbol
 from dictos.error.taylor_expansion import (

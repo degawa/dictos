@@ -5,7 +5,6 @@ import sys
 sys.path.insert(1, "..")
 
 import unittest
-import sympy as sp
 
 from dictos.error.internal import UnexpectedDenominatorError
 

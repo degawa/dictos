@@ -5,7 +5,6 @@ import sys
 sys.path.insert(1, "..")
 
 import unittest
-import sympy as sp
 
 from dictos.finite_difference import coefficients
 from dictos.error.finite_difference import UnsupportedOrderOfDerivativeError
