@@ -47,7 +47,7 @@ def create_coordinate_symbols(stencil: list, interval: str = DEFAULT_INTERVAL) -
     # in which terms are arranged in the order of the stencil.
     # a local variable is used to not change the passed stencil.
 
-    return [sorted_stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
+    return [s * sp.symbols(interval) for s in sorted_stencil]
 
 
 def create_function_symbols(
@@ -83,7 +83,7 @@ def create_function_symbols(
         # such as -2*h and 1.5*h, extract the number as coefficint.
         # coordinate is 0, that is a number, use 0 as the stencil
 
-        subscript = [f"{i}" if i.is_integer else f"{float(i):2.1f}" for i in stencil]
+        subscript = [to_subscript(i) for i in stencil]
         str = "".join([function + "_{" + s + "}" + " " for s in subscript])
         # make string "f_{-1} f_{-0.5} ..." to pass `sympy.symbols`.
         # tail space is ignored in `sympy.symbols`
@@ -101,3 +101,20 @@ def create_function_symbols(
         # make a tuple of sympy symbols from string.
 
     return f_set
+
+
+def to_subscript(number):
+    """
+    convert int or float to stencil subscript.
+
+    Args:
+        number (int, float, or sympy Number): a number to be a subscript.
+
+    Returns:
+        str: converted subscript.
+    """
+    n = sp.Rational(number)
+    return f"{n}" if n.is_integer else f"{float(n):2.1f}"
+    # if n is a float number, converted to "xx.x"
+    # 2-digit means the maximum stencil width is 99.
+    # 1 digimal place is enough because equidistance grid is supported.

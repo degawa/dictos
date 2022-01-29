@@ -6,10 +6,15 @@ sys.path.insert(1, "..")
 
 import unittest
 import sympy as sp
+import numpy as np
 import random
 
 from dictos.spec import DEFAULT_INTERVAL, DEFAULT_FUNCTION
-from dictos.stencil import create_coordinate_symbols, create_function_symbols
+from dictos.stencil import (
+    create_coordinate_symbols,
+    create_function_symbols,
+    to_subscript,
+)
 from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
 
 
@@ -114,9 +119,7 @@ class StencilTest(unittest.TestCase):
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
                 f = DEFAULT_FUNCTION
-                subscript = [
-                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
-                ]
+                subscript = [f"{s}" for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
@@ -126,9 +129,7 @@ class StencilTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
-                subscript = [
-                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
-                ]
+                subscript = [to_subscript(s) for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
@@ -146,9 +147,7 @@ class StencilTest(unittest.TestCase):
                     x, function=f, same_subscripts_as_stencil=True
                 )
 
-                subscript = [
-                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
-                ]
+                subscript = [f"{s}" for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
@@ -160,11 +159,48 @@ class StencilTest(unittest.TestCase):
                     x, function=f, same_subscripts_as_stencil=True
                 )
 
-                subscript = [
-                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
-                ]
+                subscript = [to_subscript(s) for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
+                self.assertEqual(expected, actual)
+
+    def test_to_subscript(self):
+        """
+        test suite for stencil.to_subscript.
+        """
+
+        num = random_int(-20, 20)
+        for n in num:
+            with self.subTest(f"primitive variable {n} to subscript"):
+                expected = str(n)
+                actual = to_subscript(n)
+
+                self.assertEqual(expected, actual)
+
+        num = random_int(-20, 20, exclude=[0])
+        for n in num:
+            f = (abs(n) - 0.5) * np.sign(n)
+            with self.subTest(f"primitive variable {f} to subscript"):
+                expected = str(f)
+                actual = to_subscript(f)
+
+                self.assertEqual(expected, actual)
+
+        num = random_int(-20, 20)
+        for n in num:
+            with self.subTest(f"sympy number {n} to subscript"):
+                expected = str(n)
+                actual = to_subscript(sp.Number(n))
+
+                self.assertEqual(expected, actual)
+
+        num = random_int(-20, 20, exclude=[0])
+        for n in num:
+            f = (abs(n) - 0.5) * np.sign(n)
+            with self.subTest(f"sympy number {f} to subscript"):
+                expected = str(f)
+                actual = to_subscript(sp.Number(f))
+
                 self.assertEqual(expected, actual)
 
 
