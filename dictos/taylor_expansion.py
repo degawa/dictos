@@ -1,7 +1,6 @@
 import sympy as sp
 
-from .spec import is_not_natrual_number
-from .utils import DEFAULT_FUNCTION
+from .spec import DEFAULT_FUNCTION, is_not_natrual_number
 from .linalg import dot_product
 from .error.taylor_expansion import (
     UnsupportedOrderOfDerivativeError,

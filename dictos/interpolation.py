@@ -1,12 +1,13 @@
 import sympy as sp
 
-from .spec import has_zero
-from .utils import (
+from .spec import (
     DEFAULT_INTERVAL,
     DEFAULT_FUNCTION,
     DEFAULT_INDEPENDENT_VARIABLE,
-    create_coordinate_symbols,
-    create_function_symbols,
+    has_zero,
+)
+from .stencil import create_coordinate_symbols, create_function_symbols
+from .utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
 )
