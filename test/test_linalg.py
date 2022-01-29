@@ -78,8 +78,8 @@ class LinalgTest(unittest.TestCase):
             denom = random.randint(1, 100)
             with self.subTest(f"dev of {len(numer)} elements numerator and {denom}"):
                 expected = sum([n for n in numer]) / denom
-                actural = div(sum([n for n in numer]), denom)
-                self.assertEqual(expected, actural)
+                actual = div(sum([n for n in numer]), denom)
+                self.assertEqual(expected, actual)
 
         num_max = random.randint(1, 10)
         for n in range(1, num_max):
@@ -87,8 +87,8 @@ class LinalgTest(unittest.TestCase):
             denom = sp.symbols(random_string(2))
             with self.subTest(f"dev of {len(numer)} elements numerator and {denom}"):
                 expected = sum([n for n in numer]) / denom
-                actural = div(sum([n for n in numer]), denom)
-                self.assertEqual(expected, actural)
+                actual = div(sum([n for n in numer]), denom)
+                self.assertEqual(expected, actual)
 
     def test_linalg_exception(self):
         """test suite for exception in linalg"""
