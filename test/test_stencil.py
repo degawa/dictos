@@ -119,9 +119,7 @@ class StencilTest(unittest.TestCase):
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
                 f = DEFAULT_FUNCTION
-                subscript = [
-                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
-                ]
+                subscript = [f"{s}" for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
@@ -131,9 +129,7 @@ class StencilTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
-                subscript = [
-                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
-                ]
+                subscript = [to_subscript(s) for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
@@ -151,9 +147,7 @@ class StencilTest(unittest.TestCase):
                     x, function=f, same_subscripts_as_stencil=True
                 )
 
-                subscript = [
-                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
-                ]
+                subscript = [f"{s}" for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
@@ -165,9 +159,7 @@ class StencilTest(unittest.TestCase):
                     x, function=f, same_subscripts_as_stencil=True
                 )
 
-                subscript = [
-                    f"{i}" if isinstance(i, int) else f"{i:2.1f}" for i in stencil
-                ]
+                subscript = [to_subscript(s) for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
