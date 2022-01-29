@@ -25,8 +25,8 @@ class LinalgTest(unittest.TestCase):
                 f"dot_product of 2 vectors with {len(vec1)} elements with evaluate True"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
-                actural = dot_product(vec1, vec2, evaluate=True)
-                self.assertEqual(expected, actural)
+                actual = dot_product(vec1, vec2, evaluate=True)
+                self.assertEqual(expected, actual)
 
         num_max = random.randint(1, 10)
         for n in range(1, num_max):
@@ -36,8 +36,8 @@ class LinalgTest(unittest.TestCase):
                 f"dot_product of 2 vectors with {len(vec1)} elements with evaluate True"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
-                actural = dot_product(vec1, vec2, evaluate=True)
-                self.assertEqual(expected, actural)
+                actual = dot_product(vec1, vec2, evaluate=True)
+                self.assertEqual(expected, actual)
 
         num_max = random.randint(1, 10)
         for n in range(1, num_max):
@@ -47,8 +47,8 @@ class LinalgTest(unittest.TestCase):
                 f"dot_product of 2 vectors with {len(vec1)} elements with evaluate False"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
-                actural = dot_product(vec1, vec2, evaluate=False)
-                self.assertNotEqual(expected, actural)
+                actual = dot_product(vec1, vec2, evaluate=False)
+                self.assertNotEqual(expected, actual)
 
         num_max = 3
         # for n in range(1, num_max):
@@ -65,8 +65,8 @@ class LinalgTest(unittest.TestCase):
                 expected = sp.Add(
                     expected, sp.Mul(vec1[i], vec2[i], expected=False), evaluate=False
                 )
-            actural = dot_product(vec1, vec2, evaluate=False)
-            self.assertTrue(sp.simplify(expected) == sp.simplify(actural))
+            actual = dot_product(vec1, vec2, evaluate=False)
+            self.assertTrue(sp.simplify(expected) == sp.simplify(actual))
             # I couldn't find a way to get True when evaluate=False without simplify.
 
     def test_linalg_div(self):
