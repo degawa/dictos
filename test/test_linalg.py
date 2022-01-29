@@ -66,8 +66,14 @@ class LinalgTest(unittest.TestCase):
                     expected, sp.Mul(vec1[i], vec2[i], expected=False), evaluate=False
                 )
             actual = dot_product(vec1, vec2, evaluate=False)
-            self.assertTrue(sp.simplify(expected) == sp.simplify(actual))
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertTrue(
+                sp.simplify(expected) == sp.simplify(actual) and ac_str == ex_str
+            )
             # I couldn't find a way to get True when evaluate=False without simplify.
+            # string converted from sympy expr looks same as original expr.
 
     def test_linalg_div(self):
         """test suite for linalg.dot_product"""
