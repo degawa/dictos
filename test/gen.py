@@ -5,7 +5,7 @@ import string
 
 
 STENCIL_HALF_WIDTH = 20  # up to 20th order accuracy
-MAX_SYMBOL_LENGTH = 10
+MAX_SYMBOL_LENGTH = 5
 
 
 def random_string(len):
