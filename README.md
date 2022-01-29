@@ -10,7 +10,7 @@ The simplest way to install dictos is using pip.
 After cloning the dictos repository, install dictos with the commands below:
 
 ```console
-$ git clone https://github.com/degawa/dictos.git
+$ git clone https://github.com/degawa/dictos.git -b v0.3.0
 $ cd dictos
 $ pip install .
 ```
@@ -50,7 +50,7 @@ The third way to install dictos is to set the path to tell the dictos directory 
 When dictos is cloned to a directory `/home/hoge/dictos`, add the dictos path to `sys.path` as shown below before importing dictos:
 
 ```console
-$ git clone https://github.com/degawa/dictos.git -b v0.3.0
+$ git clone https://github.com/degawa/dictos.git
 $ cd dictos
 $ pwd
 /home/hoge/dictos
