@@ -25,8 +25,8 @@ class LinalgTest(unittest.TestCase):
                 f"dot_product of 2 vectors with {len(vec1)} elements with evaluate True"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
-                actural = dot_product(vec1, vec2, evaluate=True)
-                self.assertEqual(expected, actural)
+                actual = dot_product(vec1, vec2, evaluate=True)
+                self.assertEqual(expected, actual)
 
         num_max = random.randint(1, 10)
         for n in range(1, num_max):
@@ -36,8 +36,8 @@ class LinalgTest(unittest.TestCase):
                 f"dot_product of 2 vectors with {len(vec1)} elements with evaluate True"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
-                actural = dot_product(vec1, vec2, evaluate=True)
-                self.assertEqual(expected, actural)
+                actual = dot_product(vec1, vec2, evaluate=True)
+                self.assertEqual(expected, actual)
 
         num_max = random.randint(1, 10)
         for n in range(1, num_max):
@@ -47,8 +47,8 @@ class LinalgTest(unittest.TestCase):
                 f"dot_product of 2 vectors with {len(vec1)} elements with evaluate False"
             ):
                 expected = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
-                actural = dot_product(vec1, vec2, evaluate=False)
-                self.assertNotEqual(expected, actural)
+                actual = dot_product(vec1, vec2, evaluate=False)
+                self.assertNotEqual(expected, actual)
 
         num_max = 3
         # for n in range(1, num_max):
@@ -65,9 +65,15 @@ class LinalgTest(unittest.TestCase):
                 expected = sp.Add(
                     expected, sp.Mul(vec1[i], vec2[i], expected=False), evaluate=False
                 )
-            actural = dot_product(vec1, vec2, evaluate=False)
-            self.assertTrue(sp.simplify(expected) == sp.simplify(actural))
+            actual = dot_product(vec1, vec2, evaluate=False)
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertTrue(
+                sp.simplify(expected) == sp.simplify(actual) and ac_str == ex_str
+            )
             # I couldn't find a way to get True when evaluate=False without simplify.
+            # string converted from sympy expr looks same as original expr.
 
     def test_linalg_div(self):
         """test suite for linalg.dot_product"""
@@ -78,8 +84,8 @@ class LinalgTest(unittest.TestCase):
             denom = random.randint(1, 100)
             with self.subTest(f"dev of {len(numer)} elements numerator and {denom}"):
                 expected = sum([n for n in numer]) / denom
-                actural = div(sum([n for n in numer]), denom)
-                self.assertEqual(expected, actural)
+                actual = div(sum([n for n in numer]), denom)
+                self.assertEqual(expected, actual)
 
         num_max = random.randint(1, 10)
         for n in range(1, num_max):
@@ -87,8 +93,8 @@ class LinalgTest(unittest.TestCase):
             denom = sp.symbols(random_string(2))
             with self.subTest(f"dev of {len(numer)} elements numerator and {denom}"):
                 expected = sum([n for n in numer]) / denom
-                actural = div(sum([n for n in numer]), denom)
-                self.assertEqual(expected, actural)
+                actual = div(sum([n for n in numer]), denom)
+                self.assertEqual(expected, actual)
 
     def test_linalg_exception(self):
         """test suite for exception in linalg"""
