@@ -15,6 +15,8 @@ $ cd dictos
 $ pip install .
 ```
 
+<details><summary>other installation ways to avoid using pip</summary><div>
+
 ### copy dictos directory to your projects
 The second way to install dictos is simply copying the `dictos` directory in the cloned repository to other projects.
 
@@ -61,6 +63,9 @@ sys.path.insert(1, "/home/hoge/dictos")
 
 from dictos import finite_difference as fd
 ```
+
+</div>
+</details>
 
 ## A Story Telling Features
 
