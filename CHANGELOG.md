@@ -5,7 +5,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Changes
-- replaced % format and str.format() with fstring #71
+- replaced % format and str.format() with fstring. #71
+- moved functions related to stencil to stencil module. #81
+- moved default parameter to spec module. #81
+
+### New features
+- added new module for handling stencil. #81
+- added funciton to convert `int` or `float` to string for subscript. #76
+
+### Repository updates
+- update README to specify install version during cloning #83
+- update README to hide install methods #83
 
 ## [0.3.0] - 2022-01-25
 ### Breaking changes
