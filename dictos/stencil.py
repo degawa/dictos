@@ -47,7 +47,7 @@ def create_coordinate_symbols(stencil: list, interval: str = DEFAULT_INTERVAL) -
     # in which terms are arranged in the order of the stencil.
     # a local variable is used to not change the passed stencil.
 
-    return [sorted_stencil[i] * sp.symbols(interval) for i in range(len(stencil))]
+    return [s * sp.symbols(interval) for s in sorted_stencil]
 
 
 def create_function_symbols(
