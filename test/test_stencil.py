@@ -164,9 +164,9 @@ class StencilTest(unittest.TestCase):
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
-    def test_to_string(self):
+    def test_to_subscript(self):
         """
-        test suite for stencil.to_stencil.
+        test suite for stencil.to_subscript.
         """
 
         num = random_int(-20, 20)
