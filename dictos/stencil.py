@@ -101,3 +101,20 @@ def create_function_symbols(
         # make a tuple of sympy symbols from string.
 
     return f_set
+
+
+def to_subscript(number):
+    """
+    convert int or float to stencil subscript.
+
+    Args:
+        number (int, float, or sympy Number): a number to be a subscript.
+
+    Returns:
+        str: converted subscript.
+    """
+    n = sp.Rational(number)
+    return f"{n}" if n.is_integer else f"{float(n):2.1f}"
+    # if n is a float number, converted to "xx.x"
+    # 2-digit means the maximum stencil width is 99.
+    # 1 digimal place is enough because equidistance grid is supported.
