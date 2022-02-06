@@ -41,9 +41,9 @@ def equation(
     Examples:
         >>> from dictos import finite_difference as fd
         >>> fd.equation([-2, -1, 0, 1, 2], deriv=1)
-        (f_0 - 8*f_1 + 8*f_3 - f_4)/(12*h)
+        (f_{-2} - 8*f_{-1} + 8*f_{1} - f_{2})/(12*h)
         >>> fd.equation([-1.5, -0.5, 0, 0.5, 1.5], deriv=1)
-        (f_0 - 27*f_1 + 27*f_3 - f_4)/(24*h)
+        (f_{-1.5} - 27*f_{-0.5} + 27*f_{0.5} - f_{1.5})/(24*h)
     """
 
     x_set = create_coordinate_symbols(stencil, interval)
