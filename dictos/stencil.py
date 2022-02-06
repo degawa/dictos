@@ -50,32 +50,32 @@ def create_coordinate_symbols(stencil: list, interval: str = DEFAULT_INTERVAL) -
     return [s * sp.symbols(interval) for s in sorted_stencil]
 
 
-def create_function_symbols(
+def create_differentiand_symbols(
     x_set: list,
-    function: str = DEFAULT_DIFFERENTIAND,
+    differentiand: str = DEFAULT_DIFFERENTIAND,
     same_subscripts_as_stencil: bool = False,
 ):
     """
-    create set of function symbols at coordinates from x_set.
+    create set of differentiand symbols at coordinates from x_set.
     input a list of sympy symbols like `[-h, 0, h]` as x_set,
-    this returns a list of functions at x_set like `[f_0, f_1, f_2]`.
+    this returns a list of differentiands at x_set like `[f_0, f_1, f_2]`.
 
     Args:
         x_set (list of sympy symbols): coordinates on regular or
             staggered grid corresponding to the stencil.
-        function (str, optional): a function symbol like `f`.
-            Defaults to DEFAULT_FUNCTION.
+        differentiand (str, optional): a differentiand symbol like `f`.
+            Defaults to DEFAULT_DIFFERENTIAND.
         same_subscripts_as_stencil (bool, optional): flag
-            to make function subscripts the same as the stencil.
+            to make differentiand subscripts the same as the stencil.
             Defaults to False, the subscripts start from 0.
 
     Returns:
-        tuple of sympy symbols: tuple of functions at passed coordinates.
+        tuple of sympy symbols: tuple of differentiands at passed coordinates.
             When same_subscripts_as_stencil is set,
             subscripts is enclused in curly braces like `f_{0}`.
     """
     if same_subscripts_as_stencil:
-        # make function subscripts the same as the stencil
+        # make differentiand subscripts the same as the stencil
 
         stencil = [x if x.is_number else sp.poly(x).coeffs()[0] for x in x_set]
         # extract numbers from list of coordinates.
@@ -84,7 +84,7 @@ def create_function_symbols(
         # coordinate is 0, that is a number, use 0 as the stencil
 
         subscript = [to_subscript(i) for i in stencil]
-        str = "".join([function + "_{" + s + "}" + " " for s in subscript])
+        str = "".join([differentiand + "_{" + s + "}" + " " for s in subscript])
         # make string "f_{-1} f_{-0.5} ..." to pass `sympy.symbols`.
         # tail space is ignored in `sympy.symbols`
 
@@ -97,7 +97,7 @@ def create_function_symbols(
         # althought sp.symbols(f"_0:{n}") returns tuple
         # when n==1.
     else:
-        f_set = sp.symbols(function + f"_0:{len(x_set)}")
+        f_set = sp.symbols(differentiand + f"_0:{len(x_set)}")
         # make a tuple of sympy symbols from string.
 
     return f_set

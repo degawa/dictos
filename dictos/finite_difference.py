@@ -6,7 +6,7 @@ from .spec import (
     DEFAULT_INDEPENDENT_VARIABLE,
     is_not_natrual_number,
 )
-from .stencil import create_coordinate_symbols, create_function_symbols
+from .stencil import create_coordinate_symbols, create_differentiand_symbols
 from .utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
@@ -34,7 +34,7 @@ def equation(
         interval (str, optional): an interval symbol like `dx`.
             Defaults to DEFAULT_INTERVAL.
         same_subscripts_as_stencil (bool, optional): flag
-            to make function subscripts the same as the stencil.
+            to make differentiand subscripts the same as the stencil.
             Defaults to False, the subscripts start from 0.
         evaluate (bool, optional): flag to evaluate the result.
             Defaults to True.
@@ -51,22 +51,22 @@ def equation(
     """
 
     x_set = create_coordinate_symbols(stencil, interval)
-    f_set = create_function_symbols(
+    f_set = create_differentiand_symbols(
         x_set, DEFAULT_DIFFERENTIAND, same_subscripts_as_stencil
     )
-    # create set of coordinate and function symbols from stencil.
+    # create set of coordinate and differentiand symbols from stencil.
     # [-2, -1, 0, 1, 2] -> [-2*h, -h, 0, h, 2*h]
     # [-2*h, -h, 0, h, 2*h] -> [f_0, f_1, f_2, f_3, f_4]
     #                          [f_{-2}, f_{-1}, f_{0}, f_{1}, f_{2}]
     #                          (same_subscripts_as_stencil = True)
 
     # derive finite difference coefficients based on given stencil,
-    # and then calculate dot product of the coef and function values.
+    # and then calculate dot product of the coefs and differentiands.
     if evaluate:
         coef = coefficients(stencil, deriv)
         eq = sp.simplify(dot_product(coef, f_set) / sp.symbols(interval) ** deriv)
         # The result of dot product is divided by interval symbol,
-        # because coef does not contain interval symbol like `dx`.
+        # because `coef` does not contain interval symbol like `dx`.
         # In many case, the results obtained by above operations is
         # what you may want like (f0 - 8*f1 + 8*f3 - f4)/(12*dx),
         # but in rare cases, an equation cannnot be expressed
@@ -85,7 +85,7 @@ def equation(
             denom * sp.symbols(interval) ** deriv,
         )
         # get coefficients as numerator and denominator and then
-        # calculate dot product of numerator and function values
+        # calculate dot product of numerator and differentiands
         # without evaluation to keep the term with a coefficient of 0
         # and avoid reducing the coefficients.
         # `div` calculates division with evaluation,
@@ -133,8 +133,8 @@ def coefficients(stencil: list, deriv: int = 1, as_numer_denom: bool = False):
         # - if unsupported order of derivative (deriv < 1)
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    f_set = create_function_symbols(x_set, DEFAULT_DIFFERENTIAND)
-    # create set of coordinate and function symbols from stencil.
+    f_set = create_differentiand_symbols(x_set, DEFAULT_DIFFERENTIAND)
+    # create set of coordinate and differentiand symbols from stencil.
     # [-2, -1, 0, 1, 2] -> [-2*h, -h, 0, h, 2*h]
     # [-2*h, -h, 0, h, 2*h] -> [f_0, f_1, f_2, f_3, f_4]
 

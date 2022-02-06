@@ -6,7 +6,7 @@ from .spec import (
     DEFAULT_INDEPENDENT_VARIABLE,
     has_zero,
 )
-from .stencil import create_coordinate_symbols, create_function_symbols
+from .stencil import create_coordinate_symbols, create_differentiand_symbols
 from .utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
@@ -26,7 +26,7 @@ def equation(stencil: list, same_subscripts_as_stencil: bool = False):
         stencil (list of int): relative point numbers
             used for discretization.
         same_subscripts_as_stencil (bool, optional): flag
-            to make function subscripts the same as the stencil.
+            to make differentiand subscripts the same as the stencil.
             Defaults to False, the subscripts start from 0.
 
     Returns:
@@ -43,10 +43,10 @@ def equation(stencil: list, same_subscripts_as_stencil: bool = False):
     """
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    f_set = create_function_symbols(
+    f_set = create_differentiand_symbols(
         x_set, DEFAULT_DIFFERENTIAND, same_subscripts_as_stencil
     )
-    # create set of coordinate and function symbols from stencil.
+    # create set of coordinate and differentiand symbols from stencil.
     # [-2, -1, 1, 2] -> [-2*h, -h, h, 2*h]
     # [-2*h, -h, h, 2*h] -> [f_0, f_1, f_2, f_3]
     #                       [f_{-2}, f_{-1}, f_{1}, f_{2}]
@@ -56,7 +56,7 @@ def equation(stencil: list, same_subscripts_as_stencil: bool = False):
     # derive interpolation coefficients based on given stencil
 
     return sp.simplify(dot_product(coef, f_set))
-    # calculate dot product of the coef and function values.
+    # calculate dot product of the coefs and differentiands.
 
 
 def coefficients(stencil: list, as_numer_denom: bool = False):
@@ -95,8 +95,8 @@ def coefficients(stencil: list, as_numer_denom: bool = False):
         # raise error if stencil contains 0
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    f_set = create_function_symbols(x_set, DEFAULT_DIFFERENTIAND)
-    # create set of coordinate and function symbols from stencil.
+    f_set = create_differentiand_symbols(x_set, DEFAULT_DIFFERENTIAND)
+    # create set of coordinate and differentiand symbols from stencil.
     # [-2, -1, 1, 2] -> [-2*h, -h, h, 2*h]
     # [-2*h, -h, h, 2*h] -> [f_0, f_1, f_2, f_3]
 
