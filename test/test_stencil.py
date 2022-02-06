@@ -59,14 +59,12 @@ class StencilTest(unittest.TestCase):
     def test_create_function_symbols(self):
         """
         test suite for stencil.create_function_symbols.
-        1. it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
-        2. it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
-        3. it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
-        4. it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
+        1. it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] is passed.
+        2. it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
         """
 
         # subtest 1
-        # it returns [f_{0}, f_{1}, f_{2}, ...] when [a*h, b*h, c*h, ...] is passed.
+        # it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] is passed.
         num = random_int(2, STENCIL_HALF_WIDTH)
         for n in num:
             with self.subTest(n):
@@ -75,7 +73,9 @@ class StencilTest(unittest.TestCase):
                 expected = create_differentiand_symbols(x)
 
                 f = DEFAULT_DIFFERENTIAND
-                actual = sp.symbols(f + f"_0:{n}")
+                subscript = [to_subscript(i) for i in stencil]
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
+                actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
                 # staggered grid case
@@ -83,12 +83,13 @@ class StencilTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_differentiand_symbols(x)
 
-                f = DEFAULT_DIFFERENTIAND
-                actual = sp.symbols(f + f"_0:{n}")
+                subscript = [to_subscript(i) for i in stencil]
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
+                actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
         # subtest 2
-        # it returns [g_{0}, g_{1}, g_{2}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
+        # it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...] and 'g' are passed.
         num = random_int(2, STENCIL_HALF_WIDTH)
         for n in num:
             with self.subTest(n):
@@ -98,7 +99,9 @@ class StencilTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_differentiand_symbols(x, differentiand=f)
 
-                actual = sp.symbols(f + f"_0:{n}")
+                subscript = [to_subscript(i) for i in stencil]
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
+                actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
 
                 # staggered grid case
@@ -106,64 +109,7 @@ class StencilTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_differentiand_symbols(x, differentiand=f)
 
-                actual = sp.symbols(f + f"_0:{n}")
-                self.assertEqual(expected, actual)
-
-        # subtest 3
-        # it returns [f_{a}, f_{b}, f_{c}, ...] when [a*h, b*h, c*h, ...] and same_subscripts_as_stencil=True are passed.
-        num = random_int(2, STENCIL_HALF_WIDTH)
-        for n in num:
-            with self.subTest(n):
-                stencil = [i for i in range(n)]
-                x = create_coordinate_symbols(stencil)
-                expected = create_differentiand_symbols(
-                    x, same_subscripts_as_stencil=True
-                )
-
-                f = DEFAULT_DIFFERENTIAND
-                subscript = [f"{s}" for s in stencil]
-                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
-                actual = sp.symbols(str)
-                self.assertEqual(expected, actual)
-
-                # staggered grid case
-                stencil = [i / 2 if i != 0 else i for i in range(n)]
-                x = create_coordinate_symbols(stencil)
-                expected = create_differentiand_symbols(
-                    x, same_subscripts_as_stencil=True
-                )
-
-                subscript = [to_subscript(s) for s in stencil]
-                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
-                actual = sp.symbols(str)
-                self.assertEqual(expected, actual)
-
-        # subtest 4
-        # it returns [g_{a}, g_{b}, g_{c}, ...] when [a*h, b*h, c*h, ...], 'g', and same_subscripts_as_stencil=True are passed.
-        num = random_int(2, STENCIL_HALF_WIDTH)
-        for n in num:
-            with self.subTest(n):
-                f = random_string(random.randint(1, MAX_SYMBOL_LENGTH))
-
-                stencil = [i for i in range(n)]
-                x = create_coordinate_symbols(stencil)
-                expected = create_differentiand_symbols(
-                    x, differentiand=f, same_subscripts_as_stencil=True
-                )
-
-                subscript = [f"{s}" for s in stencil]
-                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
-                actual = sp.symbols(str)
-                self.assertEqual(expected, actual)
-
-                # staggered grid case
-                stencil = [i / 2 if i != 0 else i for i in range(n)]
-                x = create_coordinate_symbols(stencil)
-                expected = create_differentiand_symbols(
-                    x, differentiand=f, same_subscripts_as_stencil=True
-                )
-
-                subscript = [to_subscript(s) for s in stencil]
+                subscript = [to_subscript(i) for i in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
                 self.assertEqual(expected, actual)
