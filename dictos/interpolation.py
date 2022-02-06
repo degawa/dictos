@@ -17,7 +17,7 @@ from .taylor_expansion import taylor_series
 from .error.stencil import ContainsZeroError
 
 
-def equation(stencil: list, same_subscripts_as_stencil: bool = False):
+def equation(stencil: list):
     """
     derive interpolation equation based on given stencil.
     The equation compute interpolation at stencil = 0
@@ -25,9 +25,6 @@ def equation(stencil: list, same_subscripts_as_stencil: bool = False):
     Args:
         stencil (list of int): relative point numbers
             used for discretization.
-        same_subscripts_as_stencil (bool, optional): flag
-            to make differentiand subscripts the same as the stencil.
-            Defaults to False, the subscripts start from 0.
 
     Returns:
         sympy Expr: derived interpolation equation.
@@ -37,20 +34,14 @@ def equation(stencil: list, same_subscripts_as_stencil: bool = False):
         >>> intp.equation([-1, 1])
         f_0/2 + f_1/2
         >>> intp.equation([-1.5, -0.5, 0.5, 1.5])
-        -f_0/16 + 9*f_1/16 + 9*f_2/16 - f_3/16
-        >>> intp.equation([-1.5, -0.5, 0.5, 1.5],same_subscripts_as_stencil=True)
         9*f_{-0.5}/16 - f_{-1.5}/16 + 9*f_{0.5}/16 - f_{1.5}/16
     """
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    f_set = create_differentiand_symbols(
-        x_set, DEFAULT_DIFFERENTIAND, same_subscripts_as_stencil
-    )
+    f_set = create_differentiand_symbols(x_set, DEFAULT_DIFFERENTIAND)
     # create set of coordinate and differentiand symbols from stencil.
     # [-2, -1, 1, 2] -> [-2*h, -h, h, 2*h]
-    # [-2*h, -h, h, 2*h] -> [f_0, f_1, f_2, f_3]
-    #                       [f_{-2}, f_{-1}, f_{1}, f_{2}]
-    #                       (same_subscripts_as_stencil = True)
+    # [-2*h, -h, h, 2*h] -> [f_{-2}, f_{-1}, f_{1}, f_{2}]
 
     coef = coefficients(stencil)
     # derive interpolation coefficients based on given stencil
@@ -98,7 +89,7 @@ def coefficients(stencil: list, as_numer_denom: bool = False):
     f_set = create_differentiand_symbols(x_set, DEFAULT_DIFFERENTIAND)
     # create set of coordinate and differentiand symbols from stencil.
     # [-2, -1, 1, 2] -> [-2*h, -h, h, 2*h]
-    # [-2*h, -h, h, 2*h] -> [f_0, f_1, f_2, f_3]
+    # [-2*h, -h, h, 2*h] -> [f_{-2}, f_{-1}, f_{1}, f_{2}]
 
     x = sp.symbols(DEFAULT_INDEPENDENT_VARIABLE)
     eq = lagrangian_poly(x, x_set, f_set)
