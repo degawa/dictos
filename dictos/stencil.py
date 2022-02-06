@@ -68,8 +68,7 @@ def create_differentiand_symbols(
 
     Returns:
         tuple of sympy symbols: tuple of differentiands at passed coordinates.
-            When same_subscripts_as_stencil is set,
-            subscripts is enclused in curly braces like `f_{0}`.
+            Subscripts are enclused in curly braces like `f_{0}`.
     """
     # make differentiand subscripts the same as the stencil
 
