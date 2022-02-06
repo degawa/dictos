@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Breaking Changes
+- replaced the term "function" that to be differentiated with "differentiand", and changed related the parameter, functions, and arguments name. #89
+
 ### Changes
 - replaced % format and str.format() with fstring. #71
 - moved functions related to stencil to stencil module. #81

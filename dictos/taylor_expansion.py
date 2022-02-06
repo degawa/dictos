@@ -1,6 +1,6 @@
 import sympy as sp
 
-from .spec import DEFAULT_FUNCTION, is_not_natrual_number
+from .spec import DEFAULT_DIFFERENTIAND, is_not_natrual_number
 from .linalg import dot_product
 from .error.taylor_expansion import (
     UnsupportedOrderOfDerivativeError,
@@ -45,7 +45,7 @@ def taylor_series(around, up_to: int):
         # raise error if
         # - number of series expansion terms is not the natural number.
 
-    func = DEFAULT_FUNCTION
+    func = DEFAULT_DIFFERENTIAND
     # set the function symbol.
     # For a futere enhancement (specifying function symbol by users).
 
@@ -65,12 +65,12 @@ def taylor_series(around, up_to: int):
     return series
 
 
-def derivative_symbol(function: str, deriv: int):
+def derivative_symbol(differentiand: str, deriv: int):
     """
-    returns n-th order derivative of function f as a sympy symbol
+    returns n-th order derivative of differentiand f as a sympy symbol
 
     Args:
-        function (str): function symbol
+        differentiand (str): differentiand symbol
         deriv (int): order of derivative
 
     Raises:
@@ -78,7 +78,7 @@ def derivative_symbol(function: str, deriv: int):
             unsupproted order of derivative (< 0) is passed.
 
     Returns:
-        sympy symbol: n-th derivative of function
+        sympy symbol: n-th derivative of differentiand
 
     Examples:
         >>> from dictos import taylor_expansion as te
@@ -94,6 +94,10 @@ def derivative_symbol(function: str, deriv: int):
         # raise error if
         # - unsupproted order of derivative (< 0).
 
-    return sp.symbols(function) if deriv == 0 else sp.symbols(function + f"^({deriv})")
+    return (
+        sp.symbols(differentiand)
+        if deriv == 0
+        else sp.symbols(differentiand + f"^({deriv})")
+    )
     # when deriv == 0, return `"f"` not `"f^(0)"`
     # when deriv >  0, return `"f^(deriv)"`

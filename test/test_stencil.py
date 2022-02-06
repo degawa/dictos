@@ -9,10 +9,10 @@ import sympy as sp
 import numpy as np
 import random
 
-from dictos.spec import DEFAULT_INTERVAL, DEFAULT_FUNCTION
+from dictos.spec import DEFAULT_INTERVAL, DEFAULT_DIFFERENTIAND
 from dictos.stencil import (
     create_coordinate_symbols,
-    create_function_symbols,
+    create_differentiand_symbols,
     to_subscript,
 )
 from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
@@ -72,18 +72,18 @@ class StencilTest(unittest.TestCase):
             with self.subTest(n):
                 stencil = [i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(x)
+                expected = create_differentiand_symbols(x)
 
-                f = DEFAULT_FUNCTION
+                f = DEFAULT_DIFFERENTIAND
                 actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
 
                 # staggered grid case
                 stencil = [i / 2 for i in range(n)]
                 x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(x)
+                expected = create_differentiand_symbols(x)
 
-                f = DEFAULT_FUNCTION
+                f = DEFAULT_DIFFERENTIAND
                 actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
 
@@ -96,7 +96,7 @@ class StencilTest(unittest.TestCase):
 
                 stencil = [i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(x, function=f)
+                expected = create_differentiand_symbols(x, differentiand=f)
 
                 actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
@@ -104,7 +104,7 @@ class StencilTest(unittest.TestCase):
                 # staggered grid case
                 stencil = [i / 2 for i in range(n)]
                 x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(x, function=f)
+                expected = create_differentiand_symbols(x, differentiand=f)
 
                 actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
@@ -116,9 +116,11 @@ class StencilTest(unittest.TestCase):
             with self.subTest(n):
                 stencil = [i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(x, same_subscripts_as_stencil=True)
+                expected = create_differentiand_symbols(
+                    x, same_subscripts_as_stencil=True
+                )
 
-                f = DEFAULT_FUNCTION
+                f = DEFAULT_DIFFERENTIAND
                 subscript = [f"{s}" for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)
@@ -127,7 +129,9 @@ class StencilTest(unittest.TestCase):
                 # staggered grid case
                 stencil = [i / 2 if i != 0 else i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(x, same_subscripts_as_stencil=True)
+                expected = create_differentiand_symbols(
+                    x, same_subscripts_as_stencil=True
+                )
 
                 subscript = [to_subscript(s) for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
@@ -143,8 +147,8 @@ class StencilTest(unittest.TestCase):
 
                 stencil = [i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(
-                    x, function=f, same_subscripts_as_stencil=True
+                expected = create_differentiand_symbols(
+                    x, differentiand=f, same_subscripts_as_stencil=True
                 )
 
                 subscript = [f"{s}" for s in stencil]
@@ -155,8 +159,8 @@ class StencilTest(unittest.TestCase):
                 # staggered grid case
                 stencil = [i / 2 if i != 0 else i for i in range(n)]
                 x = create_coordinate_symbols(stencil)
-                expected = create_function_symbols(
-                    x, function=f, same_subscripts_as_stencil=True
+                expected = create_differentiand_symbols(
+                    x, differentiand=f, same_subscripts_as_stencil=True
                 )
 
                 subscript = [to_subscript(s) for s in stencil]
