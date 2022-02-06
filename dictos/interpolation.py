@@ -2,7 +2,7 @@ import sympy as sp
 
 from .spec import (
     DEFAULT_INTERVAL,
-    DEFAULT_FUNCTION,
+    DEFAULT_DIFFERENTIAND,
     DEFAULT_INDEPENDENT_VARIABLE,
     has_zero,
 )
@@ -43,7 +43,9 @@ def equation(stencil: list, same_subscripts_as_stencil: bool = False):
     """
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    f_set = create_function_symbols(x_set, DEFAULT_FUNCTION, same_subscripts_as_stencil)
+    f_set = create_function_symbols(
+        x_set, DEFAULT_DIFFERENTIAND, same_subscripts_as_stencil
+    )
     # create set of coordinate and function symbols from stencil.
     # [-2, -1, 1, 2] -> [-2*h, -h, h, 2*h]
     # [-2*h, -h, h, 2*h] -> [f_0, f_1, f_2, f_3]
@@ -93,7 +95,7 @@ def coefficients(stencil: list, as_numer_denom: bool = False):
         # raise error if stencil contains 0
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    f_set = create_function_symbols(x_set, DEFAULT_FUNCTION)
+    f_set = create_function_symbols(x_set, DEFAULT_DIFFERENTIAND)
     # create set of coordinate and function symbols from stencil.
     # [-2, -1, 1, 2] -> [-2*h, -h, h, 2*h]
     # [-2*h, -h, h, 2*h] -> [f_0, f_1, f_2, f_3]
@@ -156,7 +158,7 @@ def truncation_error(stencil: list, interval: str = DEFAULT_INTERVAL):
     h = sp.symbols(interval)
     return sp.expand(
         sp.simplify(
-            sp.symbols(DEFAULT_FUNCTION)
+            sp.symbols(DEFAULT_DIFFERENTIAND)
             - sp.nsimplify(intp_eq, rational=True, tolerance=1e-10)
         )
     ).as_leading_term(h)

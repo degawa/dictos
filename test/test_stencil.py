@@ -9,7 +9,7 @@ import sympy as sp
 import numpy as np
 import random
 
-from dictos.spec import DEFAULT_INTERVAL, DEFAULT_FUNCTION
+from dictos.spec import DEFAULT_INTERVAL, DEFAULT_DIFFERENTIAND
 from dictos.stencil import (
     create_coordinate_symbols,
     create_function_symbols,
@@ -74,7 +74,7 @@ class StencilTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x)
 
-                f = DEFAULT_FUNCTION
+                f = DEFAULT_DIFFERENTIAND
                 actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
 
@@ -83,7 +83,7 @@ class StencilTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x)
 
-                f = DEFAULT_FUNCTION
+                f = DEFAULT_DIFFERENTIAND
                 actual = sp.symbols(f + f"_0:{n}")
                 self.assertEqual(expected, actual)
 
@@ -118,7 +118,7 @@ class StencilTest(unittest.TestCase):
                 x = create_coordinate_symbols(stencil)
                 expected = create_function_symbols(x, same_subscripts_as_stencil=True)
 
-                f = DEFAULT_FUNCTION
+                f = DEFAULT_DIFFERENTIAND
                 subscript = [f"{s}" for s in stencil]
                 str = "".join([f + "_{" + s + "}" + " " for s in subscript])
                 actual = sp.symbols(str)

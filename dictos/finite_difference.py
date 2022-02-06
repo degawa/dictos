@@ -1,7 +1,7 @@
 import sympy as sp
 
 from .spec import (
-    DEFAULT_FUNCTION,
+    DEFAULT_DIFFERENTIAND,
     DEFAULT_INTERVAL,
     DEFAULT_INDEPENDENT_VARIABLE,
     is_not_natrual_number,
@@ -51,7 +51,9 @@ def equation(
     """
 
     x_set = create_coordinate_symbols(stencil, interval)
-    f_set = create_function_symbols(x_set, DEFAULT_FUNCTION, same_subscripts_as_stencil)
+    f_set = create_function_symbols(
+        x_set, DEFAULT_DIFFERENTIAND, same_subscripts_as_stencil
+    )
     # create set of coordinate and function symbols from stencil.
     # [-2, -1, 0, 1, 2] -> [-2*h, -h, 0, h, 2*h]
     # [-2*h, -h, 0, h, 2*h] -> [f_0, f_1, f_2, f_3, f_4]
@@ -131,7 +133,7 @@ def coefficients(stencil: list, deriv: int = 1, as_numer_denom: bool = False):
         # - if unsupported order of derivative (deriv < 1)
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
-    f_set = create_function_symbols(x_set, DEFAULT_FUNCTION)
+    f_set = create_function_symbols(x_set, DEFAULT_DIFFERENTIAND)
     # create set of coordinate and function symbols from stencil.
     # [-2, -1, 0, 1, 2] -> [-2*h, -h, 0, h, 2*h]
     # [-2*h, -h, 0, h, 2*h] -> [f_0, f_1, f_2, f_3, f_4]
@@ -197,7 +199,7 @@ def truncation_error(stencil: list, deriv: int, interval: str = DEFAULT_INTERVAL
     h = sp.symbols(interval)
     return sp.expand(
         sp.simplify(
-            derivative_symbol(DEFAULT_FUNCTION, deriv)
+            derivative_symbol(DEFAULT_DIFFERENTIAND, deriv)
             - sp.nsimplify(fd_eq / h ** deriv, rational=True, tolerance=1e-10)
         )
     ).as_leading_term(h)

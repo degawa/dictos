@@ -2,7 +2,7 @@ import sympy as sp
 
 from .spec import (
     DEFAULT_INTERVAL,
-    DEFAULT_FUNCTION,
+    DEFAULT_DIFFERENTIAND,
     has_duplicated_points,
     narrower_than_minimum_width,
 )
@@ -52,7 +52,7 @@ def create_coordinate_symbols(stencil: list, interval: str = DEFAULT_INTERVAL) -
 
 def create_function_symbols(
     x_set: list,
-    function: str = DEFAULT_FUNCTION,
+    function: str = DEFAULT_DIFFERENTIAND,
     same_subscripts_as_stencil: bool = False,
 ):
     """
