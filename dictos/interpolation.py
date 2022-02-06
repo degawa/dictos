@@ -32,7 +32,7 @@ def equation(stencil: list):
     Examples:
         >>> from dictos import interpolation as intp
         >>> intp.equation([-1, 1])
-        f_0/2 + f_1/2
+        f_{-1}/2 + f_{1}/2
         >>> intp.equation([-1.5, -0.5, 0.5, 1.5])
         9*f_{-0.5}/16 - f_{-1.5}/16 + 9*f_{0.5}/16 - f_{1.5}/16
     """
