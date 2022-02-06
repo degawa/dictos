@@ -18,45 +18,56 @@ class FiniteDifferenceTest(unittest.TestCase):
         """
 
         h = sp.symbols("h")
-        f_0 = sp.symbols("f_0")
-        f_1 = sp.symbols("f_1")
-        f_2 = sp.symbols("f_2")
-        f_3 = sp.symbols("f_3")
-        f_4 = sp.symbols("f_4")
-        f_5 = sp.symbols("f_5")
-        f_6 = sp.symbols("f_6")
-        f_7 = sp.symbols("f_7")
-        f_8 = sp.symbols("f_8")
-        f_9 = sp.symbols("f_9")
-        f_10 = sp.symbols("f_10")
+        f_0 = sp.symbols("f_{0}")
+        f_1 = sp.symbols("f_{1}")
+        f_2 = sp.symbols("f_{2}")
+        f_3 = sp.symbols("f_{3}")
+        f_4 = sp.symbols("f_{4}")
+        f_5 = sp.symbols("f_{5}")
+        f_6 = sp.symbols("f_{6}")
+        f_7 = sp.symbols("f_{7}")
+        f_8 = sp.symbols("f_{8}")
+        f_9 = sp.symbols("f_{9}")
+        f_10 = sp.symbols("f_{10}")
+
+        f_m5 = sp.Symbol("f_{-5}")
+        f_m4 = sp.Symbol("f_{-4}")
+        f_m3 = sp.Symbol("f_{-3}")
+        f_m2 = sp.Symbol("f_{-2}")
+        f_m1 = sp.Symbol("f_{-1}")
+        f_p1 = sp.Symbol("f_{1}")
+        f_p2 = sp.Symbol("f_{2}")
+        f_p3 = sp.Symbol("f_{3}")
+        f_p4 = sp.Symbol("f_{4}")
+        f_p5 = sp.Symbol("f_{5}")
 
         expected = [
             0,
-            (-f_0 + f_2) / (2 * h),
-            (f_0 - 8 * f_1 + 8 * f_3 - f_4) / (12 * h),
-            (-f_0 + 9 * f_1 - 45 * f_2 + 45 * f_4 - 9 * f_5 + f_6) / (60 * h),
+            (-f_m1 + f_p1) / (2 * h),
+            (f_m2 - 8 * f_m1 + 8 * f_p1 - f_p2) / (12 * h),
+            (-f_m3 + 9 * f_m2 - 45 * f_m1 + 45 * f_p1 - 9 * f_p2 + f_p3) / (60 * h),
             (
-                3 * f_0
-                - 32 * f_1
-                + 168 * f_2
-                - 672 * f_3
-                + 672 * f_5
-                - 168 * f_6
-                + 32 * f_7
-                - 3 * f_8
+                3 * f_m4
+                - 32 * f_m3
+                + 168 * f_m2
+                - 672 * f_m1
+                + 672 * f_p1
+                - 168 * f_p2
+                + 32 * f_p3
+                - 3 * f_p4
             )
             / (840 * h),
             (
-                -2 * f_0
-                + 25 * f_1
-                + 2 * f_10
-                - 150 * f_2
-                + 600 * f_3
-                - 2100 * f_4
-                + 2100 * f_6
-                - 600 * f_7
-                + 150 * f_8
-                - 25 * f_9
+                -2 * f_m5
+                + 25 * f_m4
+                - 150 * f_m3
+                + 600 * f_m2
+                - 2100 * f_m1
+                + 2100 * f_p1
+                - 600 * f_p2
+                + 150 * f_p3
+                - 25 * f_p4
+                + 2 * f_p5
             )
             / (2520 * h),
         ]
@@ -73,42 +84,42 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         expected = [
             0,
-            (f_0 - 2 * f_1 + f_2) / h ** 2,
-            (-f_0 + 16 * f_1 - 30 * f_2 + 16 * f_3 - f_4) / (12 * h ** 2),
+            (f_m1 - 2 * f_0 + f_p1) / h ** 2,
+            (-f_m2 + 16 * f_m1 - 30 * f_0 + 16 * f_p1 - f_p2) / (12 * h ** 2),
             (
-                2 * f_0
-                - 27 * f_1
-                + 270 * f_2
-                - 490 * f_3
-                + 270 * f_4
-                - 27 * f_5
-                + 2 * f_6
+                2 * f_m3
+                - 27 * f_m2
+                + 270 * f_m1
+                - 490 * f_0
+                + 270 * f_p1
+                - 27 * f_p2
+                + 2 * f_p3
             )
             / (180 * h ** 2),
             (
-                -9 * f_0
-                + 128 * f_1
-                - 1008 * f_2
-                + 8064 * f_3
-                - 14350 * f_4
-                + 8064 * f_5
-                - 1008 * f_6
-                + 128 * f_7
-                - 9 * f_8
+                -9 * f_m4
+                + 128 * f_m3
+                - 1008 * f_m2
+                + 8064 * f_m1
+                - 14350 * f_0
+                + 8064 * f_p1
+                - 1008 * f_p2
+                + 128 * f_p3
+                - 9 * f_p4
             )
             / (5040 * h ** 2),
             (
-                8 * f_0
-                - 125 * f_1
-                + 8 * f_10
-                + 1000 * f_2
-                - 6000 * f_3
-                + 42000 * f_4
-                - 73766 * f_5
-                + 42000 * f_6
-                - 6000 * f_7
-                + 1000 * f_8
-                - 125 * f_9
+                8 * f_m5
+                - 125 * f_m4
+                + 1000 * f_m3
+                - 6000 * f_m2
+                + 42000 * f_m1
+                - 73766 * f_0
+                + 42000 * f_p1
+                - 6000 * f_p2
+                + 1000 * f_p3
+                - 125 * f_p4
+                + 8 * f_p5
             )
             / (25200 * h ** 2),
         ]
@@ -180,7 +191,6 @@ class FiniteDifferenceTest(unittest.TestCase):
             (
                 -7381 * f_0
                 + 25200 * f_1
-                - 252 * f_10
                 - 56700 * f_2
                 + 100800 * f_3
                 - 132300 * f_4
@@ -189,6 +199,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                 + 43200 * f_7
                 - 14175 * f_8
                 + 2800 * f_9
+                - 252 * f_10
             )
             / (2520 * h),
         ]
