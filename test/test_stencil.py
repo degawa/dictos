@@ -14,6 +14,7 @@ from dictos.stencil import (
     create_coordinate_symbols,
     create_differentiand_symbols,
     to_subscript,
+    get_subscript,
 )
 from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
 
@@ -150,6 +151,28 @@ class StencilTest(unittest.TestCase):
             with self.subTest(f"sympy number {f} to subscript"):
                 expected = str(f)
                 actual = to_subscript(sp.Number(f))
+
+                self.assertEqual(expected, actual)
+
+    def test_get_subscript(self):
+        """
+        test suite for stencil.get_subscript.
+        """
+
+        for half_width in range(1, 11):
+            with self.subTest(f"get subscript {(half_width * 2 + 1)}-point stencil"):
+                stencil = [to_subscript(i) for i in range(-half_width, half_width + 1)]
+                expected = stencil
+
+                f = DEFAULT_DIFFERENTIAND
+                subscript = [
+                    to_subscript(i) for i in range(-half_width, half_width + 1)
+                ]
+                str = "".join([f + "_{" + s + "}" + " " for s in subscript])
+                f_set = sp.symbols(str)
+                actual = []
+                for f in f_set:
+                    actual.append(get_subscript(f))
 
                 self.assertEqual(expected, actual)
 
