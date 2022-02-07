@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Breaking Changes
 - replaced the term "function" that to be differentiated with "differentiand", and changed related the parameter, functions, and arguments name. #89
+- replased the argument `same_subscripts_as_stencil` to `sort`. #74
+- updated the `equation` in `interpolation` module to sort the results. #74
+- replased the argument `evaluate` in the `equation` in `finite_difference` module with `keep_zero`. #80
+- changed the default value of `keep_zero` to `False`. #80
 
 ### Changes
 - replaced % format and str.format() with fstring. #71
@@ -15,10 +19,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### New features
 - added new module for handling stencil. #81
 - added funciton to convert `int` or `float` to string for subscript. #76
+- added function to sort expression by subscript. #74
+- added function to extract each term in numerator. #74
 
 ### Repository updates
-- update README to specify install version during cloning #83
-- update README to hide install methods #83
+- update README to specify install version during cloning. #83
+- update README to hide install methods. #83
+- update README to reflect breaking changes. #74, #80
 
 ## [0.3.0] - 2022-01-25
 ### Breaking changes

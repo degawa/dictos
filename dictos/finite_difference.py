@@ -10,6 +10,7 @@ from .stencil import create_coordinate_symbols, create_differentiand_symbols
 from .utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
+    sort_by_subscript,
 )
 from .linalg import dot_product, div
 from .lagrangian_polynomial import lagrangian_poly, derivative
@@ -21,8 +22,8 @@ def equation(
     stencil: list,
     deriv: int = 1,
     interval: str = DEFAULT_INTERVAL,
-    same_subscripts_as_stencil: bool = False,
-    evaluate: bool = True,
+    sort: bool = True,
+    keep_zero: bool = False,
 ):
     """
     derive finite difference equation based on given stencil.
@@ -33,11 +34,9 @@ def equation(
         deriv (int, optional): order of derivative. Defaults to 1.
         interval (str, optional): an interval symbol like `dx`.
             Defaults to DEFAULT_INTERVAL.
-        same_subscripts_as_stencil (bool, optional): flag
-            to make differentiand subscripts the same as the stencil.
-            Defaults to False, the subscripts start from 0.
-        evaluate (bool, optional): flag to evaluate the result.
-            Defaults to True.
+        keep_zero (bool, optional):
+            flag to keep terms multiplied by 0 in the result.
+            Defaults to False.
 
     Returns:
         sympy Expr: derived finite difference equation.
@@ -45,38 +44,27 @@ def equation(
     Examples:
         >>> from dictos import finite_difference as fd
         >>> fd.equation([-2, -1, 0, 1, 2], deriv=1)
-        (f_0 - 8*f_1 + 8*f_3 - f_4)/(12*h)
+        (f_{-2} - 8*f_{-1} + 8*f_{1} - f_{2})/(12*h)
         >>> fd.equation([-1.5, -0.5, 0, 0.5, 1.5], deriv=1)
-        (f_0 - 27*f_1 + 27*f_3 - f_4)/(24*h)
+        (f_{-1.5} - 27*f_{-0.5} + 27*f_{0.5} - f_{1.5})/(24*h)
     """
 
     x_set = create_coordinate_symbols(stencil, interval)
-    f_set = create_differentiand_symbols(
-        x_set, DEFAULT_DIFFERENTIAND, same_subscripts_as_stencil
-    )
+    f_set = create_differentiand_symbols(x_set, DEFAULT_DIFFERENTIAND)
     # create set of coordinate and differentiand symbols from stencil.
     # [-2, -1, 0, 1, 2] -> [-2*h, -h, 0, h, 2*h]
-    # [-2*h, -h, 0, h, 2*h] -> [f_0, f_1, f_2, f_3, f_4]
-    #                          [f_{-2}, f_{-1}, f_{0}, f_{1}, f_{2}]
-    #                          (same_subscripts_as_stencil = True)
+    # [-2*h, -h, 0, h, 2*h] -> [f_{-2}, f_{-1}, f_{0}, f_{1}, f_{2}]
 
     # derive finite difference coefficients based on given stencil,
     # and then calculate dot product of the coefs and differentiands.
-    if evaluate:
+    if not keep_zero:
         coef = coefficients(stencil, deriv)
         eq = sp.simplify(dot_product(coef, f_set) / sp.symbols(interval) ** deriv)
         # The result of dot product is divided by interval symbol,
         # because `coef` does not contain interval symbol like `dx`.
-        # In many case, the results obtained by above operations is
-        # what you may want like (f0 - 8*f1 + 8*f3 - f4)/(12*dx),
-        # but in rare cases, an equation cannnot be expressed
-        # by a rational expression,
-        # (0.0416666666666667*f0 - 1.125*f1 + 1.125*f3 - 0.0416666666666667*f4)/h.
-        # In such cases, specify `False` to the argument `evaluate`.
-        # Another case, when same_subscripts_as_stencil is set `True`,
-        # a resultant equation is not sorted like
+        # Terms multiplied by a coefficient 0 is eliminated from a result like
         # (-8*f_{-1} + f_{-2} + 8*f_{1} - f_{2})/(12*h).
-        # `evaluate=False` derives an sorted expression you may want,
+        # `keep_zero=True` keep terms  multiplied by a coefficient 0,
         # (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h).
     else:
         numer, denom = coefficients(stencil, deriv, as_numer_denom=True)
@@ -90,6 +78,10 @@ def equation(
         # and avoid reducing the coefficients.
         # `div` calculates division with evaluation,
         # but the coefficients are not reduced.
+
+    if sort:
+        eq = sort_by_subscript(eq)
+    # sort numerator by subscript.
 
     return eq
 

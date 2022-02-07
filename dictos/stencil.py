@@ -53,52 +53,44 @@ def create_coordinate_symbols(stencil: list, interval: str = DEFAULT_INTERVAL) -
 def create_differentiand_symbols(
     x_set: list,
     differentiand: str = DEFAULT_DIFFERENTIAND,
-    same_subscripts_as_stencil: bool = False,
 ):
     """
     create set of differentiand symbols at coordinates from x_set.
     input a list of sympy symbols like `[-h, 0, h]` as x_set,
-    this returns a list of differentiands at x_set like `[f_0, f_1, f_2]`.
+    this returns a list of differentiands at x_set like
+    `[f_{-1}, f_{0}, f_{1}]`.
 
     Args:
         x_set (list of sympy symbols): coordinates on regular or
             staggered grid corresponding to the stencil.
         differentiand (str, optional): a differentiand symbol like `f`.
             Defaults to DEFAULT_DIFFERENTIAND.
-        same_subscripts_as_stencil (bool, optional): flag
-            to make differentiand subscripts the same as the stencil.
-            Defaults to False, the subscripts start from 0.
 
     Returns:
         tuple of sympy symbols: tuple of differentiands at passed coordinates.
-            When same_subscripts_as_stencil is set,
-            subscripts is enclused in curly braces like `f_{0}`.
+            Subscripts are enclused in curly braces like `f_{0}`.
     """
-    if same_subscripts_as_stencil:
-        # make differentiand subscripts the same as the stencil
+    # make differentiand subscripts the same as the stencil
 
-        stencil = [x if x.is_number else sp.poly(x).coeffs()[0] for x in x_set]
-        # extract numbers from list of coordinates.
-        # coordinate consists of a number and a symbol,
-        # such as -2*h and 1.5*h, extract the number as coefficint.
-        # coordinate is 0, that is a number, use 0 as the stencil
+    stencil = [x if x.is_number else sp.poly(x).coeffs()[0] for x in x_set]
+    # extract numbers from list of coordinates.
+    # coordinate consists of a number and a symbol,
+    # such as -2*h and 1.5*h, extract the number as coefficint.
+    # coordinate is 0, that is a number, use 0 as the stencil
 
-        subscript = [to_subscript(i) for i in stencil]
-        str = "".join([differentiand + "_{" + s + "}" + " " for s in subscript])
-        # make string "f_{-1} f_{-0.5} ..." to pass `sympy.symbols`.
-        # tail space is ignored in `sympy.symbols`
+    subscript = [to_subscript(i) for i in stencil]
+    str = "".join([differentiand + "_{" + s + "}" + " " for s in subscript])
+    # make string "f_{-1} f_{-0.5} ..." to pass `sympy.symbols`.
+    # tail space is ignored in `sympy.symbols`
 
-        f_set = sp.symbols(str)
-        if type(f_set) == sp.core.symbol.Symbol:
-            f_set = (f_set,)
-        # make the return value's type a tuple.
-        # sp.symbols(str) returns sp.core.symbol.Symbol
-        # when str does not contain space
-        # althought sp.symbols(f"_0:{n}") returns tuple
-        # when n==1.
-    else:
-        f_set = sp.symbols(differentiand + f"_0:{len(x_set)}")
-        # make a tuple of sympy symbols from string.
+    f_set = sp.symbols(str)
+    if type(f_set) == sp.core.symbol.Symbol:
+        f_set = (f_set,)
+    # make the return value's type a tuple.
+    # sp.symbols(str) returns sp.core.symbol.Symbol
+    # when str does not contain space
+    # althought sp.symbols(f"_0:{n}") returns tuple
+    # when n==1.
 
     return f_set
 
@@ -118,3 +110,44 @@ def to_subscript(number):
     # if n is a float number, converted to "xx.x"
     # 2-digit means the maximum stencil width is 99.
     # 1 digimal place is enough because equidistance grid is supported.
+
+
+def get_subscript(a_term):
+    """
+    get subscript from a differentiand symbol.
+
+    Args:
+        a_term (sympy Symbol or Mul):
+            a differentiand symbol with subscript like `27*f_{-1}`
+
+    Raises:
+        TypeError: if `a_term` is not sympy Symbol or Mul.
+
+    Returns:
+        str: string of subscript in a differentiand symbol, like "-1"
+    """
+
+    if type(a_term) is sp.core.symbol.Symbol:
+        # if `a_term` is a symbol with subscript and without coefficient
+        # like `f_{-1}`, `f = f_{-1}`.
+        f = a_term
+    elif type(a_term) is sp.core.mul.Mul:
+        # if `a_term` is a symbol with subscript and coefficient
+        # like `27*f_{-1}`, `f = f_{-1}`.
+        i = 1 if type(a_term.args[1]) is sp.core.symbol.Symbol else 0
+        f = a_term.args[i]
+        # if `a_term.args` is (27, f_{-1}), chose `f_{-1}`.
+    else:
+        raise TypeError(a_term, type(a_term))
+        # raise error if
+        # - `a_term` is not sympy Symbol or Mul.
+
+    f_str = str(f)
+    start = f_str.find("{") + 1
+    stop = f_str.find("}")
+    subscript = f_str[start:stop]
+    # convert a symbol `f_{-1}` to a string "f_{-1}",
+    # then find potisions at "{" and "}", finally extract subscript
+    # between "{" and "}".
+
+    return subscript

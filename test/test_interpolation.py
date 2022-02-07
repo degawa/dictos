@@ -17,46 +17,57 @@ class InterpolationTest(unittest.TestCase):
         test suite for interplation.equation.
         """
 
-        f_0 = sp.symbols("f_0")
-        f_1 = sp.symbols("f_1")
-        f_2 = sp.symbols("f_2")
-        f_3 = sp.symbols("f_3")
-        f_4 = sp.symbols("f_4")
-        f_5 = sp.symbols("f_5")
-        f_6 = sp.symbols("f_6")
-        f_7 = sp.symbols("f_7")
-        f_8 = sp.symbols("f_8")
-        f_9 = sp.symbols("f_9")
-        f_10 = sp.symbols("f_10")
+        f_0 = sp.symbols("f_{0}")
+        f_1 = sp.symbols("f_{1}")
+        f_2 = sp.symbols("f_{2}")
+        f_3 = sp.symbols("f_{3}")
+        f_4 = sp.symbols("f_{4}")
+        f_5 = sp.symbols("f_{5}")
+        f_6 = sp.symbols("f_{6}")
+        f_7 = sp.symbols("f_{7}")
+        f_8 = sp.symbols("f_{8}")
+        f_9 = sp.symbols("f_{9}")
+        f_10 = sp.symbols("f_{10}")
+
+        f_m5 = sp.Symbol("f_{-5}")
+        f_m4 = sp.Symbol("f_{-4}")
+        f_m3 = sp.Symbol("f_{-3}")
+        f_m2 = sp.Symbol("f_{-2}")
+        f_m1 = sp.Symbol("f_{-1}")
+        f_p1 = sp.Symbol("f_{1}")
+        f_p2 = sp.Symbol("f_{2}")
+        f_p3 = sp.Symbol("f_{3}")
+        f_p4 = sp.Symbol("f_{4}")
+        f_p5 = sp.Symbol("f_{5}")
 
         expected = [
             0,
-            f_0 / 2 + f_1 / 2,
-            -f_0 / 6 + 2 * f_1 / 3 + 2 * f_2 / 3 - f_3 / 6,
-            f_0 / 20
-            - 3 * f_1 / 10
-            + 3 * f_2 / 4
-            + 3 * f_3 / 4
-            - 3 * f_4 / 10
-            + f_5 / 20,
-            -f_0 / 70
-            + 4 * f_1 / 35
-            - 2 * f_2 / 5
-            + 4 * f_3 / 5
-            + 4 * f_4 / 5
-            - 2 * f_5 / 5
-            + 4 * f_6 / 35
-            - f_7 / 70,
-            f_0 / 252
-            - 5 * f_1 / 126
-            + 5 * f_2 / 28
-            - 10 * f_3 / 21
-            + 5 * f_4 / 6
-            + 5 * f_5 / 6
-            - 10 * f_6 / 21
-            + 5 * f_7 / 28
-            - 5 * f_8 / 126
-            + f_9 / 252,
+            f_m1 / 2 + f_p1 / 2,
+            -f_m2 / 6 + 2 * f_m1 / 3 + 2 * f_p1 / 3 - f_p2 / 6,
+            f_m3 / 20
+            - 3 * f_m2 / 10
+            + 3 * f_m1 / 4
+            + 3 * f_p1 / 4
+            - 3 * f_p2 / 10
+            + f_p3 / 20,
+            -f_m4 / 70
+            + 4 * f_m3 / 35
+            - 2 * f_m2 / 5
+            + 4 * f_m1 / 5
+            + 4 * f_p1 / 5
+            - 2 * f_p2 / 5
+            + 4 * f_p3 / 35
+            - f_p4 / 70,
+            f_m5 / 252
+            - 5 * f_m4 / 126
+            + 5 * f_m3 / 28
+            - 10 * f_m2 / 21
+            + 5 * f_m1 / 6
+            + 5 * f_p1 / 6
+            - 10 * f_p2 / 21
+            + 5 * f_p3 / 28
+            - 5 * f_p4 / 126
+            + f_p5 / 252,
         ]
         for shuffle in [False, True]:
             for half_width in range(1, 6):
@@ -68,34 +79,34 @@ class InterpolationTest(unittest.TestCase):
                     if shuffle:
                         random.shuffle(stencil)
                     actual = equation(stencil)
-                    self.assertEqual(expected[half_width], actual)
+                    self.assertEqual(expected[half_width], sp.simplify(actual))
 
         expected = [
             0,
             0,
-            2 * f_0 - f_1,
-            3 * f_0 - 3 * f_1 + f_2,
-            4 * f_0 - 6 * f_1 + 4 * f_2 - f_3,
-            5 * f_0 - 10 * f_1 + 10 * f_2 - 5 * f_3 + f_4,
-            6 * f_0 - 15 * f_1 + 20 * f_2 - 15 * f_3 + 6 * f_4 - f_5,
-            7 * f_0 - 21 * f_1 + 35 * f_2 - 35 * f_3 + 21 * f_4 - 7 * f_5 + f_6,
-            8 * f_0
-            - 28 * f_1
-            + 56 * f_2
-            - 70 * f_3
-            + 56 * f_4
-            - 28 * f_5
-            + 8 * f_6
-            - f_7,
-            9 * f_0
-            - 36 * f_1
-            + 84 * f_2
-            - 126 * f_3
-            + 126 * f_4
-            - 84 * f_5
-            + 36 * f_6
-            - 9 * f_7
-            + f_8,
+            2 * f_1 - f_2,
+            3 * f_1 - 3 * f_2 + f_3,
+            4 * f_1 - 6 * f_2 + 4 * f_3 - f_4,
+            5 * f_1 - 10 * f_2 + 10 * f_3 - 5 * f_4 + f_5,
+            6 * f_1 - 15 * f_2 + 20 * f_3 - 15 * f_4 + 6 * f_5 - f_6,
+            7 * f_1 - 21 * f_2 + 35 * f_3 - 35 * f_4 + 21 * f_5 - 7 * f_6 + f_7,
+            8 * f_1
+            - 28 * f_2
+            + 56 * f_3
+            - 70 * f_4
+            + 56 * f_5
+            - 28 * f_6
+            + 8 * f_7
+            - f_8,
+            9 * f_1
+            - 36 * f_2
+            + 84 * f_3
+            - 126 * f_4
+            + 126 * f_5
+            - 84 * f_6
+            + 36 * f_7
+            - 9 * f_8
+            + f_9,
         ]
         for shuffle in [False, True]:
             for width in range(2, 10):
@@ -106,7 +117,7 @@ class InterpolationTest(unittest.TestCase):
                     if shuffle:
                         random.shuffle(stencil)
                     actual = equation(stencil)
-                    self.assertEqual(expected[width], actual)
+                    self.assertEqual(expected[width], sp.simplify(actual))
 
     def test_coefficients(self):
         """
