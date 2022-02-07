@@ -10,6 +10,7 @@ from .stencil import create_coordinate_symbols, create_differentiand_symbols
 from .utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
+    sort_by_subscript,
 )
 from .linalg import dot_product, div
 from .lagrangian_polynomial import lagrangian_poly, derivative
@@ -21,6 +22,7 @@ def equation(
     stencil: list,
     deriv: int = 1,
     interval: str = DEFAULT_INTERVAL,
+    sort: bool = True,
     evaluate: bool = True,
 ):
     """
@@ -81,6 +83,10 @@ def equation(
         # and avoid reducing the coefficients.
         # `div` calculates division with evaluation,
         # but the coefficients are not reduced.
+
+    if sort:
+        eq = sort_by_subscript(eq)
+    # sort numerator by subscript.
 
     return eq
 
