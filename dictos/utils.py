@@ -241,11 +241,24 @@ def sort_by_subscript(expr):
     # a result of numpy.argsort(subscripts) is [0, 3, 2, 4, 1],
     # numer_sorted_terms is [terms[0], terms[3], terms[2], terms[4], terms[1]].
 
-    numer_sorted = numer_sorted_terms[-1]
-    for n in numer_sorted_terms[-2::-1]:
-        numer_sorted = sp.Add(numer_sorted, n, evaluate=False)
     # rearrange numerator in order of the subscripts.
-    # ((((-f_{2} + 8*f_{1}) + 0*f_{0}) - 8*f_{-1}) + f_{-2})
+    if all([s < 0 for s in subscripts]):
+        # if all subscripts are negative integer,
+        numer_sorted = numer_sorted_terms[0]
+        for n in numer_sorted_terms[1:]:
+            numer_sorted = sp.Add(numer_sorted, n, evaluate=False)
+        # (((3*f_{-1}) - 3*f_{-2}) + f_{-3})
+    elif all([s > 0 for s in subscripts]):
+        # if all subscripts are positive integer,
+        numer_sorted = numer_sorted_terms[-1]
+        for n in numer_sorted_terms[-2::-1]:
+            numer_sorted = sp.Add(numer_sorted, n, evaluate=False)
+        # (((3*f_{1}) - 3*f_{2}) + f_{3})
+    else:
+        numer_sorted = numer_sorted_terms[-1]
+        for n in numer_sorted_terms[-2::-1]:
+            numer_sorted = sp.Add(numer_sorted, n, evaluate=False)
+        # ((((-f_{2} + 8*f_{1}) + 0*f_{0}) - 8*f_{-1}) + f_{-2})
 
     if type(denom) is sp.core.numbers.Integer:
         return sp.Mul(numer_sorted, sp.Rational(1, denom), evaluate=False)
