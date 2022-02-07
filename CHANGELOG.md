@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.4.0] - 2022-02-08
 ### Breaking Changes
 - replaced the term "function" that to be differentiated with "differentiand", and changed related the parameter, functions, and arguments name. #89
 - replased the argument `same_subscripts_as_stencil` to `sort`. #74
@@ -96,7 +98,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - derive interpolation coefficients
   - derive the leading-order of truncation error.
 
-[Unreleased]: https://github.com/degawa/dictos/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/degawa/dictos/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/degawa/dictos/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/degawa/dictos/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/degawa/dictos/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/degawa/dictos/compare/v0.1.1...v0.2.0

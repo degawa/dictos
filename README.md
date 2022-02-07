@@ -10,7 +10,7 @@ The simplest way to install dictos is using pip.
 After cloning the dictos repository, install dictos with the commands below:
 
 ```console
-$ git clone https://github.com/degawa/dictos.git -b v0.3.0
+$ git clone https://github.com/degawa/dictos.git -b v0.4.0
 $ cd dictos
 $ pip install .
 ```
