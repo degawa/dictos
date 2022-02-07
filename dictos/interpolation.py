@@ -35,7 +35,7 @@ def equation(stencil: list, sort: bool = True):
         >>> intp.equation([-1, 1])
         f_0/2 + f_1/2
         >>> intp.equation([-1.5, -0.5, 0.5, 1.5])
-        9*f_{-0.5}/16 - f_{-1.5}/16 + 9*f_{0.5}/16 - f_{1.5}/16
+        (-f_{-1.5} + 9*f_{-0.5} + 9*f_{0.5} - f_{1.5})/16
     """
 
     x_set = create_coordinate_symbols(stencil, DEFAULT_INTERVAL)
