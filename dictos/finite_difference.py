@@ -23,7 +23,7 @@ def equation(
     deriv: int = 1,
     interval: str = DEFAULT_INTERVAL,
     sort: bool = True,
-    evaluate: bool = True,
+    keep_zero: bool = False,
 ):
     """
     derive finite difference equation based on given stencil.
@@ -34,8 +34,9 @@ def equation(
         deriv (int, optional): order of derivative. Defaults to 1.
         interval (str, optional): an interval symbol like `dx`.
             Defaults to DEFAULT_INTERVAL.
-        evaluate (bool, optional): flag to evaluate the result.
-            Defaults to True.
+        keep_zero (bool, optional):
+            flag to keep terms multiplied by 0 in the result.
+            Defaults to False.
 
     Returns:
         sympy Expr: derived finite difference equation.
@@ -56,20 +57,14 @@ def equation(
 
     # derive finite difference coefficients based on given stencil,
     # and then calculate dot product of the coefs and differentiands.
-    if evaluate:
+    if not keep_zero:
         coef = coefficients(stencil, deriv)
         eq = sp.simplify(dot_product(coef, f_set) / sp.symbols(interval) ** deriv)
         # The result of dot product is divided by interval symbol,
         # because `coef` does not contain interval symbol like `dx`.
-        # In many case, the results obtained by above operations is
-        # what you may want like (f0 - 8*f1 + 8*f3 - f4)/(12*dx),
-        # but in rare cases, an equation cannnot be expressed
-        # by a rational expression,
-        # (0.0416666666666667*f0 - 1.125*f1 + 1.125*f3 - 0.0416666666666667*f4)/h.
-        # In such cases, specify `False` to the argument `evaluate`.
-        # Another case, a resultant equation is not sorted like
+        # Terms multiplied by a coefficient 0 is eliminated from a result like
         # (-8*f_{-1} + f_{-2} + 8*f_{1} - f_{2})/(12*h).
-        # `evaluate=False` derives an sorted expression you may want,
+        # `keep_zero=True` keep terms  multiplied by a coefficient 0,
         # (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h).
     else:
         numer, denom = coefficients(stencil, deriv, as_numer_denom=True)
