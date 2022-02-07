@@ -1,6 +1,8 @@
 import sympy as sp
 import numpy as np
 
+from dictos.linalg import div
+from dictos.stencil import get_subscript
 from .error.internal import UnexpectedDenominatorError
 
 
@@ -181,3 +183,76 @@ def decompose_addition(expr_add):
         # return all terms as list.
 
     return terms
+
+
+def sort_by_subscript(expr):
+    """
+    sort numerator of sympy expr by subscripts of symbols in the numerator.
+
+    Args:
+        expr (sympy expr):
+            an expression to be sorted, like
+            (-8*f_{-1} + f_{-2} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h),
+            (4*f_{-1} - f_{-2} +  4*f_{1} - f_{2})/6
+
+    Returns:
+        sympy expr:
+            a sorted expression, like
+            (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h),
+            (-f_{-2} + 4*f_{-1} +  4*f_{1} - f_{2})/6
+    """
+
+    numer, denom = expr.as_numer_denom()
+    # extract numerator and denominator from sympy expr.
+    # `numer` is evaluated and a term multiplied by 0 is erased.
+    # when expr is a fraction, `denom` is set to 1.
+
+    # when denominator is an integer, values of `expr.as_numer_denom()`
+    # and `expr.args` are different. for instance,
+    # `((4*f_{-1} - f_{-2} +  4*f_{1} - f_{2})/6).as_numer_denom()`
+    # returns `(4*f_{-1} - f_{-2} +  4*f_{1} - f_{2}, 6)`, but
+    # `((4*f_{-1} - f_{-2} +  4*f_{1} - f_{2})/6).args` is
+    # `(-f_{-2}/6, -f_{2}/6, 2*f_{-1}/3, 2*f_{1}/3)`.
+    # so it is necessary to branch according to type of the denominator.
+
+    if denom != 1 and type(denom) is not sp.core.numbers.Integer:
+        # if `expr` is a fraction, and the denominator contains sympy symbol,
+        numer = expr.args[-1]
+        # extract the numerator.
+        # `args` of assumed equation such as
+        # (-8*f_{-1} + f_{-2} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)
+        # are
+        # [1/12, 1/h, (-8*f_{-1} + f_{-2} + 0*f_{0} + 8*f_{1} - f_{2})].
+        # so the numerator is expr.args[-1].
+
+    terms = decompose_addition(numer)
+    # decompose numerator into each term and extract all terms as a list.
+    # intended result is [f_{-2}, -f_{2}, 0*f_{0}, -8*f_{-1}, 8*f_{1}].
+
+    subscripts = []
+    for n in terms:
+        subscript = get_subscript(n)
+        subscripts.append(float(subscript))
+    # extract subscript from each term of the numerator.
+    # intended result is [-2.000, 2.000, 0.000, -1.000, 1.000].
+
+    numer_sorted_terms = [terms[i] for i in np.argsort(subscripts)]
+    # sort terms of the numeartor by subscript.
+    # a result of numpy.argsort(subscripts) is [0, 3, 2, 4, 1],
+    # numer_sorted_terms is [terms[0], terms[3], terms[2], terms[4], terms[1]].
+
+    numer_sorted = numer_sorted_terms[-1]
+    for n in numer_sorted_terms[-2::-1]:
+        numer_sorted = sp.Add(numer_sorted, n, evaluate=False)
+    # rearrange numerator in order of the subscripts.
+    # ((((-f_{2} + 8*f_{1}) + 0*f_{0}) - 8*f_{-1}) + f_{-2})
+
+    if type(denom) is sp.core.numbers.Integer:
+        return sp.Mul(numer_sorted, sp.Rational(1, denom), evaluate=False)
+    else:
+        return div(numer_sorted, denom)
+    # reconstruct expr.
+    # if the denominator contains a sympy symbol, use `div` function.
+    # in the case that denominator is an integer, a result becomes
+    # `-f_{-2}/6 + (4*f_{-1} + 4*f_{1} - f_{2})/6` when `div` is used.
+    # to avoid this, an different expression is used.
