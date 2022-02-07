@@ -23,8 +23,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - added function to extract each term in numerator. #74
 
 ### Repository updates
-- update README to specify install version during cloning #83
-- update README to hide install methods #83
+- update README to specify install version during cloning. #83
+- update README to hide install methods. #83
+- update README to reflect breaking changes. #74, #80
 
 ## [0.3.0] - 2022-01-25
 ### Breaking changes
