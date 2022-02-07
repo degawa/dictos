@@ -80,7 +80,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                     if shuffle:
                         random.shuffle(stencil)
                     actual = equation(stencil, 1)
-                    self.assertEqual(expected[half_width], actual)
+                    self.assertEqual(expected[half_width], sp.simplify(actual))
 
         expected = [
             0,
@@ -132,7 +132,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                     if shuffle:
                         random.shuffle(stencil)
                     actual = equation(stencil, 2)
-                    self.assertEqual(expected[half_width], actual)
+                    self.assertEqual(expected[half_width], sp.simplify(actual))
 
         expected = [
             0,
@@ -211,7 +211,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                     stencil = [i for i in range(width + 1)]
                     random.shuffle(stencil)
                     actual = equation(stencil, 1)
-                    self.assertEqual(expected[width], actual)
+                    self.assertEqual(expected[width], sp.simplify(actual))
 
     def test_coefficients(self):
         """
