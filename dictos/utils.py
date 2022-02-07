@@ -101,3 +101,83 @@ def extract_coefficients_as_numer_denom(expr, f_set):
         # - type of denom_coef is list or tuple, but its length is greater than 1
 
     return numer_coef, denom_coef
+
+
+def decompose_addition(expr_add):
+    """
+    Decompose additions into each term and extract all terms
+    from sympy.core.add.Add expression.
+
+    Args:
+        expr_add (sympy.core.add.Add):
+            an expression to extract all terms.
+            for example, `0a + b + 2c` or `(0a + (b + 2c))`.
+
+    Returns:
+        list:
+            all terms extracted from `expr_add`.
+            The order of terms is not keeped
+            when sympy.core.add.Add is contained in `expr_add`
+            caused by a behavior of sympy.Add.make_args().
+
+    Examples:
+        >>> import sympy as sp
+        >>> from sympy.abc import *
+        >>> from dictos import utils as utl
+        >>> numer = 1 * a + 2 * b + 3 * c
+        >>> terms = utl.extract_terms(numer)
+        >>> print(terms)
+        [a, 2*b, 3*c]
+        >>> numer = 0 * a + 1 * b + 2 * c
+        >>> terms = utl.extract_terms(numer)
+        >>> print(terms)
+        [b, 2*c]
+        >>> numer = sp.Mul(2, c, evaluate=False)
+        >>> numer = sp.Add(numer, sp.Mul(1, b, evaluate=False), evaluate=False)
+        >>> numer = sp.Add(numer, sp.Mul(0, a, evaluate=False), evaluate=False)
+        >>> terms = utl.extract_terms(numer)
+        >>> print(terms)
+        [2*c, b, 0*a]
+        >>> numer = sp.Mul(2, c, evaluate=False)
+        >>> numer = sp.Add(sp.Mul(1, b, evaluate=False), numer, evaluate=False)
+        >>> numer = sp.Add(sp.Mul(0, a, evaluate=False), numer, evaluate=False)
+        >>> terms = extract_terms(numer)
+        >>> print(terms)
+        [0*a, b, 2*c]
+    """
+
+    if type(expr_add) is sp.core.symbol.Symbol or type(expr_add) is sp.core.mul.Mul:
+        return expr_add
+        # is type of `expr_add` is Symbol or Mul, there is nothing more to do.
+
+    if type(expr_add) is not sp.core.add.Add:
+        raise TypeError(expr_add, type(expr_add))
+        # raise error if
+        # - type of `expr_add` is not Add.
+
+    terms = []
+    # list for containing all terms.
+
+    args = sp.Add.make_args(expr_add)
+    # decompose and extract all terms from sympy.core.add.Add as tuple.
+    # a + 2*b +3*c -> [a, 2*b, 3*c]
+
+    if any(type(arg) is sp.core.add.Add for arg in args):
+        # when sympy.core.add.Add is contained in args,
+        # further decomposition is performed.
+        for i in range(len(args)):
+            if type(args[i]) is sp.core.add.Add:
+                terms += decompose_addition(args[i])
+                # when `args[i]` is sympy.core.add.Add,
+                # all decomposed terms are added to the list.
+            else:
+                terms.append(args[i])
+                # when `args[i]` is not sympy.core.add.Add,
+                # add `args[i]` to the list as a term.
+    else:
+        terms = list(args[:])
+        # when sympy.core.add.Add is not contained in args,
+        # addition is successfully decomposed into each term.
+        # return all terms as list.
+
+    return terms
