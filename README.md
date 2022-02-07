@@ -89,33 +89,24 @@ stencil = [-2, -1, 0, 1, 2]
 # o---o---x---o---o
 # -2  -1  0   1   2
 print(fd.equation(stencil, deriv=1))
-# (f_0 - 8*f_1 + 8*f_3 - f_4)/(12*h)
+# (f_{-2} - 8*f_{-1} + 8*f_{1} - f_{2})/(12*h)
 
 stencil = [-1.5, -0.5, 0.5, 1.5]
 #    +---+-x-+---+
 # -1.5-0.5 0 0.5 1.5
 print(fd.equation(stencil, deriv=1))
-# (f_0 - 27*f_1 + 27*f_3 - f_4)/(24*h)
-```
-
-Tom: "I guess `deriv` is the order of derivate. Isn't the subscripts in the resulting equation the same as the stencil?"
-
-Dictos: "use `same_subscripts_as_stencil` option."
-```Python
-import dictos.finite_difference as fd
-
-stencil = [-1.5, -0.5, 0.5, 1.5]
-print(fd.equation(stencil, deriv=1, same_subscripts_as_stencil=True))
-# (-27*f_{-0.5} + f_{-1.5} + 27*f_{0.5} - f_{1.5})/(24*h)
-```
-
-"set `evaluate=False`, get the equation that you may want."
-```Python
-import dictos.finite_difference as fd
-
-stencil = [-1.5, -0.5, 0, 0.5, 1.5]
-print(fd.equation(stencil, deriv=1, same_subscripts_as_stencil=True, evaluate=False))
 # (f_{-1.5} - 27*f_{-0.5} + 27*f_{0.5} - f_{1.5})/(24*h)
+```
+
+Tom: "I guess `deriv` is the order of derivate."
+
+Dictos: "Exactly". "set `keep_zero=True`, get the equation with terms multiplied by 0."
+```Python
+import dictos.finite_difference as fd
+
+stencil = [-2, -1, 0, 1, 2]
+print(fd.equation(stencil, deriv=1, keep_zero=True))
+# (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)
 ```
 
 Tom: "Well... can I extract the coefficients?"
@@ -148,11 +139,8 @@ stencil = [-1.5, -0.5, 0.5, 1.5]
 #    +---+-x-+---+
 # -1.5-0.5 0 0.5 1.5
 print(intp.equation(stencil))
-# -f_0/16 + 9*f_1/16 + 9*f_2/16 - f_3/16
-
-print(intp.equation(stencil, same_subscripts_as_stencil=True))
-# 9*f_{-0.5}/16 - f_{-1.5}/16 + 9*f_{0.5}/16 - f_{1.5}/16
-# `evalulate` option is not provided yet.
+# (-f_{-1.5} + 9*f_{-0.5} + 9*f_{0.5} - f_{1.5})/16
+# `keep_zero` option is not provided.
 
 print(intp.coefficients(stencil))
 # [-1/16, 9/16, 9/16, -1/16]
@@ -176,13 +164,13 @@ import dictos.interpolation as intp
 stencil = [1, 2]
 # x---o---o
 # 0   1   2
-print(intp.equation(stencil,same_subscripts_as_stencil=True))
+print(intp.equation(stencil))
 # 2*f_{1} - f_{2}
 
 #  o---o---o---x
 # -3  -2  -1   0
 stencil = [-3, -2, -1]
-print(intp.equation(stencil,same_subscripts_as_stencil=True))
+print(intp.equation(stencil))
 # 3*f_{-1} - 3*f_{-2} + f_{-3}
 ```
 
