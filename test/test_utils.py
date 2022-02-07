@@ -9,11 +9,16 @@ import sympy as sp
 import numpy as np
 import random
 
-from dictos.stencil import create_coordinate_symbols
+from dictos.stencil import (
+    create_coordinate_symbols,
+    to_subscript,
+)
 from dictos.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
+    sort_by_subscript,
 )
+from dictos.linalg import dot_product
 from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
 from dictos.error.stencil import TooNarrowError, DuplicatedPointError
 from dictos.error.linear_algebra import InconsistentDataSetError
@@ -211,6 +216,29 @@ class UtilsTest(unittest.TestCase):
         with self.subTest("create_coordinate_symbols with invalid stencil"):
             with self.assertRaises(DuplicatedPointError):
                 create_coordinate_symbols(stencil)
+
+    def test_utils_sort_by_subscript(self):
+        """test suite for utils.sort_by_subscript."""
+
+        for half_width in range(1, 11):
+            with self.subTest(f"get subscript {(half_width * 2 + 1)}-point stencil"):
+                stencil = [to_subscript(i) for i in range(-half_width, half_width + 1)]
+                sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
+                f_set = sp.symbols(sym_str)
+                expected = dot_product(
+                    f_set, [1 for _ in range(len(f_set))], evaluate=False
+                )
+
+                num = random_int(-half_width, half_width)
+                stencil = [to_subscript(i) for i in num]
+                sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
+                f_set = sp.symbols(sym_str)
+                eq = dot_product(f_set, [1 for _ in range(len(f_set))], evaluate=False)
+                actual = sort_by_subscript(eq)
+
+                ac_str = str(actual)
+                ex_str = str(expected)
+                self.assertEqual(ex_str, ac_str)
 
 
 if __name__ == "__main__":
