@@ -79,7 +79,7 @@ class InterpolationTest(unittest.TestCase):
                     if shuffle:
                         random.shuffle(stencil)
                     actual = equation(stencil)
-                    self.assertEqual(expected[half_width], actual)
+                    self.assertEqual(expected[half_width], sp.simplify(actual))
 
         expected = [
             0,
@@ -117,7 +117,7 @@ class InterpolationTest(unittest.TestCase):
                     if shuffle:
                         random.shuffle(stencil)
                     actual = equation(stencil)
-                    self.assertEqual(expected[width], actual)
+                    self.assertEqual(expected[width], sp.simplify(actual))
 
     def test_coefficients(self):
         """

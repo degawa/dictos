@@ -110,3 +110,44 @@ def to_subscript(number):
     # if n is a float number, converted to "xx.x"
     # 2-digit means the maximum stencil width is 99.
     # 1 digimal place is enough because equidistance grid is supported.
+
+
+def get_subscript(a_term):
+    """
+    get subscript from a differentiand symbol.
+
+    Args:
+        a_term (sympy Symbol or Mul):
+            a differentiand symbol with subscript like `27*f_{-1}`
+
+    Raises:
+        TypeError: if `a_term` is not sympy Symbol or Mul.
+
+    Returns:
+        str: string of subscript in a differentiand symbol, like "-1"
+    """
+
+    if type(a_term) is sp.core.symbol.Symbol:
+        # if `a_term` is a symbol with subscript and without coefficient
+        # like `f_{-1}`, `f = f_{-1}`.
+        f = a_term
+    elif type(a_term) is sp.core.mul.Mul:
+        # if `a_term` is a symbol with subscript and coefficient
+        # like `27*f_{-1}`, `f = f_{-1}`.
+        i = 1 if type(a_term.args[1]) is sp.core.symbol.Symbol else 0
+        f = a_term.args[i]
+        # if `a_term.args` is (27, f_{-1}), chose `f_{-1}`.
+    else:
+        raise TypeError(a_term, type(a_term))
+        # raise error if
+        # - `a_term` is not sympy Symbol or Mul.
+
+    f_str = str(f)
+    start = f_str.find("{") + 1
+    stop = f_str.find("}")
+    subscript = f_str[start:stop]
+    # convert a symbol `f_{-1}` to a string "f_{-1}",
+    # then find potisions at "{" and "}", finally extract subscript
+    # between "{" and "}".
+
+    return subscript

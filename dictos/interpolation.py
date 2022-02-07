@@ -10,6 +10,7 @@ from .stencil import create_coordinate_symbols, create_differentiand_symbols
 from .utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
+    sort_by_subscript,
 )
 from .linalg import dot_product
 from .lagrangian_polynomial import lagrangian_poly
@@ -17,7 +18,7 @@ from .taylor_expansion import taylor_series
 from .error.stencil import ContainsZeroError
 
 
-def equation(stencil: list):
+def equation(stencil: list, sort: bool = True):
     """
     derive interpolation equation based on given stencil.
     The equation compute interpolation at stencil = 0
@@ -46,8 +47,14 @@ def equation(stencil: list):
     coef = coefficients(stencil)
     # derive interpolation coefficients based on given stencil
 
-    return sp.simplify(dot_product(coef, f_set))
+    eq = dot_product(coef, f_set)
     # calculate dot product of the coefs and differentiands.
+
+    if sort:
+        eq = sort_by_subscript(eq)
+    # sort numerator by subscript.
+
+    return eq
 
 
 def coefficients(stencil: list, as_numer_denom: bool = False):
