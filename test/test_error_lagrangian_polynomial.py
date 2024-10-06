@@ -1,5 +1,6 @@
 """Tests for distos.error.lagrangian_polynomial
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -97,6 +98,24 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
         with self.subTest("lagrangian_basis with inconsistent degree and x_set"):
             with self.assertRaises(InconsistentDataSetAndDegreeOfPolynomialError):
                 lagrangian_basis(x, degree, 0, x_set)
+
+        degree = 2
+        x_set = [0, dx, 2 * dx]
+        point_at = -1
+        with self.subTest(
+            "lagrangian_basis with point_at out of range (less than the lower limit)"
+        ):
+            with self.assertRaises(ValueError):
+                lagrangian_basis(x, degree, point_at, x_set)
+
+        degree = 2
+        x_set = [0, dx, 2 * dx]
+        point_at = 3
+        with self.subTest(
+            "lagrangian_basis with point_at out of range (greater than the upper limit)"
+        ):
+            with self.assertRaises(ValueError):
+                lagrangian_basis(x, degree, point_at, x_set)
 
         x_set = [0, dx, 2 * dx]
         f_set = sp.symbols(f"f0:{(len(x_set) + 1)}")
