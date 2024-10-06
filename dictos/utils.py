@@ -27,6 +27,16 @@ def simplify_coefficients(coef, as_numer_denom: bool = False):
             numerator and denominator of coefficients.
             coefficients are commutative
             with the least common multiple of the denominator.
+
+    Examples:
+        >>> import sympy as sp
+        >>> from sympy.abc import *
+        >>> from dictos import utils as utl
+        >>> expr = [1/(12*h), - 2/(3*h), + 2/(3*h), -1/(12*h)]
+        >>> utl.simplify_coefficients(expr)
+        [1/12, -2/3, 2/3, -1/12]
+        >>> utl.simplify_coefficients(expr, as_numer_denom=True)
+        ([1, -8, 8, -1], 12)
     """
     coef_num = [c if c.is_number else sp.poly(c).coeffs()[0] for c in coef]
     # extract numbers from list of coefficients like [1/h**2, ...].
