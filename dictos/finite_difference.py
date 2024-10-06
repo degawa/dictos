@@ -192,7 +192,7 @@ def truncation_error(stencil: list, deriv: int, interval: str = DEFAULT_INTERVAL
     return sp.expand(
         sp.simplify(
             derivative_symbol(DEFAULT_DIFFERENTIAND, deriv)
-            - sp.nsimplify(fd_eq / h ** deriv, rational=True, tolerance=1e-10)
+            - sp.nsimplify(fd_eq / h**deriv, rational=True, tolerance=1e-10)
         )
     ).as_leading_term(h)
     # extract the leading-order of errer term.

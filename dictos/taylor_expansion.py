@@ -56,7 +56,7 @@ def taylor_series(around, up_to: int):
     # derivatives of function f [f, f^(1), f^(2), f^(3), ..., f^(up_to)]
 
     h = around
-    coef = [h ** i * sp.Rational(1, sp.factorial(i)) for i in deriv_orders]
+    coef = [h**i * sp.Rational(1, sp.factorial(i)) for i in deriv_orders]
     # coefficient each term [1, h, h**2/2, h**3/6, ..., h**up_to/up_to!]
 
     series = dot_product(df_set, coef)

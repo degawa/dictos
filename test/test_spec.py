@@ -1,5 +1,6 @@
 """Tests for distos.spec
 """
+
 import sys
 
 sys.path.insert(1, "..")
