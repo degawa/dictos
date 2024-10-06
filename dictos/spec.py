@@ -6,7 +6,8 @@ DEFAULT_INDEPENDENT_VARIABLE = "x"  # str for independent variable symbol
 DEFAULT_INTERVAL = "h"  # str for interval symbol
 DEFAULT_DIFFERENTIAND = "f"  # str for symbol that to be differentiated
 
-_MINIMUM_STENCIL_WIDTH = 2
+_MINIMUM_STENCIL_WIDTH = 2  # defined as the width to achieve a linear
+# interpolation and first-order accuracy for the finite differences.
 
 
 def narrower_than_minimum_width(data_set) -> bool:
