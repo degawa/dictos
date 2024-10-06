@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changes
+- refactored rationalization algorithm from my own implementation to sympy `nsimplify`. #93
+- added comment to a parameter `_MINIMUM_STENCIL_WIDTH`. #95
+
+### Fixes
+- fixed a typo (natrual) to natural. #94
 
 ## [0.4.0] - 2022-02-08
 ### Breaking Changes
