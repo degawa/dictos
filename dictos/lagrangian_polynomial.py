@@ -34,6 +34,7 @@ def lagrangian_basis(x, degree: int, point_at: int, x_set: list = None):
             appears more than once.
         InconsistentDataSetAndDegreeOfPolynomialError:
             if degree and len(x_set) are inconsistent.
+        ValueError: If `point_at` is out of range.
 
     Returns:
         sympy Expr: a Lagrange basis polynomial $l(x)|_{x_set[point_at]}$.
@@ -58,10 +59,12 @@ def lagrangian_basis(x, degree: int, point_at: int, x_set: list = None):
             raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
             # raise error if
             # - degree and len(x_set) are inconsistent.
-    # TODO: #55 raise error when point_at is out of range
 
     num_set = degree + 1
     # n+1 points are required to construct an n-th degree polynomial.
+
+    if point_at < 0 or point_at >= num_set:
+        raise ValueError(f"point_at must be between 0 and {num_set-1}")
 
     if x_set is None:
         x_set = sp.symbols(f"x0:{num_set}")
