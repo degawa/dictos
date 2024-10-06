@@ -8,7 +8,7 @@ from .error.lagrangian_polynomial import (
 from .error.stencil import DuplicatedPointError, TooNarrowError
 from .spec import (
     has_duplicated_points,
-    is_not_natrual_number,
+    is_not_natural_number,
     is_not_assumed_length,
     are_different_length,
     narrower_than_minimum_width,
@@ -45,7 +45,7 @@ def lagrangian_basis(x, degree: int, point_at: int, x_set: list = None):
         >>> lp.lagrangian_basis(x, degree=3, point_at=0)
         (x - x1)*(x - x2)*(x - x3)/((x0 - x1)*(x0 - x2)*(x0 - x3))
     """
-    if is_not_natrual_number(degree):
+    if is_not_natural_number(degree):
         raise DegreeOfPolynomialIsNotNaturalNumberError(degree)
         # raise error if
         # - meaningless degree of polynomial is specified

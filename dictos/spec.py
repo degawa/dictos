@@ -25,7 +25,7 @@ def narrower_than_minimum_width(data_set) -> bool:
     return len(data_set) < _MINIMUM_STENCIL_WIDTH
 
 
-def is_not_natrual_number(number, include_zero: bool = False) -> bool:
+def is_not_natural_number(number, include_zero: bool = False) -> bool:
     """
     Returns True if `number` is not the natural number.
 
