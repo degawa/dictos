@@ -11,7 +11,7 @@ from dictos.spec import (
     has_zero,
     has_duplicated_points,
     narrower_than_minimum_width,
-    is_not_natrual_number,
+    is_not_natural_number,
     is_not_assumed_length,
     are_different_length,
     _MINIMUM_STENCIL_WIDTH,
@@ -82,12 +82,12 @@ class SpecTest(unittest.TestCase):
         for c in random_int(-100, 100):
             with self.subTest(c):
                 expected = True if c <= 0 else False
-                actual = is_not_natrual_number(c)
+                actual = is_not_natural_number(c)
                 self.assertEqual(expected, actual)
 
             with self.subTest(c):
                 expected = True if c < 0 else False
-                actual = is_not_natrual_number(c, include_zero=True)
+                actual = is_not_natural_number(c, include_zero=True)
                 self.assertEqual(expected, actual)
 
     def test_is_not_assumed_length(self):

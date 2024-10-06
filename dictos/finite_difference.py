@@ -4,7 +4,7 @@ from .spec import (
     DEFAULT_DIFFERENTIAND,
     DEFAULT_INTERVAL,
     DEFAULT_INDEPENDENT_VARIABLE,
-    is_not_natrual_number,
+    is_not_natural_number,
 )
 from .stencil import create_coordinate_symbols, create_differentiand_symbols
 from .utils import (
@@ -119,7 +119,7 @@ def coefficients(stencil: list, deriv: int = 1, as_numer_denom: bool = False):
         >>> fd.coefficients([-1.5, -0.5, 0, 0.5, 1.5], deriv=1, as_numer_denom=True)
         ([1, -27, 0, 27, -1], 24)
     """
-    if is_not_natrual_number(deriv):
+    if is_not_natural_number(deriv):
         raise UnsupportedOrderOfDerivativeError(deriv)
         # raise error
         # - if unsupported order of derivative (deriv < 1)
