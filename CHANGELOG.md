@@ -10,9 +10,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### New features
 - added error handling when passing out-of-range values to argument `point_at` of `lagrangian_basis`. #48
+- added `Expr` class that extends SymPy's `Expr` to preserve expression display order. #101
 
 ### Fixes
-- fixed a typo (natrual) to natural. #94
+- fixed a typo (natrual to natural). #94
 
 ## [0.4.0] - 2022-02-08
 ### Breaking Changes
