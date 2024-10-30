@@ -16,6 +16,7 @@ from .linalg import dot_product, div
 from .lagrangian_polynomial import lagrangian_poly, derivative
 from .taylor_expansion import taylor_series, derivative_symbol
 from .error.finite_difference import UnsupportedOrderOfDerivativeError
+from .core.expr import Expr
 
 
 def equation(
@@ -24,7 +25,7 @@ def equation(
     interval: str = DEFAULT_INTERVAL,
     sort: bool = True,
     keep_zero: bool = False,
-):
+) -> Expr:
     """
     derive finite difference equation based on given stencil.
 
@@ -39,7 +40,7 @@ def equation(
             Defaults to False.
 
     Returns:
-        sympy Expr: derived finite difference equation.
+        dictos Expr: derived finite difference equation.
 
     Examples:
         >>> from dictos import finite_difference as fd
@@ -83,7 +84,7 @@ def equation(
         eq = sort_by_subscript(eq)
     # sort numerator by subscript.
 
-    return eq
+    return Expr(eq)
 
 
 def coefficients(stencil: list, deriv: int = 1, as_numer_denom: bool = False):
