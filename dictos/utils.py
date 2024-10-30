@@ -237,21 +237,14 @@ def sort_by_subscript(expr):
     # rearrange numerator in order of the subscripts.
     if all([s < 0 for s in subscripts]):
         # if all subscripts are negative integer,
-        numer_sorted = numer_sorted_terms[0]
-        for n in numer_sorted_terms[1:]:
-            numer_sorted = sp.Add(numer_sorted, n, evaluate=False)
-        # (((3*f_{-1}) - 3*f_{-2}) + f_{-3})
-    elif all([s > 0 for s in subscripts]):
-        # if all subscripts are positive integer,
-        numer_sorted = numer_sorted_terms[-1]
-        for n in numer_sorted_terms[-2::-1]:
-            numer_sorted = sp.Add(numer_sorted, n, evaluate=False)
-        # (((3*f_{1}) - 3*f_{2}) + f_{3})
+        #
+        # 3*f_{-1} - 3*f_{-2} + f_{-3}
+        numer_sorted = sp.Add(*numer_sorted_terms[::-1], evaluate=False)
     else:
-        numer_sorted = numer_sorted_terms[-1]
-        for n in numer_sorted_terms[-2::-1]:
-            numer_sorted = sp.Add(numer_sorted, n, evaluate=False)
-        # ((((-f_{2} + 8*f_{1}) + 0*f_{0}) - 8*f_{-1}) + f_{-2})
+        # 3*f_{1} - 3*f_{2} + f_{3}
+        # f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2}
+        # etc.
+        numer_sorted = sp.Add(*numer_sorted_terms, evaluate=False)
 
     if type(denom) is sp.core.numbers.Integer:
         return sp.Mul(numer_sorted, sp.Rational(1, denom), evaluate=False)
