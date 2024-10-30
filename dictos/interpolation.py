@@ -16,9 +16,10 @@ from .linalg import dot_product
 from .lagrangian_polynomial import lagrangian_poly
 from .taylor_expansion import taylor_series
 from .error.stencil import ContainsZeroError
+from .core.expr import Expr
 
 
-def equation(stencil: list, sort: bool = True):
+def equation(stencil: list, sort: bool = True) -> Expr:
     """
     derive interpolation equation based on given stencil.
     The equation compute interpolation at stencil = 0
@@ -54,7 +55,7 @@ def equation(stencil: list, sort: bool = True):
         eq = sort_by_subscript(eq)
     # sort numerator by subscript.
 
-    return eq
+    return Expr(eq)
 
 
 def coefficients(stencil: list, as_numer_denom: bool = False):

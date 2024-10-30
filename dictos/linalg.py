@@ -30,26 +30,12 @@ def dot_product(vec1, vec2, evaluate: bool = True):
 
     if evaluate:
         eq = sum([vec1[i] * vec2[i] for i in range(len(vec1))])
-        # when evaluate = True, a result obtained using sp.Mul and sp.Add
-        # with evaluate=True is the same as it
-        # obtained using `*` operation and the sum function.
     else:
-        begin_ = len(vec2) - 1  # exclude first term
-        end_ = -1  # to generate numbers up to 0 using range()
-        step_ = -1
-        eq = sp.Mul(vec1[begin_], vec2[begin_], evaluate=evaluate)
-        for i in range(begin_ + step_, end_, step_):
-            eq = sp.Add(
-                eq, sp.Mul(vec1[i], vec2[i], evaluate=evaluate), evaluate=evaluate
-            )
+        terms = [sp.Mul(vec1[i], vec2[i], evaluate=False) for i in range(len(vec1))]
+        eq = sp.Add(*terms, evaluate=False)
         # there is no way to accumulate a list of sympy symbols
         # without evaluation.
         # So for-loop and sympy.Add and .Mul are used.
-        # The for-loop is downstepped
-        # so that the result are sorted when it is printed.
-        # The result of the accumulation, `((-a*f_{-1} +b*f_{0}) + a*f_{1})`,
-        # is printed as `a*f_{1} + b*f_{0} - a*f_{-1}`.
-        # downstepping is used for sorting.
 
     return eq
 
