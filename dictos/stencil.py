@@ -84,10 +84,10 @@ def create_differentiand_symbols(
     # tail space is ignored in `sympy.symbols`
 
     f_set = sp.symbols(str)
-    if type(f_set) == sp.core.symbol.Symbol:
+    if type(f_set) == sp.Symbol:
         f_set = (f_set,)
     # make the return value's type a tuple.
-    # sp.symbols(str) returns sp.core.symbol.Symbol
+    # sp.symbols(str) returns sp.Symbol
     # when str does not contain space
     # althought sp.symbols(f"_0:{n}") returns tuple
     # when n==1.
@@ -127,14 +127,14 @@ def get_subscript(a_term):
         str: string of subscript in a differentiand symbol, like "-1"
     """
 
-    if type(a_term) is sp.core.symbol.Symbol:
+    if type(a_term) is sp.Symbol:
         # if `a_term` is a symbol with subscript and without coefficient
         # like `f_{-1}`, `f = f_{-1}`.
         f = a_term
-    elif type(a_term) is sp.core.mul.Mul:
+    elif type(a_term) is sp.Mul:
         # if `a_term` is a symbol with subscript and coefficient
         # like `27*f_{-1}`, `f = f_{-1}`.
-        i = 1 if type(a_term.args[1]) is sp.core.symbol.Symbol else 0
+        i = 1 if type(a_term.args[1]) is sp.Symbol else 0
         f = a_term.args[i]
         # if `a_term.args` is (27, f_{-1}), chose `f_{-1}`.
     else:
