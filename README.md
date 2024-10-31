@@ -213,7 +213,7 @@ print(intp.truncation_error([1, 2, 3]))
 Tom: "Thanks!"
 "It would be nice if the truncation error were provided when I asked for an equation or coefficients.
 
-Dictos: ☺
+Dictos: 😊
 
 ### Features to be implemented
 Tom successfully  graduated from the university and will go on to a graduate school in the new academic year.
