@@ -226,14 +226,30 @@ class UtilsTest(unittest.TestCase):
                 sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
                 f_set = sp.symbols(sym_str)
                 expected = dot_product(
-                    f_set, [1 for _ in range(len(f_set))], evaluate=False
+                    [2 for _ in range(len(f_set))], f_set, evaluate=False
                 )
 
                 num = random_int(-half_width, half_width)
                 stencil = [to_subscript(i) for i in num]
                 sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
                 f_set = sp.symbols(sym_str)
-                eq = dot_product(f_set, [1 for _ in range(len(f_set))], evaluate=False)
+                eq = dot_product(f_set, [2 for _ in range(len(f_set))], evaluate=False)
+                actual = sort_by_subscript(eq)
+
+                ac_str = str(actual)
+                ex_str = str(expected)
+                self.assertEqual(ex_str, ac_str)
+
+                stencil = [to_subscript(i) for i in range(-half_width, half_width + 1)]
+                sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
+                f_set = sp.symbols(sym_str)
+                expected = sp.Add(*f_set, evaluate=False)
+
+                num = random_int(-half_width, half_width)
+                stencil = [to_subscript(i) for i in num]
+                sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
+                f_set = sp.symbols(sym_str)
+                eq = sp.Add(*f_set, evaluate=False)
                 actual = sort_by_subscript(eq)
 
                 ac_str = str(actual)
