@@ -1,22 +1,22 @@
 import sympy as sp
 
-from .spec import (
+from dictos.spec import (
     DEFAULT_DIFFERENTIAND,
     DEFAULT_INTERVAL,
     DEFAULT_INDEPENDENT_VARIABLE,
     is_not_natural_number,
 )
-from .stencil import create_coordinate_symbols, create_differentiand_symbols
-from .utils import (
+from dictos.stencil import create_coordinate_symbols, create_differentiand_symbols
+from dictos.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
     sort_by_subscript,
 )
-from .linalg import dot_product, div
-from .lagrangian_polynomial import lagrangian_poly, derivative
-from .taylor_expansion import taylor_series, derivative_symbol
-from .error.finite_difference import UnsupportedOrderOfDerivativeError
-from .core.expr import Expr
+from dictos.linalg import dot_product, div
+from dictos.lagrangian_polynomial import lagrangian_poly, derivative
+from dictos.taylor_expansion import taylor_series, derivative_symbol
+from dictos.error.finite_difference import UnsupportedOrderOfDerivativeError
+from dictos.core.expr import Expr
 
 
 def equation(

@@ -1,13 +1,9 @@
-from .__version__ import __version__
-from .core.expr import Expr
-from .lagrangian_polynomial import lagrangian_basis, lagrangian_poly, derivative
-from .taylor_expansion import taylor_series
-from .finite_difference import (
-    equation,
-    coefficients,
-    truncation_error,
-)
-from .interpolation import (
+from dictos.__version__ import __version__
+from dictos.core.expr import Expr
+from dictos.lagrangian_polynomial import lagrangian_basis, lagrangian_poly, derivative
+from dictos.taylor_expansion import taylor_series
+from dictos.calculus import finite_difference
+from dictos.interpolation import (
     equation,
     coefficients,
     truncation_error,
