@@ -13,7 +13,7 @@ from dictos.utils import (
     sort_by_subscript,
 )
 from dictos.linalg import dot_product
-from dictos.lagrangian_polynomial import lagrangian_poly
+from dictos.poly.lagrangian_polynomial import lagrangian_poly
 from dictos.taylor_expansion import taylor_series
 from dictos.error.stencil import ContainsZeroError
 from dictos.core.expr import Expr
