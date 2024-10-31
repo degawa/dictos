@@ -101,10 +101,10 @@ def extract_coefficients_as_numer_denom(expr, f_set):
 def decompose_addition(expr_add):
     """
     Decompose additions into each term and extract all terms
-    from sympy.core.add.Add expression.
+    from sympy.Add expression.
 
     Args:
-        expr_add (sympy.core.add.Add):
+        expr_add (sympy.Add):
             an expression to extract all terms.
             for example, `0a + b + 2c` or `(0a + (b + 2c))`.
 
@@ -112,7 +112,7 @@ def decompose_addition(expr_add):
         list:
             all terms extracted from `expr_add`.
             The order of terms is not keeped
-            when sympy.core.add.Add is contained in `expr_add`
+            when sympy.Add is contained in `expr_add`
             caused by a behavior of sympy.Add.make_args().
 
     Examples:
@@ -141,11 +141,11 @@ def decompose_addition(expr_add):
         [0*a, b, 2*c]
     """
 
-    if type(expr_add) is sp.core.symbol.Symbol or type(expr_add) is sp.core.mul.Mul:
+    if type(expr_add) is sp.Symbol or type(expr_add) is sp.Mul:
         return expr_add
         # is type of `expr_add` is Symbol or Mul, there is nothing more to do.
 
-    if type(expr_add) is not sp.core.add.Add:
+    if type(expr_add) is not sp.Add:
         raise TypeError(expr_add, type(expr_add))
         # raise error if
         # - type of `expr_add` is not Add.
@@ -154,24 +154,24 @@ def decompose_addition(expr_add):
     # list for containing all terms.
 
     args = sp.Add.make_args(expr_add)
-    # decompose and extract all terms from sympy.core.add.Add as tuple.
+    # decompose and extract all terms from sympy.Add as tuple.
     # a + 2*b +3*c -> [a, 2*b, 3*c]
 
-    if any(type(arg) is sp.core.add.Add for arg in args):
-        # when sympy.core.add.Add is contained in args,
+    if any(type(arg) is sp.Add for arg in args):
+        # when sympy.Add is contained in args,
         # further decomposition is performed.
         for i in range(len(args)):
-            if type(args[i]) is sp.core.add.Add:
+            if type(args[i]) is sp.Add:
                 terms += decompose_addition(args[i])
-                # when `args[i]` is sympy.core.add.Add,
+                # when `args[i]` is sympy.Add,
                 # all decomposed terms are added to the list.
             else:
                 terms.append(args[i])
-                # when `args[i]` is not sympy.core.add.Add,
+                # when `args[i]` is not sympy.Add,
                 # add `args[i]` to the list as a term.
     else:
         terms = list(args[:])
-        # when sympy.core.add.Add is not contained in args,
+        # when sympy.Add is not contained in args,
         # addition is successfully decomposed into each term.
         # return all terms as list.
 
@@ -208,7 +208,7 @@ def sort_by_subscript(expr):
     # `(-f_{-2}/6, -f_{2}/6, 2*f_{-1}/3, 2*f_{1}/3)`.
     # so it is necessary to branch according to type of the denominator.
 
-    if denom != 1 and type(denom) is not sp.core.numbers.Integer:
+    if denom != 1 and type(denom) is not sp.Integer:
         # if `expr` is a fraction, and the denominator contains sympy symbol,
         numer = expr.args[-1]
         # extract the numerator.
@@ -246,7 +246,7 @@ def sort_by_subscript(expr):
         # etc.
         numer_sorted = sp.Add(*numer_sorted_terms, evaluate=False)
 
-    if type(denom) is sp.core.numbers.Integer:
+    if type(denom) is sp.Integer:
         return sp.Mul(numer_sorted, sp.Rational(1, denom), evaluate=False)
     else:
         return div(numer_sorted, denom)
