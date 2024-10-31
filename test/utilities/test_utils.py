@@ -51,7 +51,7 @@ class UtilsTest(unittest.TestCase):
                     )
                     for _ in range(len_)
                 ]
-                expected = [n / 1 for n in numer]
+                expected = [sp.Mul(n, sp.Pow(1, -1)) for n in numer]
 
                 actual = simplify_coefficients(numer)
 
@@ -84,7 +84,7 @@ class UtilsTest(unittest.TestCase):
                     )
                     for _ in range(len_)
                 ]
-                coef = [numer[i] / denom[i] for i in range(len_)]
+                coef = [sp.Mul(numer[i], sp.Pow(denom[i], -1)) for i in range(len_)]
                 expected = [sp.Rational(numer[i], denom[i]) for i in range(len_)]
 
                 actual = simplify_coefficients(coef)
@@ -103,7 +103,7 @@ class UtilsTest(unittest.TestCase):
                     )
                     for _ in range(len_)
                 ]
-                coef = [numer[i] / denom[i] * h for i in range(len_)]
+                coef = [sp.Mul(numer[i], sp.Pow(denom[i], -1)) * h for i in range(len_)]
                 expected = [sp.Rational(numer[i], denom[i]) for i in range(len_)]
 
                 actual = simplify_coefficients(coef)
@@ -120,7 +120,7 @@ class UtilsTest(unittest.TestCase):
                     )
                     for _ in range(len_)
                 ]
-                expected = ([n / 1 for n in numer], 1)
+                expected = ([sp.Mul(n, sp.Pow(1, -1)) for n in numer], 1)
 
                 actual = simplify_coefficients(numer, as_numer_denom=True)
 
