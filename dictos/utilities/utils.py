@@ -2,7 +2,7 @@ import sympy as sp
 import numpy as np
 
 from dictos.linalg.linalg import div
-from dictos.stencil import get_subscript
+from dictos.discrete.stencil import get_subscript
 from dictos.error.internal import UnexpectedDenominatorError
 
 

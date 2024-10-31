@@ -6,7 +6,10 @@ from dictos.utilities.spec import (
     DEFAULT_INDEPENDENT_VARIABLE,
     has_zero,
 )
-from dictos.stencil import create_coordinate_symbols, create_differentiand_symbols
+from dictos.discrete.stencil import (
+    create_coordinate_symbols,
+    create_differentiand_symbols,
+)
 from dictos.utilities.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
