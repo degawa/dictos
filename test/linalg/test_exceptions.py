@@ -1,12 +1,13 @@
 """Tests for distos.error.linear_algebra
 """
+
 import sys
 
 sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.error.linear_algebra import InconsistentDataSetError
+from dictos.linalg.exceptions import InconsistentDataSetError
 
 
 class ErrorLinearAlgebraTest(unittest.TestCase):

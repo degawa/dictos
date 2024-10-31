@@ -1,5 +1,6 @@
 """Tests for test.gen
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -7,7 +8,7 @@ sys.path.insert(1, "..")
 import unittest
 import random
 
-from gen import random_int, random_string
+from test.utilities.gen import random_int, random_string
 
 _MAX_LENGTH = 100
 

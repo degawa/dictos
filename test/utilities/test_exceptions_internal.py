@@ -1,12 +1,13 @@
 """Tests for distos.error.internal
 """
+
 import sys
 
 sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.error.internal import UnexpectedDenominatorError
+from dictos.utilities.exceptions.internal import UnexpectedDenominatorError
 
 
 class ErrorInternalTest(unittest.TestCase):

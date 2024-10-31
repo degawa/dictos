@@ -1,13 +1,14 @@
 """Tests for distos.error.taylor_expansion
 """
+
 import sys
 
 sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.taylor_expansion import taylor_series, derivative_symbol
-from dictos.error.taylor_expansion import (
+from dictos.series.taylor_expansion import taylor_series, derivative_symbol
+from dictos.series.exceptions import (
     UnsupportedOrderOfDerivativeError,
     NumberOfExpansionTermsIsNotNaturalNumberError,
 )

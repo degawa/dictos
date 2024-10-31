@@ -1,13 +1,18 @@
 """Tests for distos.error.stencil
 """
+
 import sys
 
 sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.spec import has_zero, has_duplicated_points
-from dictos.error.stencil import ContainsZeroError, DuplicatedPointError, TooNarrowError
+from dictos.utilities.spec import has_zero, has_duplicated_points
+from dictos.discrete.exceptions import (
+    ContainsZeroError,
+    DuplicatedPointError,
+    TooNarrowError,
+)
 
 
 class ErrorStencilTest(unittest.TestCase):

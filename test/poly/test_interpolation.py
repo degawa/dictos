@@ -1,5 +1,6 @@
 """Tests for distos.interplation
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -8,7 +9,7 @@ import unittest
 import sympy as sp
 import random
 
-from dictos.interpolation import equation, coefficients, truncation_error
+from dictos.poly.interpolation import equation, coefficients, truncation_error
 
 
 class InterpolationTest(unittest.TestCase):
@@ -258,11 +259,11 @@ class InterpolationTest(unittest.TestCase):
 
         expected = [
             0,
-            -f_2 * h ** 2 / 2,
-            f_4 * h ** 4 / 6,
-            -f_6 * h ** 6 / 20,
-            f_8 * h ** 8 / 70,
-            -f_10 * h ** 10 / 252,
+            -f_2 * h**2 / 2,
+            f_4 * h**4 / 6,
+            -f_6 * h**6 / 20,
+            f_8 * h**8 / 70,
+            -f_10 * h**10 / 252,
         ]
         for half_width in range(1, 6):
             with self.subTest(
@@ -276,14 +277,14 @@ class InterpolationTest(unittest.TestCase):
         expected = [
             0,
             0,
-            f_2 * h ** 2,
-            -f_3 * h ** 3,
-            f_4 * h ** 4,
-            -f_5 * h ** 5,
-            f_6 * h ** 6,
-            -f_7 * h ** 7,
-            f_8 * h ** 8,
-            -f_9 * h ** 9,
+            f_2 * h**2,
+            -f_3 * h**3,
+            f_4 * h**4,
+            -f_5 * h**5,
+            f_6 * h**6,
+            -f_7 * h**7,
+            f_8 * h**8,
+            -f_9 * h**9,
         ]
         for width in range(2, 10):
             with self.subTest(f"truncation error of {width}-point extrapolation"):

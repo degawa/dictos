@@ -1,5 +1,6 @@
 """Tests for distos.linalg
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -8,9 +9,9 @@ import unittest
 import sympy as sp
 import random
 
-from dictos.linalg import dot_product, div
-from dictos.error.linear_algebra import InconsistentDataSetError
-from gen import random_int, random_string
+from dictos.linalg.linalg import dot_product, div
+from dictos.linalg.exceptions import InconsistentDataSetError
+from test.utilities.gen import random_int, random_string
 
 
 class LinalgTest(unittest.TestCase):

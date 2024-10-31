@@ -1,5 +1,6 @@
 """Tests for distos.utils
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -9,19 +10,24 @@ import sympy as sp
 import numpy as np
 import random
 
-from dictos.stencil import (
+from dictos.discrete.stencil import (
     create_coordinate_symbols,
     to_subscript,
 )
-from dictos.utils import (
+from dictos.utilities.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
     sort_by_subscript,
 )
-from dictos.linalg import dot_product
-from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
-from dictos.error.stencil import TooNarrowError, DuplicatedPointError
-from dictos.error.linear_algebra import InconsistentDataSetError
+from dictos.linalg.linalg import dot_product
+from test.utilities.gen import (
+    random_string,
+    random_int,
+    STENCIL_HALF_WIDTH,
+    MAX_SYMBOL_LENGTH,
+)
+from dictos.discrete.exceptions import TooNarrowError, DuplicatedPointError
+from dictos.linalg.exceptions import InconsistentDataSetError
 
 
 class UtilsTest(unittest.TestCase):
@@ -171,28 +177,22 @@ class UtilsTest(unittest.TestCase):
         f_set = [f_0, f_1, f_2, f_3, f_4]
         # 3
         expr = (
-            f_0 * x * (-2 * h + x) * (-h + x) * (h + x) / (24 * h ** 4)
-            - f_1 * x * (-2 * h + x) * (-h + x) * (2 * h + x) / (6 * h ** 4)
-            + f_2 * (-2 * h + x) * (-h + x) * (h + x) * (2 * h + x) / (4 * h ** 4)
-            - f_3 * x * (-2 * h + x) * (h + x) * (2 * h + x) / (6 * h ** 4)
-            + f_4 * x * (-h + x) * (h + x) * (2 * h + x) / (24 * h ** 4)
+            f_0 * x * (-2 * h + x) * (-h + x) * (h + x) / (24 * h**4)
+            - f_1 * x * (-2 * h + x) * (-h + x) * (2 * h + x) / (6 * h**4)
+            + f_2 * (-2 * h + x) * (-h + x) * (h + x) * (2 * h + x) / (4 * h**4)
+            - f_3 * x * (-2 * h + x) * (h + x) * (2 * h + x) / (6 * h**4)
+            + f_4 * x * (-h + x) * (h + x) * (2 * h + x) / (24 * h**4)
         )
         with self.subTest(expr):
             expected = (
                 [
-                    2 * h ** 3 * x - h ** 2 * x ** 2 - 2 * h * x ** 3 + x ** 4,
-                    -16 * h ** 3 * x
-                    + 16 * h ** 2 * x ** 2
-                    + 4 * h * x ** 3
-                    - 4 * x ** 4,
-                    24 * h ** 4 - 30 * h ** 2 * x ** 2 + 6 * x ** 4,
-                    16 * h ** 3 * x
-                    + 16 * h ** 2 * x ** 2
-                    - 4 * h * x ** 3
-                    - 4 * x ** 4,
-                    -2 * h ** 3 * x - h ** 2 * x ** 2 + 2 * h * x ** 3 + x ** 4,
+                    2 * h**3 * x - h**2 * x**2 - 2 * h * x**3 + x**4,
+                    -16 * h**3 * x + 16 * h**2 * x**2 + 4 * h * x**3 - 4 * x**4,
+                    24 * h**4 - 30 * h**2 * x**2 + 6 * x**4,
+                    16 * h**3 * x + 16 * h**2 * x**2 - 4 * h * x**3 - 4 * x**4,
+                    -2 * h**3 * x - h**2 * x**2 + 2 * h * x**3 + x**4,
                 ],
-                [24 * h ** 4],
+                [24 * h**4],
             )
             actual = extract_coefficients_as_numer_denom(expr, f_set)
             self.assertEqual(expected, actual)

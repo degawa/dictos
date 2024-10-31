@@ -1,5 +1,6 @@
 """Tests for distos.finite_difference
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -8,7 +9,7 @@ import unittest
 import sympy as sp
 import random
 
-from dictos.finite_difference import equation, coefficients, truncation_error
+from dictos.calculus.finite_difference import equation, coefficients, truncation_error
 
 
 class FiniteDifferenceTest(unittest.TestCase):
@@ -84,8 +85,8 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         expected = [
             0,
-            (f_m1 - 2 * f_0 + f_p1) / h ** 2,
-            (-f_m2 + 16 * f_m1 - 30 * f_0 + 16 * f_p1 - f_p2) / (12 * h ** 2),
+            (f_m1 - 2 * f_0 + f_p1) / h**2,
+            (-f_m2 + 16 * f_m1 - 30 * f_0 + 16 * f_p1 - f_p2) / (12 * h**2),
             (
                 2 * f_m3
                 - 27 * f_m2
@@ -95,7 +96,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                 - 27 * f_p2
                 + 2 * f_p3
             )
-            / (180 * h ** 2),
+            / (180 * h**2),
             (
                 -9 * f_m4
                 + 128 * f_m3
@@ -107,7 +108,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                 + 128 * f_p3
                 - 9 * f_p4
             )
-            / (5040 * h ** 2),
+            / (5040 * h**2),
             (
                 8 * f_m5
                 - 125 * f_m4
@@ -121,7 +122,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                 - 125 * f_p4
                 + 8 * f_p5
             )
-            / (25200 * h ** 2),
+            / (25200 * h**2),
         ]
         for shuffle in [False, True]:
             for half_width in range(1, 6):
@@ -325,11 +326,11 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         expected = [
             0,
-            -f_3 * h ** 2 / 6,
-            f_5 * h ** 4 / 30,
-            -f_7 * h ** 6 / 140,
-            f_9 * h ** 8 / 630,
-            -f_11 * h ** 10 / 2772,
+            -f_3 * h**2 / 6,
+            f_5 * h**4 / 30,
+            -f_7 * h**6 / 140,
+            f_9 * h**8 / 630,
+            -f_11 * h**10 / 2772,
         ]
         for half_width in range(1, 6):
             with self.subTest(

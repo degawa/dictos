@@ -8,13 +8,13 @@ sys.path.insert(1, "..")
 import unittest
 import sympy as sp
 
-from dictos.error.lagrangian_polynomial import (
+from dictos.poly.exceptions import (
     InconsistentDataSetError,
     DegreeOfPolynomialIsNotNaturalNumberError,
     InconsistentDataSetAndDegreeOfPolynomialError,
 )
-from dictos.error.stencil import DuplicatedPointError, TooNarrowError
-from dictos.lagrangian_polynomial import lagrangian_basis, lagrangian_poly
+from dictos.discrete.exceptions import DuplicatedPointError, TooNarrowError
+from dictos.poly.lagrangian_polynomial import lagrangian_basis, lagrangian_poly
 
 
 class ErrorLagrangianPolynomialTest(unittest.TestCase):
