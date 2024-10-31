@@ -82,7 +82,7 @@ Tom: "How should I do? I'm not good at computer operation and programming."
 
 Dictos: "Import the `finite_difference` module and pass a **relative** stencil to `equation`. I derive a finite difference equation at `0`."
 ```Python
-import dictos.finite_difference as fd
+from dictos import finite_difference as fd
 
 stencil = [-2, -1, 0, 1, 2]
 # stencil [i-2, i-1, i, i+1, i+2] relative to i.
@@ -92,8 +92,8 @@ print(fd.equation(stencil, deriv=1))
 # (f_{-2} - 8*f_{-1} + 8*f_{1} - f_{2})/(12*h)
 
 stencil = [-1.5, -0.5, 0.5, 1.5]
-#    +---+-x-+---+
-# -1.5-0.5 0 0.5 1.5
+#    +-----+--x--+-----+
+#  -1.5  -0.5 0 0.5   1.5
 print(fd.equation(stencil, deriv=1))
 # (f_{-1.5} - 27*f_{-0.5} + 27*f_{0.5} - f_{1.5})/(24*h)
 ```
@@ -102,18 +102,18 @@ Tom: "I guess `deriv` is the order of derivate."
 
 Dictos: "Exactly". "set `keep_zero=True`, get the equation with terms multiplied by 0."
 ```Python
-import dictos.finite_difference as fd
+from dictos import finite_difference as fd
 
 stencil = [-2, -1, 0, 1, 2]
 print(fd.equation(stencil, deriv=1, keep_zero=True))
-# (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)
+# (1*f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)
 ```
 
 Tom: "Well... can I extract the coefficients?"
 
 Dictos: "`coefficients` may be your best friends."
 ```Python
-import dictos.finite_difference as fd
+from dictos import finite_difference as fd
 
 stencil = [-1.5, -0.5, 0.5, 1.5]
 print(fd.coefficients(stencil, deriv=1))
@@ -133,13 +133,13 @@ Tom: "I found that interpolation is also necessary for numerical simulations on 
 Dictos: "Import the `interpolation` module. The usability is almost the same as the `finite_difference`."
 "Do not contain `0` in the stencil because the I derive the interpolation equation at `0`."
 ```Python
-import dictos.interpolation as intp
+from dictos import interpolation as intp
 
 stencil = [-1.5, -0.5, 0.5, 1.5]
-#    +---+-x-+---+
-# -1.5-0.5 0 0.5 1.5
+#    +-----+--x--+-----+
+#  -1.5  -0.5 0 0.5   1.5
 print(intp.equation(stencil))
-# (-f_{-1.5} + 9*f_{-0.5} + 9*f_{0.5} - f_{1.5})/16
+# (-f_{-1.5} + 9*f_{-0.5} + 9*f_{0.5} - f_{1.5})*(1/16)
 # `keep_zero` option is not provided.
 
 print(intp.coefficients(stencil))
@@ -159,7 +159,7 @@ Tom: "I need to extrapolate the velocity outside the boundaries when computing d
 
 Dictos: "It is possible to pass one-sided stencil to `interpolation`"
 ```Python
-import dictos.interpolation as intp
+from dictos import interpolation as intp
 
 stencil = [1, 2]
 # x---o---o
@@ -184,8 +184,8 @@ Tom: "My boss has requested me to derive formal truncation errors."
 
 Dictos: "`truncation_error`. `finite_differene` and `interplation` have `truncation_error`"
 ```Python
-import dictos.finite_difference as fd
-import dictos.interpolation as intp
+from dictos import finite_difference as fd
+from dictos import interpolation as intp
 
 # finite difference
 print(fd.truncation_error([-0.5, 0.5], deriv=1))
