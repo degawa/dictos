@@ -1,4 +1,4 @@
-"""Tests for distos.error.stencil
+"""Tests for distos.discrete.exceptions
 """
 
 import sys
@@ -19,7 +19,7 @@ class ErrorStencilTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_stencil_ContainsZeroError(self):
         """
-        test suite for error.stencil.ContainsZeroError.
+        test suite for discrete.exceptions.ContainsZeroError.
         """
 
         stencil = [0, 1, 2]
@@ -29,7 +29,7 @@ class ErrorStencilTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_stencil_DuplicatedPointError(self):
         """
-        test suite for error.stencil.DuplicatedPointError.
+        test suite for discrete.exceptions.DuplicatedPointError.
         """
 
         with self.subTest():
@@ -45,7 +45,7 @@ class ErrorStencilTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_stencil_TooNarrowError(self):
         """
-        test suite for error.stencil.TooNarrowError.
+        test suite for discrete.exceptions.TooNarrowError.
         """
 
         with self.subTest():

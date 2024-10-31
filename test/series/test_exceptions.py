@@ -1,4 +1,4 @@
-"""Tests for distos.error.taylor_expansion
+"""Tests for distos.series.exceptions
 """
 
 import sys
@@ -18,7 +18,7 @@ class ErrorTaylorExpansionTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_taylor_expansion_UnsupportedOrderOfDerivativeError(self):
         """
-        test suite for error.taylor_expansion.UnsupportedOrderOfDerivativeError.
+        test suite for series.exceptions.UnsupportedOrderOfDerivativeError.
         """
 
         deriv = -1

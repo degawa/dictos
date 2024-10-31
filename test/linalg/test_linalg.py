@@ -1,4 +1,4 @@
-"""Tests for distos.linalg
+"""Tests for distos.linalg.linalg
 """
 
 import sys
@@ -100,7 +100,7 @@ class LinalgTest(unittest.TestCase):
 
     def test_linalg_exception(self):
         """test suite for exception in linalg"""
-        numer = [sp.core.Number(i) for i in range(4)]
+        numer = [sp.Number(i) for i in range(4)]
         f_set = sp.symbols(f"f_0:{(len(numer) + 1)}")
         with self.subTest("dot_product with inconsistent numer and f_set"):
             with self.assertRaises(InconsistentDataSetError):

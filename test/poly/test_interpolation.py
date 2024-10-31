@@ -1,4 +1,4 @@
-"""Tests for distos.interplation
+"""Tests for distos.poly.interplation
 """
 
 import sys
@@ -18,17 +18,17 @@ class InterpolationTest(unittest.TestCase):
         test suite for interplation.equation.
         """
 
-        f_0 = sp.symbols("f_{0}")
-        f_1 = sp.symbols("f_{1}")
-        f_2 = sp.symbols("f_{2}")
-        f_3 = sp.symbols("f_{3}")
-        f_4 = sp.symbols("f_{4}")
-        f_5 = sp.symbols("f_{5}")
-        f_6 = sp.symbols("f_{6}")
-        f_7 = sp.symbols("f_{7}")
-        f_8 = sp.symbols("f_{8}")
-        f_9 = sp.symbols("f_{9}")
-        f_10 = sp.symbols("f_{10}")
+        f_0 = sp.Symbol("f_{0}")
+        f_1 = sp.Symbol("f_{1}")
+        f_2 = sp.Symbol("f_{2}")
+        f_3 = sp.Symbol("f_{3}")
+        f_4 = sp.Symbol("f_{4}")
+        f_5 = sp.Symbol("f_{5}")
+        f_6 = sp.Symbol("f_{6}")
+        f_7 = sp.Symbol("f_{7}")
+        f_8 = sp.Symbol("f_{8}")
+        f_9 = sp.Symbol("f_{9}")
+        f_10 = sp.Symbol("f_{10}")
 
         f_m5 = sp.Symbol("f_{-5}")
         f_m4 = sp.Symbol("f_{-4}")
@@ -43,32 +43,32 @@ class InterpolationTest(unittest.TestCase):
 
         expected = [
             0,
-            f_m1 / 2 + f_p1 / 2,
-            -f_m2 / 6 + 2 * f_m1 / 3 + 2 * f_p1 / 3 - f_p2 / 6,
-            f_m3 / 20
-            - 3 * f_m2 / 10
-            + 3 * f_m1 / 4
-            + 3 * f_p1 / 4
-            - 3 * f_p2 / 10
-            + f_p3 / 20,
-            -f_m4 / 70
-            + 4 * f_m3 / 35
-            - 2 * f_m2 / 5
-            + 4 * f_m1 / 5
-            + 4 * f_p1 / 5
-            - 2 * f_p2 / 5
-            + 4 * f_p3 / 35
-            - f_p4 / 70,
-            f_m5 / 252
-            - 5 * f_m4 / 126
-            + 5 * f_m3 / 28
-            - 10 * f_m2 / 21
-            + 5 * f_m1 / 6
-            + 5 * f_p1 / 6
-            - 10 * f_p2 / 21
-            + 5 * f_p3 / 28
-            - 5 * f_p4 / 126
-            + f_p5 / 252,
+            f_m1 / 2 + f_p1 / 2,  # type: ignore
+            -f_m2 / 6 + 2 * f_m1 / 3 + 2 * f_p1 / 3 - f_p2 / 6,  # type: ignore
+            f_m3 / 20  # type: ignore
+            - 3 * f_m2 / 10  # type: ignore
+            + 3 * f_m1 / 4  # type: ignore
+            + 3 * f_p1 / 4  # type: ignore
+            - 3 * f_p2 / 10  # type: ignore
+            + f_p3 / 20,  # type: ignore
+            -f_m4 / 70  # type: ignore
+            + 4 * f_m3 / 35  # type: ignore
+            - 2 * f_m2 / 5  # type: ignore
+            + 4 * f_m1 / 5  # type: ignore
+            + 4 * f_p1 / 5  # type: ignore
+            - 2 * f_p2 / 5  # type: ignore
+            + 4 * f_p3 / 35  # type: ignore
+            - f_p4 / 70,  # type: ignore
+            f_m5 / 252  # type: ignore
+            - 5 * f_m4 / 126  # type: ignore
+            + 5 * f_m3 / 28  # type: ignore
+            - 10 * f_m2 / 21  # type: ignore
+            + 5 * f_m1 / 6  # type: ignore
+            + 5 * f_p1 / 6  # type: ignore
+            - 10 * f_p2 / 21  # type: ignore
+            + 5 * f_p3 / 28  # type: ignore
+            - 5 * f_p4 / 126  # type: ignore
+            + f_p5 / 252,  # type: ignore
         ]
         for shuffle in [False, True]:
             for half_width in range(1, 6):
@@ -85,28 +85,28 @@ class InterpolationTest(unittest.TestCase):
         expected = [
             0,
             0,
-            2 * f_1 - f_2,
-            3 * f_1 - 3 * f_2 + f_3,
-            4 * f_1 - 6 * f_2 + 4 * f_3 - f_4,
-            5 * f_1 - 10 * f_2 + 10 * f_3 - 5 * f_4 + f_5,
-            6 * f_1 - 15 * f_2 + 20 * f_3 - 15 * f_4 + 6 * f_5 - f_6,
-            7 * f_1 - 21 * f_2 + 35 * f_3 - 35 * f_4 + 21 * f_5 - 7 * f_6 + f_7,
-            8 * f_1
-            - 28 * f_2
-            + 56 * f_3
-            - 70 * f_4
-            + 56 * f_5
-            - 28 * f_6
-            + 8 * f_7
+            2 * f_1 - f_2,  # type: ignore
+            3 * f_1 - 3 * f_2 + f_3,  # type: ignore
+            4 * f_1 - 6 * f_2 + 4 * f_3 - f_4,  # type: ignore
+            5 * f_1 - 10 * f_2 + 10 * f_3 - 5 * f_4 + f_5,  # type: ignore
+            6 * f_1 - 15 * f_2 + 20 * f_3 - 15 * f_4 + 6 * f_5 - f_6,  # type: ignore
+            7 * f_1 - 21 * f_2 + 35 * f_3 - 35 * f_4 + 21 * f_5 - 7 * f_6 + f_7,  # type: ignore
+            8 * f_1  # type: ignore
+            - 28 * f_2  # type: ignore
+            + 56 * f_3  # type: ignore
+            - 70 * f_4  # type: ignore
+            + 56 * f_5  # type: ignore
+            - 28 * f_6  # type: ignore
+            + 8 * f_7  # type: ignore
             - f_8,
-            9 * f_1
-            - 36 * f_2
-            + 84 * f_3
-            - 126 * f_4
-            + 126 * f_5
-            - 84 * f_6
-            + 36 * f_7
-            - 9 * f_8
+            9 * f_1  # type: ignore
+            - 36 * f_2  # type: ignore
+            + 84 * f_3  # type: ignore
+            - 126 * f_4  # type: ignore
+            + 126 * f_5  # type: ignore
+            - 84 * f_6  # type: ignore
+            + 36 * f_7  # type: ignore
+            - 9 * f_8  # type: ignore
             + f_9,
         ]
         for shuffle in [False, True]:

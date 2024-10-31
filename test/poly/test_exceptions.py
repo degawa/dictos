@@ -1,4 +1,4 @@
-"""Tests for distos.error.lagrangian_polynomial
+"""Tests for distos.poly.exceptions
 """
 
 import sys
@@ -21,26 +21,26 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_lagrangian_polynomial_InconsistentDataSetError(self):
         """
-        test suite for error.lagrangian_polynomial.InconsistentDataSetError.
+        test suite for poly.exceptions.InconsistentDataSetError.
         """
 
         x = sp.symbols("x")
         x_set = [-x, 0, x]
 
         f_set = sp.symbols("f0:3")
-        with self.subTest(x_set, f_set):
+        with self.subTest(coords=x_set, vars=f_set):
             if len(x_set) != len(f_set):
                 raise InconsistentDataSetError(x_set, f_set)
 
         f_set = sp.symbols("f0:2")
-        with self.subTest(x_set, f_set):
+        with self.subTest(coords=x_set, vars=f_set):
             if len(x_set) != len(f_set):
                 raise InconsistentDataSetError(x_set, f_set)
 
     @unittest.expectedFailure
     def test_error_lagrangian_polynomial_ViolateDegreeOfPolynomialAssumption(self):
         """
-        test suite for error.lagrangian_polynomial.ViolateDegreeOfPolynomialAssumption.
+        test suite for poly.exceptions.ViolateDegreeOfPolynomialAssumption.
         """
 
         degree = 1
@@ -58,18 +58,18 @@ class ErrorLagrangianPolynomialTest(unittest.TestCase):
         self,
     ):
         """
-        test suite for error.lagrangian_polynomial.InconsistentDataSetAndDegreeOfPolynomialError.
+        test suite for poly.exceptions.InconsistentDataSetAndDegreeOfPolynomialError.
         """
 
         degree = 4
         x_set = [1, 2, 3]
-        with self.subTest(degree, x_set):
+        with self.subTest(degree=degree, coords=x_set):
             if degree != len(x_set) + 1:
                 raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
 
         degree = 2
         x_set = [1, 2]
-        with self.subTest(degree, x_set):
+        with self.subTest(degree=degree, coords=x_set):
             if degree != len(x_set) + 1:
                 raise InconsistentDataSetAndDegreeOfPolynomialError(degree, x_set)
 

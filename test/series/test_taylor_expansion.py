@@ -1,4 +1,4 @@
-"""Tests for distos.taylor_expansion
+"""Tests for distos.series.taylor_expansion
 """
 
 import sys

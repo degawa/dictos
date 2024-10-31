@@ -1,4 +1,4 @@
-"""Tests for distos.lagrangian_polynomial
+"""Tests for distos.poly.lagrangian_polynomial
 """
 
 import sys

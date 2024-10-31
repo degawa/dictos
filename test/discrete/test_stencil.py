@@ -1,4 +1,4 @@
-"""Tests for distos.stencil
+"""Tests for distos.discrete.stencil
 """
 
 import sys

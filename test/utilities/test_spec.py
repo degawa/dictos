@@ -1,4 +1,4 @@
-"""Tests for distos.spec
+"""Tests for distos.utilities.spec
 """
 
 import sys

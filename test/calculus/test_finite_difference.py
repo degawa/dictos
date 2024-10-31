@@ -1,4 +1,4 @@
-"""Tests for distos.finite_difference
+"""Tests for distos.calculus.finite_difference
 """
 
 import sys
@@ -18,18 +18,18 @@ class FiniteDifferenceTest(unittest.TestCase):
         test suite for finite_difference.equation.
         """
 
-        h = sp.symbols("h")
-        f_0 = sp.symbols("f_{0}")
-        f_1 = sp.symbols("f_{1}")
-        f_2 = sp.symbols("f_{2}")
-        f_3 = sp.symbols("f_{3}")
-        f_4 = sp.symbols("f_{4}")
-        f_5 = sp.symbols("f_{5}")
-        f_6 = sp.symbols("f_{6}")
-        f_7 = sp.symbols("f_{7}")
-        f_8 = sp.symbols("f_{8}")
-        f_9 = sp.symbols("f_{9}")
-        f_10 = sp.symbols("f_{10}")
+        h = sp.Symbol("h")
+        f_0 = sp.Symbol("f_{0}")
+        f_1 = sp.Symbol("f_{1}")
+        f_2 = sp.Symbol("f_{2}")
+        f_3 = sp.Symbol("f_{3}")
+        f_4 = sp.Symbol("f_{4}")
+        f_5 = sp.Symbol("f_{5}")
+        f_6 = sp.Symbol("f_{6}")
+        f_7 = sp.Symbol("f_{7}")
+        f_8 = sp.Symbol("f_{8}")
+        f_9 = sp.Symbol("f_{9}")
+        f_10 = sp.Symbol("f_{10}")
 
         f_m5 = sp.Symbol("f_{-5}")
         f_m4 = sp.Symbol("f_{-4}")
@@ -44,33 +44,33 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         expected = [
             0,
-            (-f_m1 + f_p1) / (2 * h),
-            (f_m2 - 8 * f_m1 + 8 * f_p1 - f_p2) / (12 * h),
-            (-f_m3 + 9 * f_m2 - 45 * f_m1 + 45 * f_p1 - 9 * f_p2 + f_p3) / (60 * h),
+            (-f_m1 + f_p1) / (2 * h),  # type: ignore
+            (f_m2 - 8 * f_m1 + 8 * f_p1 - f_p2) / (12 * h),  # type: ignore
+            (-f_m3 + 9 * f_m2 - 45 * f_m1 + 45 * f_p1 - 9 * f_p2 + f_p3) / (60 * h),  # type: ignore
             (
-                3 * f_m4
-                - 32 * f_m3
-                + 168 * f_m2
-                - 672 * f_m1
-                + 672 * f_p1
-                - 168 * f_p2
-                + 32 * f_p3
-                - 3 * f_p4
+                3 * f_m4  # type: ignore
+                - 32 * f_m3  # type: ignore
+                + 168 * f_m2  # type: ignore
+                - 672 * f_m1  # type: ignore
+                + 672 * f_p1  # type: ignore
+                - 168 * f_p2  # type: ignore
+                + 32 * f_p3  # type: ignore
+                - 3 * f_p4  # type: ignore
             )
-            / (840 * h),
+            / (840 * h),  # type: ignore
             (
-                -2 * f_m5
-                + 25 * f_m4
-                - 150 * f_m3
-                + 600 * f_m2
-                - 2100 * f_m1
-                + 2100 * f_p1
-                - 600 * f_p2
-                + 150 * f_p3
-                - 25 * f_p4
-                + 2 * f_p5
+                -2 * f_m5  # type: ignore
+                + 25 * f_m4  # type: ignore
+                - 150 * f_m3  # type: ignore
+                + 600 * f_m2  # type: ignore
+                - 2100 * f_m1  # type: ignore
+                + 2100 * f_p1  # type: ignore
+                - 600 * f_p2  # type: ignore
+                + 150 * f_p3  # type: ignore
+                - 25 * f_p4  # type: ignore
+                + 2 * f_p5  # type: ignore
             )
-            / (2520 * h),
+            / (2520 * h),  # type: ignore
         ]
         for shuffle in [False, True]:
             for half_width in range(1, 6):
@@ -85,44 +85,44 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         expected = [
             0,
-            (f_m1 - 2 * f_0 + f_p1) / h**2,
-            (-f_m2 + 16 * f_m1 - 30 * f_0 + 16 * f_p1 - f_p2) / (12 * h**2),
+            (f_m1 - 2 * f_0 + f_p1) / h**2,  # type: ignore
+            (-f_m2 + 16 * f_m1 - 30 * f_0 + 16 * f_p1 - f_p2) / (12 * h**2),  # type: ignore
             (
-                2 * f_m3
-                - 27 * f_m2
-                + 270 * f_m1
-                - 490 * f_0
-                + 270 * f_p1
-                - 27 * f_p2
-                + 2 * f_p3
+                2 * f_m3  # type: ignore
+                - 27 * f_m2  # type: ignore
+                + 270 * f_m1  # type: ignore
+                - 490 * f_0  # type: ignore
+                + 270 * f_p1  # type: ignore
+                - 27 * f_p2  # type: ignore
+                + 2 * f_p3  # type: ignore
             )
-            / (180 * h**2),
+            / (180 * h**2),  # type: ignore
             (
-                -9 * f_m4
-                + 128 * f_m3
-                - 1008 * f_m2
-                + 8064 * f_m1
-                - 14350 * f_0
-                + 8064 * f_p1
-                - 1008 * f_p2
-                + 128 * f_p3
-                - 9 * f_p4
+                -9 * f_m4  # type: ignore
+                + 128 * f_m3  # type: ignore
+                - 1008 * f_m2  # type: ignore
+                + 8064 * f_m1  # type: ignore
+                - 14350 * f_0  # type: ignore
+                + 8064 * f_p1  # type: ignore
+                - 1008 * f_p2  # type: ignore
+                + 128 * f_p3  # type: ignore
+                - 9 * f_p4  # type: ignore
             )
-            / (5040 * h**2),
+            / (5040 * h**2),  # type: ignore
             (
-                8 * f_m5
-                - 125 * f_m4
-                + 1000 * f_m3
-                - 6000 * f_m2
-                + 42000 * f_m1
-                - 73766 * f_0
-                + 42000 * f_p1
-                - 6000 * f_p2
-                + 1000 * f_p3
-                - 125 * f_p4
-                + 8 * f_p5
+                8 * f_m5  # type: ignore
+                - 125 * f_m4  # type: ignore
+                + 1000 * f_m3  # type: ignore
+                - 6000 * f_m2  # type: ignore
+                + 42000 * f_m1  # type: ignore
+                - 73766 * f_0  # type: ignore
+                + 42000 * f_p1  # type: ignore
+                - 6000 * f_p2  # type: ignore
+                + 1000 * f_p3  # type: ignore
+                - 125 * f_p4  # type: ignore
+                + 8 * f_p5  # type: ignore
             )
-            / (25200 * h**2),
+            / (25200 * h**2),  # type: ignore
         ]
         for shuffle in [False, True]:
             for half_width in range(1, 6):
@@ -137,72 +137,72 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         expected = [
             0,
-            (-f_0 + f_1) / h,
-            (-3 * f_0 + 4 * f_1 - f_2) / (2 * h),
-            (-11 * f_0 + 18 * f_1 - 9 * f_2 + 2 * f_3) / (6 * h),
-            (-25 * f_0 + 48 * f_1 - 36 * f_2 + 16 * f_3 - 3 * f_4) / (12 * h),
-            (-137 * f_0 + 300 * f_1 - 300 * f_2 + 200 * f_3 - 75 * f_4 + 12 * f_5)
-            / (60 * h),
+            (-f_0 + f_1) / h,  # type: ignore
+            (-3 * f_0 + 4 * f_1 - f_2) / (2 * h),  # type: ignore
+            (-11 * f_0 + 18 * f_1 - 9 * f_2 + 2 * f_3) / (6 * h),  # type: ignore
+            (-25 * f_0 + 48 * f_1 - 36 * f_2 + 16 * f_3 - 3 * f_4) / (12 * h),  # type: ignore
+            (-137 * f_0 + 300 * f_1 - 300 * f_2 + 200 * f_3 - 75 * f_4 + 12 * f_5)  # type: ignore
+            / (60 * h),  # type: ignore
             (
-                -147 * f_0
-                + 360 * f_1
-                - 450 * f_2
-                + 400 * f_3
-                - 225 * f_4
-                + 72 * f_5
-                - 10 * f_6
+                -147 * f_0  # type: ignore
+                + 360 * f_1  # type: ignore
+                - 450 * f_2  # type: ignore
+                + 400 * f_3  # type: ignore
+                - 225 * f_4  # type: ignore
+                + 72 * f_5  # type: ignore
+                - 10 * f_6  # type: ignore
             )
-            / (60 * h),
+            / (60 * h),  # type: ignore
             (
-                -1089 * f_0
-                + 2940 * f_1
-                - 4410 * f_2
-                + 4900 * f_3
-                - 3675 * f_4
-                + 1764 * f_5
-                - 490 * f_6
-                + 60 * f_7
+                -1089 * f_0  # type: ignore
+                + 2940 * f_1  # type: ignore
+                - 4410 * f_2  # type: ignore
+                + 4900 * f_3  # type: ignore
+                - 3675 * f_4  # type: ignore
+                + 1764 * f_5  # type: ignore
+                - 490 * f_6  # type: ignore
+                + 60 * f_7  # type: ignore
             )
-            / (420 * h),
+            / (420 * h),  # type: ignore
             (
-                -2283 * f_0
-                + 6720 * f_1
-                - 11760 * f_2
-                + 15680 * f_3
-                - 14700 * f_4
-                + 9408 * f_5
-                - 3920 * f_6
-                + 960 * f_7
-                - 105 * f_8
+                -2283 * f_0  # type: ignore
+                + 6720 * f_1  # type: ignore
+                - 11760 * f_2  # type: ignore
+                + 15680 * f_3  # type: ignore
+                - 14700 * f_4  # type: ignore
+                + 9408 * f_5  # type: ignore
+                - 3920 * f_6  # type: ignore
+                + 960 * f_7  # type: ignore
+                - 105 * f_8  # type: ignore
             )
-            / (840 * h),
+            / (840 * h),  # type: ignore
             (
-                -7129 * f_0
-                + 22680 * f_1
-                - 45360 * f_2
-                + 70560 * f_3
-                - 79380 * f_4
-                + 63504 * f_5
-                - 35280 * f_6
-                + 12960 * f_7
-                - 2835 * f_8
-                + 280 * f_9
+                -7129 * f_0  # type: ignore
+                + 22680 * f_1  # type: ignore
+                - 45360 * f_2  # type: ignore
+                + 70560 * f_3  # type: ignore
+                - 79380 * f_4  # type: ignore
+                + 63504 * f_5  # type: ignore
+                - 35280 * f_6  # type: ignore
+                + 12960 * f_7  # type: ignore
+                - 2835 * f_8  # type: ignore
+                + 280 * f_9  # type: ignore
             )
-            / (2520 * h),
+            / (2520 * h),  # type: ignore
             (
-                -7381 * f_0
-                + 25200 * f_1
-                - 56700 * f_2
-                + 100800 * f_3
-                - 132300 * f_4
-                + 127008 * f_5
-                - 88200 * f_6
-                + 43200 * f_7
-                - 14175 * f_8
-                + 2800 * f_9
-                - 252 * f_10
+                -7381 * f_0  # type: ignore
+                + 25200 * f_1  # type: ignore
+                - 56700 * f_2  # type: ignore
+                + 100800 * f_3  # type: ignore
+                - 132300 * f_4  # type: ignore
+                + 127008 * f_5  # type: ignore
+                - 88200 * f_6  # type: ignore
+                + 43200 * f_7  # type: ignore
+                - 14175 * f_8  # type: ignore
+                + 2800 * f_9  # type: ignore
+                - 252 * f_10  # type: ignore
             )
-            / (2520 * h),
+            / (2520 * h),  # type: ignore
         ]
         for shuffle in [False, True]:
             for width in range(1, 11):
