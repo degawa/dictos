@@ -1,22 +1,22 @@
 import sympy as sp
 
-from .spec import (
+from dictos.spec import (
     DEFAULT_INTERVAL,
     DEFAULT_DIFFERENTIAND,
     DEFAULT_INDEPENDENT_VARIABLE,
     has_zero,
 )
-from .stencil import create_coordinate_symbols, create_differentiand_symbols
-from .utils import (
+from dictos.stencil import create_coordinate_symbols, create_differentiand_symbols
+from dictos.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
     sort_by_subscript,
 )
-from .linalg import dot_product
-from .lagrangian_polynomial import lagrangian_poly
-from .taylor_expansion import taylor_series
-from .error.stencil import ContainsZeroError
-from .core.expr import Expr
+from dictos.linalg import dot_product
+from dictos.lagrangian_polynomial import lagrangian_poly
+from dictos.taylor_expansion import taylor_series
+from dictos.error.stencil import ContainsZeroError
+from dictos.core.expr import Expr
 
 
 def equation(stencil: list, sort: bool = True) -> Expr:
