@@ -22,6 +22,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - fixed sympy class references from full-path to alias. #104
 - fixed tests along with changes in directory structure. #107
 
+### Repository updates
+- fixed equations in README. #117
+- update examples in README along with the current behavior. #117
+
 ## [0.4.0] - 2022-02-08
 ### Breaking Changes
 - replaced the term "function" that to be differentiated with "differentiand", and changed related the parameter, functions, and arguments name. #89
