@@ -82,7 +82,7 @@ Tom: "How should I do? I'm not good at computer operation and programming."
 
 Dictos: "Import the `finite_difference` module and pass a **relative** stencil to `equation`. I derive a finite difference equation at `0`."
 ```Python
-import dictos.finite_difference as fd
+from dictos import finite_difference as fd
 
 stencil = [-2, -1, 0, 1, 2]
 # stencil [i-2, i-1, i, i+1, i+2] relative to i.
@@ -92,8 +92,8 @@ print(fd.equation(stencil, deriv=1))
 # (f_{-2} - 8*f_{-1} + 8*f_{1} - f_{2})/(12*h)
 
 stencil = [-1.5, -0.5, 0.5, 1.5]
-#    +---+-x-+---+
-# -1.5-0.5 0 0.5 1.5
+#    +-----+--x--+-----+
+#  -1.5  -0.5 0 0.5   1.5
 print(fd.equation(stencil, deriv=1))
 # (f_{-1.5} - 27*f_{-0.5} + 27*f_{0.5} - f_{1.5})/(24*h)
 ```
@@ -102,18 +102,18 @@ Tom: "I guess `deriv` is the order of derivate."
 
 Dictos: "Exactly". "set `keep_zero=True`, get the equation with terms multiplied by 0."
 ```Python
-import dictos.finite_difference as fd
+from dictos import finite_difference as fd
 
 stencil = [-2, -1, 0, 1, 2]
 print(fd.equation(stencil, deriv=1, keep_zero=True))
-# (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)
+# (1*f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)
 ```
 
 Tom: "Well... can I extract the coefficients?"
 
 Dictos: "`coefficients` may be your best friends."
 ```Python
-import dictos.finite_difference as fd
+from dictos import finite_difference as fd
 
 stencil = [-1.5, -0.5, 0.5, 1.5]
 print(fd.coefficients(stencil, deriv=1))
@@ -133,13 +133,13 @@ Tom: "I found that interpolation is also necessary for numerical simulations on 
 Dictos: "Import the `interpolation` module. The usability is almost the same as the `finite_difference`."
 "Do not contain `0` in the stencil because the I derive the interpolation equation at `0`."
 ```Python
-import dictos.interpolation as intp
+from dictos import interpolation as intp
 
 stencil = [-1.5, -0.5, 0.5, 1.5]
-#    +---+-x-+---+
-# -1.5-0.5 0 0.5 1.5
+#    +-----+--x--+-----+
+#  -1.5  -0.5 0 0.5   1.5
 print(intp.equation(stencil))
-# (-f_{-1.5} + 9*f_{-0.5} + 9*f_{0.5} - f_{1.5})/16
+# (-f_{-1.5} + 9*f_{-0.5} + 9*f_{0.5} - f_{1.5})*(1/16)
 # `keep_zero` option is not provided.
 
 print(intp.coefficients(stencil))
@@ -159,7 +159,7 @@ Tom: "I need to extrapolate the velocity outside the boundaries when computing d
 
 Dictos: "It is possible to pass one-sided stencil to `interpolation`"
 ```Python
-import dictos.interpolation as intp
+from dictos import interpolation as intp
 
 stencil = [1, 2]
 # x---o---o
@@ -184,8 +184,8 @@ Tom: "My boss has requested me to derive formal truncation errors."
 
 Dictos: "`truncation_error`. `finite_differene` and `interplation` have `truncation_error`"
 ```Python
-import dictos.finite_difference as fd
-import dictos.interpolation as intp
+from dictos import finite_difference as fd
+from dictos import interpolation as intp
 
 # finite difference
 print(fd.truncation_error([-0.5, 0.5], deriv=1))
@@ -213,7 +213,7 @@ print(intp.truncation_error([1, 2, 3]))
 Tom: "Thanks!"
 "It would be nice if the truncation error were provided when I asked for an equation or coefficients.
 
-Dictos: ☺
+Dictos: 😊
 
 ### Features to be implemented
 Tom successfully  graduated from the university and will go on to a graduate school in the new academic year.
@@ -245,15 +245,17 @@ Dictos: "Not supported yet. I will support explicit and compact filters."
 
 |||
 |:--|:--|
-|![S=\{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5\}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+S%3D%5C%7B-5%2C+-4%2C+-3%2C+-2%2C+-1%2C+0%2C+1%2C+2%2C+3%2C+4%2C+5%5C%7D)|stencil|
-|![n_s](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+n_s%0A)|numerator|
-|![d](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+d)|denominator|
-|![h](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+h)|interval between grid points|
+|$S=\{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5\}$|stencil|
+|$n_s$|numerator|
+|$d$|denominator|
+|$h$|interval between grid points|
 
 #### 1st-order derivative
 On the regular grid, the 1st-order derivative is calculated by the following equation:
 
-![f_i^{(1)} = \frac{1}{d\cdot h}\sum_{s\in S} n_s f_{i+s}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%281%29%7D+%3D+%5Cfrac%7B1%7D%7Bd%5Ccdot+h%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D)
+```math
+f_i^{(1)} = \frac{1}{d\cdot h}\sum_{s\in S} n_s f_{i+s}
+```
 
 
 | Order of Accuracy |  -5   |  -4   |  -3   |  -2   |  -1   |   0   |   1   |   2   |   3   |   4   |   5   | Denominator |  Trunctaion Error  |
@@ -267,13 +269,16 @@ On the regular grid, the 1st-order derivative is calculated by the following equ
 
 Note that these coefficients are NOT for a usual equation:
 
-![f_i^{(1)} = a\frac{f_{i+1}-f_{i-1}}{2h} + b\frac{f_{i+2}-f_{i-2}}{4h} + c\frac{f_{i+3}-f_{i-3}}{6h}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%281%29%7D+%3D+a%5Cfrac%7Bf_%7Bi%2B1%7D-f_%7Bi-1%7D%7D%7B2h%7D+%2B+b%5Cfrac%7Bf_%7Bi%2B2%7D-f_%7Bi-2%7D%7D%7B4h%7D+%2B+c%5Cfrac%7Bf_%7Bi%2B3%7D-f_%7Bi-3%7D%7D%7B6h%7D)
+```math
+f_i^{(1)} = a\frac{f_{i+1}-f_{i-1}}{2h} + b\frac{f_{i+2}-f_{i-2}}{4h} + c\frac{f_{i+3}-f_{i-3}}{6h}
+```
 
 #### 2nd-order derivative
 The 2nd-order derivative is calculated by the following equation:
 
-![f_i^{(2)} = \frac{1}{d\cdot h^2}\sum_{s\in S} n_s f_{i+s}
-](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%282%29%7D+%3D+%5Cfrac%7B1%7D%7Bd%5Ccdot+h%5E2%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D%0A)
+```math
+f_i^{(2)} = \frac{1}{d\cdot h^2}\sum_{s\in S} n_s f_{i+s}
+```
 
 | Order of Accuracy |  -5   |  -4   |  -3   |  -2   |  -1   |   0    |   1   |   2   |   3   |   4   |   5   | Denominator |  Trunctaion Error   |
 | :---------------: | :---: | :---: | :---: | :---: | :---: | :----: | :---: | :---: | :---: | :---: | :---: | :---------: | :------------------ |
@@ -285,21 +290,26 @@ The 2nd-order derivative is calculated by the following equation:
 
 Note that these coefficients are NOT for a usual equation:
 
-![f_i^{(2)} = a\frac{f_{i+1}-2f_i+f_{i-1}}{h^2} + b\frac{f_{i+2}-2f_i+f_{i-2}}{(2h)^2} + c\frac{f_{i+3}-2f_i+f_{i-3}}{(3h)^2}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%282%29%7D+%3D+a%5Cfrac%7Bf_%7Bi%2B1%7D-2f_i%2Bf_%7Bi-1%7D%7D%7Bh%5E2%7D+%2B+b%5Cfrac%7Bf_%7Bi%2B2%7D-2f_i%2Bf_%7Bi-2%7D%7D%7B%282h%29%5E2%7D+%2B+c%5Cfrac%7Bf_%7Bi%2B3%7D-2f_i%2Bf_%7Bi-3%7D%7D%7B%283h%29%5E2%7D)
+```math
+f_i^{(2)} = a\frac{f_{i+1}-2f_i+f_{i-1}}{h^2} + b\frac{f_{i+2}-2f_i+f_{i-2}}{(2h)^2} + c\frac{f_{i+3}-2f_i+f_{i-3}}{(3h)^2}
+```
+
 ### Central Finite Difference on the Staggered Grid
 #### Notation
 
 |||
 |:--|:--|
-|![S=\{-4.5, -3.5, -2.5, -1.5,-0.5, 0.5, 1.5, 2.5, 3.5, 4.5\}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+S%3D%5C%7B-4.5%2C+-3.5%2C+-2.5%2C+-1.5%2C-0.5%2C+0.5%2C+1.5%2C+2.5%2C+3.5%2C+4.5%5C%7D)|stencil|
-|![n_s](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+n_s%0A)|numerator|
-|![d](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+d)|denominator|
-|![h](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+h)|interval between grid points|
+|$S=\{-4.5, -3.5, -2.5, -1.5,-0.5, 0.5, 1.5, 2.5, 3.5, 4.5\}$|stencil|
+|$n_s$|numerator|
+|$d$|denominator|
+|$h$|interval between grid points|
 
 #### 1st-order derivative
 On the staggered grid, the 1st-order derivative is calculated by the equation with the same form as it on the regular grid:
 
-![f_i^{(1)} = \frac{1}{d\cdot h}\sum_{s\in S} n_s f_{i+s}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+f_i%5E%7B%281%29%7D+%3D+%5Cfrac%7B1%7D%7Bd%5Ccdot+h%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D)
+```math
+f_i^{(1)} = \frac{1}{d\cdot h}\sum_{s\in S} n_s f_{i+s}
+```
 
 | Order of Accuracy | -4.5  | -3.5  |  -2.5   |  -1.5  |   -0.5    |   0.5    |   1.5   |  2.5   |  3.5   |  4.5  | Denominator |     Trunctaion Error     |
 | :---------------: | :---: | :---: | :-----: | :----: | :-------: | :------: | :-----: | :----: | :----: | :---: | :---------: | :----------------------- |
@@ -320,15 +330,17 @@ The stencil width will be wider, but the consistency is more important.
 
 |||
 |:--|:--|
-|![S=\{-4.5, -3.5, -2.5, -1.5,-0.5, 0.5, 1.5, 2.5, 3.5, 4.5\}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+S%3D%5C%7B-4.5%2C+-3.5%2C+-2.5%2C+-1.5%2C-0.5%2C+0.5%2C+1.5%2C+2.5%2C+3.5%2C+4.5%5C%7D)|stencil|
-|![n_s](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+n_s%0A)|numerator|
-|![d](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+d)|denominator|
-|![h](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+h)|interval between grid points|
+|$S=\{-4.5, -3.5, -2.5, -1.5,-0.5, 0.5, 1.5, 2.5, 3.5, 4.5\}$|stencil|
+|$n_s$|numerator|
+|$d$|denominator|
+|$h$|interval between grid points|
 
 ### Central Interpolation on the Staggered Grid
 The central interpolation is calculated by the following equation:
 
-![\overline{f}_i = \frac{1}{d}\sum_{s\in S} n_s f_{i+s}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+%5Coverline%7Bf%7D_i+%3D+%5Cfrac%7B1%7D%7Bd%7D%5Csum_%7Bs%5Cin+S%7D+n_s+f_%7Bi%2Bs%7D%0A)
+```math
+\overline{f}_i = \frac{1}{d}\sum_{s\in S} n_s f_{i+s}
+```
 
 | Order of Accuracy | -4.5  | -3.5  | -2.5  | -1.5  | -0.5  |  0.5  |  1.5  |  2.5  |  3.5  |  4.5  | Denominator |    Trunctaion Error     |
 | :---------------: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---------: | :---------------------- |
@@ -340,4 +352,6 @@ The central interpolation is calculated by the following equation:
 
 The above coefficients can not be used to the more general interpolation equation expressed as follows:
 
-![\overline{f}_i = a\frac{f_{i+1}+f_{i-1}}{2} +b\frac{f_{i+2}+f_{i-2}}{2}+c\frac{f_{i+3}+f_{i-3}}{2}](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+%5Coverline%7Bf%7D_i+%3D+a%5Cfrac%7Bf_%7Bi%2B1%7D%2Bf_%7Bi-1%7D%7D%7B2%7D+%2Bb%5Cfrac%7Bf_%7Bi%2B2%7D%2Bf_%7Bi-2%7D%7D%7B2%7D%2Bc%5Cfrac%7Bf_%7Bi%2B3%7D%2Bf_%7Bi-3%7D%7D%7B2%7D)
+```math
+\overline{f}_i = a\frac{f_{i+1}+f_{i-1}}{2} +b\frac{f_{i+2}+f_{i-2}}{2}+c\frac{f_{i+3}+f_{i-3}}{2}
+```
