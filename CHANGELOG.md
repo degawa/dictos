@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changes
 - refactored rationalization algorithm from my own implementation to sympy `nsimplify`. #93
 - added comment to a parameter `_MINIMUM_STENCIL_WIDTH`. #95
+- added `is_positive_integer` and `is_not_positive_integer` methods to be used instead of `is_natural_number` and `is_not_natural_number`. #110
 
 ### New features
 - added error handling when passing out-of-range values to argument `point_at` of `lagrangian_basis`. #48
