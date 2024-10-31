@@ -12,7 +12,7 @@ from dictos.utils import (
     extract_coefficients_as_numer_denom,
     sort_by_subscript,
 )
-from dictos.linalg import dot_product
+from dictos.linalg.linalg import dot_product
 from dictos.poly.lagrangian_polynomial import lagrangian_poly
 from dictos.taylor_expansion import taylor_series
 from dictos.error.stencil import ContainsZeroError

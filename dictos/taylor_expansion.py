@@ -1,8 +1,8 @@
 import sympy as sp
 
-from .spec import DEFAULT_DIFFERENTIAND, is_not_natural_number
-from .linalg import dot_product
-from .error.taylor_expansion import (
+from dictos.spec import DEFAULT_DIFFERENTIAND, is_not_natural_number
+from dictos.linalg.linalg import dot_product
+from dictos.error.taylor_expansion import (
     UnsupportedOrderOfDerivativeError,
     NumberOfExpansionTermsIsNotNaturalNumberError,
 )
