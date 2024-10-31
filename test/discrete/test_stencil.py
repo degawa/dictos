@@ -10,7 +10,7 @@ import sympy as sp
 import numpy as np
 import random
 
-from dictos.utilities.spec import DEFAULT_INTERVAL, DEFAULT_DIFFERENTIAND
+from dictos.defaults import DEFAULT_INTERVAL, DEFAULT_DIFFERENTIAND
 from dictos.discrete.stencil import (
     create_coordinate_symbols,
     create_differentiand_symbols,
