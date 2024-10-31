@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Breaking Changes
 - changed project directory structure. #108
+- moved default symbols to dictos/default.py. #112
 
 ### Changes
 - refactored rationalization algorithm from my own implementation to sympy `nsimplify`. #93

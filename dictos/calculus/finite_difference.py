@@ -1,11 +1,11 @@
 import sympy as sp
 
-from dictos.utilities.spec import (
+from dictos.defaults import (
     DEFAULT_DIFFERENTIAND,
     DEFAULT_INTERVAL,
     DEFAULT_INDEPENDENT_VARIABLE,
-    is_not_natural_number,
 )
+from dictos.utilities.spec import is_not_natural_number
 from dictos.discrete.stencil import (
     create_coordinate_symbols,
     create_differentiand_symbols,

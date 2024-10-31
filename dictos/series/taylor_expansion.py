@@ -1,7 +1,7 @@
 import sympy as sp
 
+from dictos.defaults import DEFAULT_DIFFERENTIAND
 from dictos.utilities.spec import (
-    DEFAULT_DIFFERENTIAND,
     is_not_natural_number,
     is_not_positive_integer,
 )

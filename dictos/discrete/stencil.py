@@ -1,8 +1,10 @@
 import sympy as sp
 
-from dictos.utilities.spec import (
+from dictos.defaults import (
     DEFAULT_INTERVAL,
     DEFAULT_DIFFERENTIAND,
+)
+from dictos.utilities.spec import (
     has_duplicated_points,
     narrower_than_minimum_width,
 )
