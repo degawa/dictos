@@ -25,9 +25,22 @@ def narrower_than_minimum_width(data_set) -> bool:
     return len(data_set) < _MINIMUM_STENCIL_WIDTH
 
 
-def is_not_natural_number(number, include_zero: bool = False) -> bool:
+def is_not_natural_number(number) -> bool:
     """
     Returns True if `number` is not the natural number.
+
+    Args:
+        number : an integer number to be checked.
+
+    Returns:
+        bool: True if `number` is not the natural number.
+    """
+    return not is_natural_number(number)
+
+
+def is_not_positive_integer(number: int, include_zero: bool = False) -> bool:
+    """
+    Returns True if `number` is not a positive integer.
 
     Args:
         number : an integer number to be checked.
@@ -36,9 +49,9 @@ def is_not_natural_number(number, include_zero: bool = False) -> bool:
             Defaults to False.
 
     Returns:
-        bool: True if `number` is not the natural number.
+        bool: True if `number` is not a positive integer.
     """
-    return not is_natural_number(number, include_zero)
+    return not is_positive_integer(number, include_zero)
 
 
 def has_zero(stencil) -> bool:
@@ -96,9 +109,22 @@ def is_not_assumed_length(list, assumed_length: int) -> bool:
     return not is_assumed_length(list, assumed_length)
 
 
-def is_natural_number(number, include_zero: bool = False) -> bool:
+def is_natural_number(number: int) -> bool:
     """
     Returns True if `number` is the natural number.
+
+    Args:
+        number : an integer number to be checked.
+
+    Returns:
+        bool: True if `number` is the natural number.
+    """
+    return isinstance(number, int) and number >= 1
+
+
+def is_positive_integer(number: int, include_zero: bool = False) -> bool:
+    """
+    Returns True if `number` is a positive number.
 
     Args:
         number : an integer number to be checked.
@@ -107,7 +133,7 @@ def is_natural_number(number, include_zero: bool = False) -> bool:
             Defaults to False.
 
     Returns:
-        bool: True if `number` is the natural number.
+        bool: True if `number` is a positive number..
     """
     lower_bound = 0 if include_zero else 1
     return isinstance(number, int) and number >= lower_bound

@@ -1,6 +1,10 @@
 import sympy as sp
 
-from dictos.utilities.spec import DEFAULT_DIFFERENTIAND, is_not_natural_number
+from dictos.utilities.spec import (
+    DEFAULT_DIFFERENTIAND,
+    is_not_natural_number,
+    is_not_positive_integer,
+)
 from dictos.linalg.linalg import dot_product
 from dictos.series.exceptions import (
     UnsupportedOrderOfDerivativeError,
@@ -89,7 +93,7 @@ def derivative_symbol(differentiand: str, deriv: int):
         >>> te.derivative_symbol("f", 3)
         f^(3)
     """
-    if is_not_natural_number(deriv, include_zero=True):
+    if is_not_positive_integer(deriv, include_zero=True):
         raise UnsupportedOrderOfDerivativeError(deriv)
         # raise error if
         # - unsupproted order of derivative (< 0).

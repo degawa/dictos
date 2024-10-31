@@ -13,6 +13,7 @@ from dictos.utilities.spec import (
     has_duplicated_points,
     narrower_than_minimum_width,
     is_not_natural_number,
+    is_not_positive_integer,
     is_not_assumed_length,
     are_different_length,
     _MINIMUM_STENCIL_WIDTH,
@@ -87,8 +88,22 @@ class SpecTest(unittest.TestCase):
                 self.assertEqual(expected, actual)
 
             with self.subTest(c):
+                expected = True if c < 1 else False
+                actual = is_not_natural_number(c)
+                self.assertEqual(expected, actual)
+
+    def test_is_not_positive_integer(self):
+        """test suite for spec.is_not_positive_integer."""
+
+        for c in random_int(-100, 100):
+            with self.subTest(c):
+                expected = True if c <= 0 else False
+                actual = is_not_natural_number(c)
+                self.assertEqual(expected, actual)
+
+            with self.subTest(c):
                 expected = True if c < 0 else False
-                actual = is_not_natural_number(c, include_zero=True)
+                actual = is_not_positive_integer(c, include_zero=True)
                 self.assertEqual(expected, actual)
 
     def test_is_not_assumed_length(self):
