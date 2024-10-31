@@ -1,6 +1,6 @@
 import sympy as sp
 
-from dictos.spec import are_different_length
+from dictos.utilities.spec import are_different_length
 from dictos.error.linear_algebra import InconsistentDataSetError
 
 

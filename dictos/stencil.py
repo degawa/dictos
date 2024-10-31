@@ -1,12 +1,12 @@
 import sympy as sp
 
-from .spec import (
+from dictos.utilities.spec import (
     DEFAULT_INTERVAL,
     DEFAULT_DIFFERENTIAND,
     has_duplicated_points,
     narrower_than_minimum_width,
 )
-from .error.stencil import TooNarrowError, DuplicatedPointError
+from dictos.error.stencil import TooNarrowError, DuplicatedPointError
 
 
 def create_coordinate_symbols(stencil: list, interval: str = DEFAULT_INTERVAL) -> list:

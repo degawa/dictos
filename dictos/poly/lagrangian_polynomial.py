@@ -6,7 +6,7 @@ from dictos.error.lagrangian_polynomial import (
     InconsistentDataSetError,
 )
 from dictos.error.stencil import DuplicatedPointError, TooNarrowError
-from dictos.spec import (
+from dictos.utilities.spec import (
     has_duplicated_points,
     is_not_natural_number,
     is_not_assumed_length,

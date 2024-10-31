@@ -1,13 +1,13 @@
 import sympy as sp
 
-from dictos.spec import (
+from dictos.utilities.spec import (
     DEFAULT_DIFFERENTIAND,
     DEFAULT_INTERVAL,
     DEFAULT_INDEPENDENT_VARIABLE,
     is_not_natural_number,
 )
 from dictos.stencil import create_coordinate_symbols, create_differentiand_symbols
-from dictos.utils import (
+from dictos.utilities.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
     sort_by_subscript,
