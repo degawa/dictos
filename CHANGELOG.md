@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Breaking Changes
+- changed project directory structure. #108
+
 ### Changes
 - refactored rationalization algorithm from my own implementation to sympy `nsimplify`. #93
 - added comment to a parameter `_MINIMUM_STENCIL_WIDTH`. #95
@@ -14,7 +17,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixes
 - fixed a typo (natrual to natural). #94
-- fixed sympy class references from full-path to alias
+- fixed sympy class references from full-path to alias. #104
+- fixed tests along with changes in directory structure. #107
 
 ## [0.4.0] - 2022-02-08
 ### Breaking Changes
