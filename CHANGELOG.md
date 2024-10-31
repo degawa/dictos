@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixes
 - fixed a typo (natrual to natural). #94
+- fixed sympy class references from full-path to alias
 
 ## [0.4.0] - 2022-02-08
 ### Breaking Changes
