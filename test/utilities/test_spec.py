@@ -1,4 +1,4 @@
-"""Tests for distos.spec
+"""Tests for distos.utilities.spec
 """
 
 import sys
@@ -8,7 +8,7 @@ sys.path.insert(1, "..")
 import unittest
 import random
 
-from dictos.spec import (
+from dictos.utilities.spec import (
     has_zero,
     has_duplicated_points,
     narrower_than_minimum_width,
@@ -17,7 +17,7 @@ from dictos.spec import (
     are_different_length,
     _MINIMUM_STENCIL_WIDTH,
 )
-from gen import random_int
+from test.utilities.gen import random_int
 
 
 class SpecTest(unittest.TestCase):

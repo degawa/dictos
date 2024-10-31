@@ -1,5 +1,6 @@
-"""Tests for distos.utils
+"""Tests for distos.utilities.utils
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -9,19 +10,24 @@ import sympy as sp
 import numpy as np
 import random
 
-from dictos.stencil import (
+from dictos.discrete.stencil import (
     create_coordinate_symbols,
     to_subscript,
 )
-from dictos.utils import (
+from dictos.utilities.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
     sort_by_subscript,
 )
-from dictos.linalg import dot_product
-from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
-from dictos.error.stencil import TooNarrowError, DuplicatedPointError
-from dictos.error.linear_algebra import InconsistentDataSetError
+from dictos.linalg.linalg import dot_product
+from test.utilities.gen import (
+    random_string,
+    random_int,
+    STENCIL_HALF_WIDTH,
+    MAX_SYMBOL_LENGTH,
+)
+from dictos.discrete.exceptions import TooNarrowError, DuplicatedPointError
+from dictos.linalg.exceptions import InconsistentDataSetError
 
 
 class UtilsTest(unittest.TestCase):
@@ -45,7 +51,7 @@ class UtilsTest(unittest.TestCase):
                     )
                     for _ in range(len_)
                 ]
-                expected = [n / 1 for n in numer]
+                expected = [sp.Mul(n, sp.Pow(1, -1)) for n in numer]
 
                 actual = simplify_coefficients(numer)
 
@@ -78,7 +84,7 @@ class UtilsTest(unittest.TestCase):
                     )
                     for _ in range(len_)
                 ]
-                coef = [numer[i] / denom[i] for i in range(len_)]
+                coef = [sp.Mul(numer[i], sp.Pow(denom[i], -1)) for i in range(len_)]
                 expected = [sp.Rational(numer[i], denom[i]) for i in range(len_)]
 
                 actual = simplify_coefficients(coef)
@@ -97,7 +103,7 @@ class UtilsTest(unittest.TestCase):
                     )
                     for _ in range(len_)
                 ]
-                coef = [numer[i] / denom[i] * h for i in range(len_)]
+                coef = [sp.Mul(numer[i], sp.Pow(denom[i], -1)) * h for i in range(len_)]
                 expected = [sp.Rational(numer[i], denom[i]) for i in range(len_)]
 
                 actual = simplify_coefficients(coef)
@@ -114,7 +120,7 @@ class UtilsTest(unittest.TestCase):
                     )
                     for _ in range(len_)
                 ]
-                expected = ([n / 1 for n in numer], 1)
+                expected = ([sp.Mul(n, sp.Pow(1, -1)) for n in numer], 1)
 
                 actual = simplify_coefficients(numer, as_numer_denom=True)
 
@@ -171,28 +177,22 @@ class UtilsTest(unittest.TestCase):
         f_set = [f_0, f_1, f_2, f_3, f_4]
         # 3
         expr = (
-            f_0 * x * (-2 * h + x) * (-h + x) * (h + x) / (24 * h ** 4)
-            - f_1 * x * (-2 * h + x) * (-h + x) * (2 * h + x) / (6 * h ** 4)
-            + f_2 * (-2 * h + x) * (-h + x) * (h + x) * (2 * h + x) / (4 * h ** 4)
-            - f_3 * x * (-2 * h + x) * (h + x) * (2 * h + x) / (6 * h ** 4)
-            + f_4 * x * (-h + x) * (h + x) * (2 * h + x) / (24 * h ** 4)
+            f_0 * x * (-2 * h + x) * (-h + x) * (h + x) / (24 * h**4)
+            - f_1 * x * (-2 * h + x) * (-h + x) * (2 * h + x) / (6 * h**4)
+            + f_2 * (-2 * h + x) * (-h + x) * (h + x) * (2 * h + x) / (4 * h**4)
+            - f_3 * x * (-2 * h + x) * (h + x) * (2 * h + x) / (6 * h**4)
+            + f_4 * x * (-h + x) * (h + x) * (2 * h + x) / (24 * h**4)
         )
         with self.subTest(expr):
             expected = (
                 [
-                    2 * h ** 3 * x - h ** 2 * x ** 2 - 2 * h * x ** 3 + x ** 4,
-                    -16 * h ** 3 * x
-                    + 16 * h ** 2 * x ** 2
-                    + 4 * h * x ** 3
-                    - 4 * x ** 4,
-                    24 * h ** 4 - 30 * h ** 2 * x ** 2 + 6 * x ** 4,
-                    16 * h ** 3 * x
-                    + 16 * h ** 2 * x ** 2
-                    - 4 * h * x ** 3
-                    - 4 * x ** 4,
-                    -2 * h ** 3 * x - h ** 2 * x ** 2 + 2 * h * x ** 3 + x ** 4,
+                    2 * h**3 * x - h**2 * x**2 - 2 * h * x**3 + x**4,
+                    -16 * h**3 * x + 16 * h**2 * x**2 + 4 * h * x**3 - 4 * x**4,
+                    24 * h**4 - 30 * h**2 * x**2 + 6 * x**4,
+                    16 * h**3 * x + 16 * h**2 * x**2 - 4 * h * x**3 - 4 * x**4,
+                    -2 * h**3 * x - h**2 * x**2 + 2 * h * x**3 + x**4,
                 ],
-                [24 * h ** 4],
+                [24 * h**4],
             )
             actual = extract_coefficients_as_numer_denom(expr, f_set)
             self.assertEqual(expected, actual)
@@ -226,14 +226,30 @@ class UtilsTest(unittest.TestCase):
                 sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
                 f_set = sp.symbols(sym_str)
                 expected = dot_product(
-                    f_set, [1 for _ in range(len(f_set))], evaluate=False
+                    [2 for _ in range(len(f_set))], f_set, evaluate=False
                 )
 
                 num = random_int(-half_width, half_width)
                 stencil = [to_subscript(i) for i in num]
                 sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
                 f_set = sp.symbols(sym_str)
-                eq = dot_product(f_set, [1 for _ in range(len(f_set))], evaluate=False)
+                eq = dot_product(f_set, [2 for _ in range(len(f_set))], evaluate=False)
+                actual = sort_by_subscript(eq)
+
+                ac_str = str(actual)
+                ex_str = str(expected)
+                self.assertEqual(ex_str, ac_str)
+
+                stencil = [to_subscript(i) for i in range(-half_width, half_width + 1)]
+                sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
+                f_set = sp.symbols(sym_str)
+                expected = sp.Add(*f_set, evaluate=False)
+
+                num = random_int(-half_width, half_width)
+                stencil = [to_subscript(i) for i in num]
+                sym_str = "".join(["f" + "_{" + s + "}" + " " for s in stencil])
+                f_set = sp.symbols(sym_str)
+                eq = sp.Add(*f_set, evaluate=False)
                 actual = sort_by_subscript(eq)
 
                 ac_str = str(actual)

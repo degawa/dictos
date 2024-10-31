@@ -1,13 +1,14 @@
-"""Tests for distos.error.taylor_expansion
+"""Tests for distos.series.exceptions
 """
+
 import sys
 
 sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.taylor_expansion import taylor_series, derivative_symbol
-from dictos.error.taylor_expansion import (
+from dictos.series.taylor_expansion import taylor_series, derivative_symbol
+from dictos.series.exceptions import (
     UnsupportedOrderOfDerivativeError,
     NumberOfExpansionTermsIsNotNaturalNumberError,
 )
@@ -17,7 +18,7 @@ class ErrorTaylorExpansionTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_taylor_expansion_UnsupportedOrderOfDerivativeError(self):
         """
-        test suite for error.taylor_expansion.UnsupportedOrderOfDerivativeError.
+        test suite for series.exceptions.UnsupportedOrderOfDerivativeError.
         """
 
         deriv = -1

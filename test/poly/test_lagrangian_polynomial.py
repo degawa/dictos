@@ -1,5 +1,6 @@
-"""Tests for distos.lagrangian_polynomial
+"""Tests for distos.poly.lagrangian_polynomial
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -7,7 +8,11 @@ sys.path.insert(1, "..")
 import unittest
 import sympy as sp
 
-from dictos.lagrangian_polynomial import lagrangian_basis, lagrangian_poly, derivative
+from dictos.poly.lagrangian_polynomial import (
+    lagrangian_basis,
+    lagrangian_poly,
+    derivative,
+)
 
 
 class LagrangianPolynomialTest(unittest.TestCase):
@@ -203,18 +208,18 @@ class LagrangianPolynomialTest(unittest.TestCase):
         # subtests for forward formulation
         expected = [
             -f0 * (-h + x) / h + f1 * x / h,
-            f0 * (-2 * h + x) * (-h + x) / (2 * h ** 2)
-            - f1 * x * (-2 * h + x) / h ** 2
-            + f2 * x * (-h + x) / (2 * h ** 2),
-            -f0 * (-3 * h + x) * (-2 * h + x) * (-h + x) / (6 * h ** 3)
-            + f1 * x * (-3 * h + x) * (-2 * h + x) / (2 * h ** 3)
-            - f2 * x * (-3 * h + x) * (-h + x) / (2 * h ** 3)
-            + f3 * x * (-2 * h + x) * (-h + x) / (6 * h ** 3),
-            f0 * (-4 * h + x) * (-3 * h + x) * (-2 * h + x) * (-h + x) / (24 * h ** 4)
-            - f1 * x * (-4 * h + x) * (-3 * h + x) * (-2 * h + x) / (6 * h ** 4)
-            + f2 * x * (-4 * h + x) * (-3 * h + x) * (-h + x) / (4 * h ** 4)
-            - f3 * x * (-4 * h + x) * (-2 * h + x) * (-h + x) / (6 * h ** 4)
-            + f4 * x * (-3 * h + x) * (-2 * h + x) * (-h + x) / (24 * h ** 4),
+            f0 * (-2 * h + x) * (-h + x) / (2 * h**2)
+            - f1 * x * (-2 * h + x) / h**2
+            + f2 * x * (-h + x) / (2 * h**2),
+            -f0 * (-3 * h + x) * (-2 * h + x) * (-h + x) / (6 * h**3)
+            + f1 * x * (-3 * h + x) * (-2 * h + x) / (2 * h**3)
+            - f2 * x * (-3 * h + x) * (-h + x) / (2 * h**3)
+            + f3 * x * (-2 * h + x) * (-h + x) / (6 * h**3),
+            f0 * (-4 * h + x) * (-3 * h + x) * (-2 * h + x) * (-h + x) / (24 * h**4)
+            - f1 * x * (-4 * h + x) * (-3 * h + x) * (-2 * h + x) / (6 * h**4)
+            + f2 * x * (-4 * h + x) * (-3 * h + x) * (-h + x) / (4 * h**4)
+            - f3 * x * (-4 * h + x) * (-2 * h + x) * (-h + x) / (6 * h**4)
+            + f4 * x * (-3 * h + x) * (-2 * h + x) * (-h + x) / (24 * h**4),
         ]
         point = [2, 3, 4, 5]
         for i in range(len(expected)):
@@ -228,18 +233,18 @@ class LagrangianPolynomialTest(unittest.TestCase):
         # subtests for backward formulation
         expected = [
             -f0 * x / h + f1 * (h + x) / h,
-            f0 * x * (h + x) / (2 * h ** 2)
-            - f1 * x * (2 * h + x) / h ** 2
-            + f2 * (h + x) * (2 * h + x) / (2 * h ** 2),
-            -f0 * x * (h + x) * (2 * h + x) / (6 * h ** 3)
-            + f1 * x * (h + x) * (3 * h + x) / (2 * h ** 3)
-            - f2 * x * (2 * h + x) * (3 * h + x) / (2 * h ** 3)
-            + f3 * (h + x) * (2 * h + x) * (3 * h + x) / (6 * h ** 3),
-            f0 * x * (h + x) * (2 * h + x) * (3 * h + x) / (24 * h ** 4)
-            - f1 * x * (h + x) * (2 * h + x) * (4 * h + x) / (6 * h ** 4)
-            + f2 * x * (h + x) * (3 * h + x) * (4 * h + x) / (4 * h ** 4)
-            - f3 * x * (2 * h + x) * (3 * h + x) * (4 * h + x) / (6 * h ** 4)
-            + f4 * (h + x) * (2 * h + x) * (3 * h + x) * (4 * h + x) / (24 * h ** 4),
+            f0 * x * (h + x) / (2 * h**2)
+            - f1 * x * (2 * h + x) / h**2
+            + f2 * (h + x) * (2 * h + x) / (2 * h**2),
+            -f0 * x * (h + x) * (2 * h + x) / (6 * h**3)
+            + f1 * x * (h + x) * (3 * h + x) / (2 * h**3)
+            - f2 * x * (2 * h + x) * (3 * h + x) / (2 * h**3)
+            + f3 * (h + x) * (2 * h + x) * (3 * h + x) / (6 * h**3),
+            f0 * x * (h + x) * (2 * h + x) * (3 * h + x) / (24 * h**4)
+            - f1 * x * (h + x) * (2 * h + x) * (4 * h + x) / (6 * h**4)
+            + f2 * x * (h + x) * (3 * h + x) * (4 * h + x) / (4 * h**4)
+            - f3 * x * (2 * h + x) * (3 * h + x) * (4 * h + x) / (6 * h**4)
+            + f4 * (h + x) * (2 * h + x) * (3 * h + x) * (4 * h + x) / (24 * h**4),
         ]
         point = [2, 3, 4, 5]
         for i in range(len(expected)):
@@ -252,14 +257,14 @@ class LagrangianPolynomialTest(unittest.TestCase):
 
         # subtests for central formulation
         expected = [
-            f0 * x * (-h + x) / (2 * h ** 2)
-            - f1 * (-h + x) * (h + x) / h ** 2
-            + f2 * x * (h + x) / (2 * h ** 2),
-            f0 * x * (-2 * h + x) * (-h + x) * (h + x) / (24 * h ** 4)
-            - f1 * x * (-2 * h + x) * (-h + x) * (2 * h + x) / (6 * h ** 4)
-            + f2 * (-2 * h + x) * (-h + x) * (h + x) * (2 * h + x) / (4 * h ** 4)
-            - f3 * x * (-2 * h + x) * (h + x) * (2 * h + x) / (6 * h ** 4)
-            + f4 * x * (-h + x) * (h + x) * (2 * h + x) / (24 * h ** 4),
+            f0 * x * (-h + x) / (2 * h**2)
+            - f1 * (-h + x) * (h + x) / h**2
+            + f2 * x * (h + x) / (2 * h**2),
+            f0 * x * (-2 * h + x) * (-h + x) * (h + x) / (24 * h**4)
+            - f1 * x * (-2 * h + x) * (-h + x) * (2 * h + x) / (6 * h**4)
+            + f2 * (-2 * h + x) * (-h + x) * (h + x) * (2 * h + x) / (4 * h**4)
+            - f3 * x * (-2 * h + x) * (h + x) * (2 * h + x) / (6 * h**4)
+            + f4 * x * (-h + x) * (h + x) * (2 * h + x) / (24 * h**4),
         ]
         point = [3, 5]
         for i in range(len(expected)):

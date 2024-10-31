@@ -1,19 +1,20 @@
-"""Tests for distos.error.internal
+"""Tests for distos.utilities.exceptions.internal
 """
+
 import sys
 
 sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.error.internal import UnexpectedDenominatorError
+from dictos.utilities.exceptions.internal import UnexpectedDenominatorError
 
 
 class ErrorInternalTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_internal_UnexpectedDenominatorError_list(self):
         """
-        test suite for error.internal.UnexpectedDenominatorError.
+        test suite for utilities.exceptions.internal.UnexpectedDenominatorError.
         """
 
         denom = [1]
@@ -41,7 +42,7 @@ class ErrorInternalTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_internal_UnexpectedDenominatorError_tuple(self):
         """
-        test suite for error.internal.UnexpectedDenominatorError.
+        test suite for utilities.exceptions.internal.UnexpectedDenominatorError.
         """
 
         denom = (1,)
@@ -69,7 +70,7 @@ class ErrorInternalTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_internal_UnexpectedDenominatorError_int(self):
         """
-        test suite for error.internal.UnexpectedDenominatorError.
+        test suite for utilities.exceptions.internal.UnexpectedDenominatorError.
         """
 
         denom = 1

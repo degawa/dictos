@@ -1,7 +1,9 @@
 """random input generator for tests
 """
+
 import random
 import string
+from typing import Optional, List
 
 
 STENCIL_HALF_WIDTH = 20  # up to 20th order accuracy
@@ -18,7 +20,7 @@ def random_string(len):
     return "".join(random.choices(string.ascii_letters + string.digits, k=len))
 
 
-def random_int(min: int, max: int, exclude: list = None) -> list:
+def random_int(min: int, max: int, exclude: Optional[List[int]] = None) -> List[int]:
     """generate random list of integers from `min` to `max`.
     Integers listed in `exclude` are excluded from the generated list.
 
@@ -37,6 +39,6 @@ def random_int(min: int, max: int, exclude: list = None) -> list:
 
     random.shuffle(num)
     # random.shuffle return None.
-    # do not write return random.shuffle(num)
+    # do not write `return random.shuffle(num)`
 
     return num

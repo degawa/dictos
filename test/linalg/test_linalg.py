@@ -1,5 +1,6 @@
-"""Tests for distos.linalg
+"""Tests for distos.linalg.linalg
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -8,9 +9,9 @@ import unittest
 import sympy as sp
 import random
 
-from dictos.linalg import dot_product, div
-from dictos.error.linear_algebra import InconsistentDataSetError
-from gen import random_int, random_string
+from dictos.linalg.linalg import dot_product, div
+from dictos.linalg.exceptions import InconsistentDataSetError
+from test.utilities.gen import random_int, random_string
 
 
 class LinalgTest(unittest.TestCase):
@@ -57,14 +58,15 @@ class LinalgTest(unittest.TestCase):
         with self.subTest(
             f"dot_product of 2 vectors with {len(vec1)} elements with evaluate False"
         ):
-            begin_ = len(vec2) - 1
-            end_ = -1
-            step_ = -1
-            expected = sp.Mul(vec1[begin_], vec2[begin_], evaluate=False)
-            for i in range(begin_ + step_, end_, step_):
-                expected = sp.Add(
-                    expected, sp.Mul(vec1[i], vec2[i], expected=False), evaluate=False
-                )
+            _begin = len(vec2) - 1
+            _end = -1
+            _step = -1
+            expected = sp.Add(
+                *[
+                    sp.Mul(vec1[i], vec2[i], evaluate=False)
+                    for i in range(_begin, _end, _step)
+                ]
+            )
             actual = dot_product(vec1, vec2, evaluate=False)
 
             ac_str = str(actual)
@@ -98,7 +100,7 @@ class LinalgTest(unittest.TestCase):
 
     def test_linalg_exception(self):
         """test suite for exception in linalg"""
-        numer = [sp.core.Number(i) for i in range(4)]
+        numer = [sp.Number(i) for i in range(4)]
         f_set = sp.symbols(f"f_0:{(len(numer) + 1)}")
         with self.subTest("dot_product with inconsistent numer and f_set"):
             with self.assertRaises(InconsistentDataSetError):

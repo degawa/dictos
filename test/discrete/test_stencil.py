@@ -1,5 +1,6 @@
-"""Tests for distos.stencil
+"""Tests for distos.discrete.stencil
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -9,14 +10,19 @@ import sympy as sp
 import numpy as np
 import random
 
-from dictos.spec import DEFAULT_INTERVAL, DEFAULT_DIFFERENTIAND
-from dictos.stencil import (
+from dictos.utilities.spec import DEFAULT_INTERVAL, DEFAULT_DIFFERENTIAND
+from dictos.discrete.stencil import (
     create_coordinate_symbols,
     create_differentiand_symbols,
     to_subscript,
     get_subscript,
 )
-from gen import random_string, random_int, STENCIL_HALF_WIDTH, MAX_SYMBOL_LENGTH
+from test.utilities.gen import (
+    random_string,
+    random_int,
+    STENCIL_HALF_WIDTH,
+    MAX_SYMBOL_LENGTH,
+)
 
 
 class StencilTest(unittest.TestCase):

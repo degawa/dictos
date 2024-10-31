@@ -1,20 +1,25 @@
-"""Tests for distos.error.stencil
+"""Tests for distos.discrete.exceptions
 """
+
 import sys
 
 sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.spec import has_zero, has_duplicated_points
-from dictos.error.stencil import ContainsZeroError, DuplicatedPointError, TooNarrowError
+from dictos.utilities.spec import has_zero, has_duplicated_points
+from dictos.discrete.exceptions import (
+    ContainsZeroError,
+    DuplicatedPointError,
+    TooNarrowError,
+)
 
 
 class ErrorStencilTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_stencil_ContainsZeroError(self):
         """
-        test suite for error.stencil.ContainsZeroError.
+        test suite for discrete.exceptions.ContainsZeroError.
         """
 
         stencil = [0, 1, 2]
@@ -24,7 +29,7 @@ class ErrorStencilTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_stencil_DuplicatedPointError(self):
         """
-        test suite for error.stencil.DuplicatedPointError.
+        test suite for discrete.exceptions.DuplicatedPointError.
         """
 
         with self.subTest():
@@ -40,7 +45,7 @@ class ErrorStencilTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_stencil_TooNarrowError(self):
         """
-        test suite for error.stencil.TooNarrowError.
+        test suite for discrete.exceptions.TooNarrowError.
         """
 
         with self.subTest():

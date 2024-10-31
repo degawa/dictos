@@ -1,20 +1,21 @@
-"""Tests for distos.error.finite_difference
+"""Tests for distos.calculus.exceptions
 """
+
 import sys
 
 sys.path.insert(1, "..")
 
 import unittest
 
-from dictos.finite_difference import coefficients
-from dictos.error.finite_difference import UnsupportedOrderOfDerivativeError
+from dictos.calculus.finite_difference import coefficients
+from dictos.calculus.exceptions import UnsupportedOrderOfDerivativeError
 
 
 class ErrorFiniteDifferenceTest(unittest.TestCase):
     @unittest.expectedFailure
     def test_error_finite_difference_UnsupportedOrderOfDerivativeError(self):
         """
-        test suite for error.finite_difference.UnsupportedOrderOfDerivativeError.
+        test suite for calculus.exceptions.UnsupportedOrderOfDerivativeError.
         """
 
         deriv = 0

@@ -1,5 +1,6 @@
-"""Tests for test.gen
+"""Tests for test.utilities.gen
 """
+
 import sys
 
 sys.path.insert(1, "..")
@@ -7,14 +8,14 @@ sys.path.insert(1, "..")
 import unittest
 import random
 
-from gen import random_int, random_string
+from test.utilities.gen import random_int, random_string
 
 _MAX_LENGTH = 100
 
 
 class GenTest(unittest.TestCase):
     def test_random_int(self):
-        """test suite for test.random_int."""
+        """test suite for utilities.gen.random_int."""
 
         min = random.randint(-_MAX_LENGTH, 0)
         max = random.randint(0, _MAX_LENGTH)
@@ -52,7 +53,7 @@ class GenTest(unittest.TestCase):
             self.assertTrue(len(num) == len(set(num)))
 
     def test_random_string(self):
-        """test suite for test.random_string."""
+        """test suite for utilities.gen.random_string."""
 
         strlen = random.randint(0, _MAX_LENGTH)
 
