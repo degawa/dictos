@@ -1,11 +1,11 @@
 import sympy as sp
 
-from dictos.error.lagrangian_polynomial import (
+from dictos.poly.exceptions import (
     DegreeOfPolynomialIsNotNaturalNumberError,
     InconsistentDataSetAndDegreeOfPolynomialError,
     InconsistentDataSetError,
 )
-from dictos.error.stencil import DuplicatedPointError, TooNarrowError
+from dictos.discrete.exceptions import DuplicatedPointError, TooNarrowError
 from dictos.utilities.spec import (
     has_duplicated_points,
     is_not_natural_number,

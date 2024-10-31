@@ -6,7 +6,7 @@ from dictos.utilities.spec import (
     has_duplicated_points,
     narrower_than_minimum_width,
 )
-from dictos.error.stencil import TooNarrowError, DuplicatedPointError
+from dictos.discrete.exceptions import TooNarrowError, DuplicatedPointError
 
 
 def create_coordinate_symbols(stencil: list, interval: str = DEFAULT_INTERVAL) -> list:

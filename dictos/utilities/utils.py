@@ -3,7 +3,7 @@ import numpy as np
 
 from dictos.linalg.linalg import div
 from dictos.discrete.stencil import get_subscript
-from dictos.error.internal import UnexpectedDenominatorError
+from dictos.utilities.exceptions.internal import UnexpectedDenominatorError
 
 
 def simplify_coefficients(coef, as_numer_denom: bool = False):

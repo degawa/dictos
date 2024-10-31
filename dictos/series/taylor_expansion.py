@@ -2,7 +2,7 @@ import sympy as sp
 
 from dictos.utilities.spec import DEFAULT_DIFFERENTIAND, is_not_natural_number
 from dictos.linalg.linalg import dot_product
-from dictos.error.taylor_expansion import (
+from dictos.series.exceptions import (
     UnsupportedOrderOfDerivativeError,
     NumberOfExpansionTermsIsNotNaturalNumberError,
 )

@@ -18,7 +18,7 @@ from dictos.utilities.utils import (
 from dictos.linalg.linalg import dot_product, div
 from dictos.poly.lagrangian_polynomial import lagrangian_poly, derivative
 from dictos.series.taylor_expansion import taylor_series, derivative_symbol
-from dictos.error.finite_difference import UnsupportedOrderOfDerivativeError
+from dictos.calculus.exceptions import UnsupportedOrderOfDerivativeError
 from dictos.core.expr import Expr
 
 

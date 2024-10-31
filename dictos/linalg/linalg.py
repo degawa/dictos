@@ -1,7 +1,7 @@
 import sympy as sp
 
 from dictos.utilities.spec import are_different_length
-from dictos.error.linear_algebra import InconsistentDataSetError
+from dictos.linalg.exceptions import InconsistentDataSetError
 
 
 def dot_product(vec1, vec2, evaluate: bool = True):
