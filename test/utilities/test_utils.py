@@ -18,6 +18,7 @@ from dictos.utilities.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
     sort_by_subscript,
+    drop_coefficient_of_1,
 )
 from dictos.linalg.linalg import dot_product
 from test.utilities.gen import (
@@ -255,6 +256,80 @@ class UtilsTest(unittest.TestCase):
                 ac_str = str(actual)
                 ex_str = str(expected)
                 self.assertEqual(ex_str, ac_str)
+
+    def test_utils_drop_coefficient_of_1(self):
+        """test suite for utils.drop_coefficient_of_1."""
+        x, y, z = sp.symbols("x, y, z")
+
+        with self.subTest("a term with coefficient of 1"):
+            eq = 1 * x
+
+            expected = x
+            actual = drop_coefficient_of_1(eq)
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertEqual(ex_str, ac_str)
+
+        with self.subTest("a term with coefficient not equal to 1"):
+            eq = 2 * x
+
+            expected = 2 * x
+            actual = drop_coefficient_of_1(eq)
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertEqual(ex_str, ac_str)
+
+        with self.subTest("a term without coefficient"):
+            eq = x
+
+            expected = x
+            actual = drop_coefficient_of_1(eq)
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertEqual(ex_str, ac_str)
+
+        with self.subTest("a term with (unsupported) nested addition"):
+            eq = (1 * x + 2 * y) * z
+
+            expected = z
+            actual = drop_coefficient_of_1(eq)
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertEqual(ex_str, ac_str)
+
+        with self.subTest("two terms with coefficient of 1"):
+            eq = 1 * x + 1 * y
+
+            expected = x + y
+            actual = drop_coefficient_of_1(eq)
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertEqual(ex_str, ac_str)
+
+        with self.subTest("two terms with coefficient not equal to 1"):
+            eq = 2 * x + 3 * y
+
+            expected = 2 * x + 3 * y
+            actual = drop_coefficient_of_1(eq)
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertEqual(ex_str, ac_str)
+
+        with self.subTest("two terms without coefficient"):
+            eq = x + y
+
+            expected = x + y
+            actual = drop_coefficient_of_1(eq)
+
+            ac_str = str(actual)
+            ex_str = str(expected)
+            self.assertEqual(ex_str, ac_str)
 
 
 if __name__ == "__main__":
