@@ -13,6 +13,7 @@ from dictos.discrete.stencil import (
 from dictos.utilities.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
+    drop_coefficient_of_1,
     sort_by_subscript,
 )
 from dictos.linalg.linalg import dot_product, div
@@ -73,7 +74,7 @@ def equation(
     else:
         numer, denom = coefficients(stencil, deriv, as_numer_denom=True)
         eq = div(
-            dot_product(numer, f_set, evaluate=False),
+            drop_coefficient_of_1(dot_product(numer, f_set, evaluate=False)),
             denom * sp.symbols(interval) ** deriv,
         )
         # get coefficients as numerator and denominator and then
