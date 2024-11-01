@@ -21,10 +21,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - fixed a typo (natrual to natural). #94
 - fixed sympy class references from full-path to alias. #104
 - fixed tests along with changes in directory structure. #107
+- fixed `finite_difference.equation` to remove the coefficient from terms with a coefficient of 1. #118
 
 ### Repository updates
 - fixed equations in README. #117
-- update examples in README along with the current behavior. #117
+- update examples in README along with the current behavior. #117, #118
 
 ## [0.4.0] - 2022-02-08
 ### Breaking Changes

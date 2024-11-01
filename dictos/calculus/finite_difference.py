@@ -13,6 +13,7 @@ from dictos.discrete.stencil import (
 from dictos.utilities.utils import (
     simplify_coefficients,
     extract_coefficients_as_numer_denom,
+    drop_coefficient_of_1,
     sort_by_subscript,
 )
 from dictos.linalg.linalg import dot_product, div
@@ -61,19 +62,10 @@ def equation(
 
     # derive finite difference coefficients based on given stencil,
     # and then calculate dot product of the coefs and differentiands.
-    if not keep_zero:
-        coef = coefficients(stencil, deriv)
-        eq = sp.simplify(dot_product(coef, f_set) / sp.symbols(interval) ** deriv)
-        # The result of dot product is divided by interval symbol,
-        # because `coef` does not contain interval symbol like `dx`.
-        # Terms multiplied by a coefficient 0 is eliminated from a result like
-        # (-8*f_{-1} + f_{-2} + 8*f_{1} - f_{2})/(12*h).
-        # `keep_zero=True` keep terms  multiplied by a coefficient 0,
-        # (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h).
-    else:
+    if keep_zero:
         numer, denom = coefficients(stencil, deriv, as_numer_denom=True)
         eq = div(
-            dot_product(numer, f_set, evaluate=False),
+            drop_coefficient_of_1(dot_product(numer, f_set, evaluate=False)),
             denom * sp.symbols(interval) ** deriv,
         )
         # get coefficients as numerator and denominator and then
@@ -82,6 +74,15 @@ def equation(
         # and avoid reducing the coefficients.
         # `div` calculates division with evaluation,
         # but the coefficients are not reduced.
+    else:
+        coef = coefficients(stencil, deriv)
+        eq = sp.simplify(dot_product(coef, f_set) / sp.symbols(interval) ** deriv)
+        # The result of dot product is divided by interval symbol,
+        # because `coef` does not contain interval symbol like `dx`.
+        # Terms multiplied by a coefficient 0 is eliminated from a result like
+        # (-8*f_{-1} + f_{-2} + 8*f_{1} - f_{2})/(12*h).
+        # `keep_zero=True` keep terms  multiplied by a coefficient 0,
+        # (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h).
 
     if sort:
         eq = sort_by_subscript(eq)

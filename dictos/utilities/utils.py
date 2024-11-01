@@ -143,7 +143,7 @@ def decompose_addition(expr_add):
 
     if type(expr_add) is sp.Symbol or type(expr_add) is sp.Mul:
         return expr_add
-        # is type of `expr_add` is Symbol or Mul, there is nothing more to do.
+        # if type of `expr_add` is Symbol or Mul, there is nothing more to do.
 
     if type(expr_add) is not sp.Add:
         raise TypeError(expr_add, type(expr_add))
@@ -176,6 +176,72 @@ def decompose_addition(expr_add):
         # return all terms as list.
 
     return terms
+
+
+def drop_coefficient_of_1(expr: sp.Expr) -> sp.Expr:
+    """
+    Drop the coefficient from terms with a coefficient of 1.
+
+    Removes the coefficients of terms with a coefficient of 1 from the given expression.
+    For example, `1*x + 2*y` is converted to `x + 2*y`.
+
+    Args:
+        expr (sp.Expr): sympy Expr. Symbol, Add, or Mul.
+
+    Returns:
+        sp.Expr: An expression from which the coefficient 1 is removed.
+            The structure of the original expression is retained.
+
+    Notes:
+        - No evaluation of the original expression is performed (evaluate=False)
+        - Coefficients of nested expressions, like `(1*x + y)*z`, are not processed correctly.
+        - Depends on the `decompose_addition` method.
+
+    Raises:
+        TypeError:  if type of expr is not sympy Symbol, Add, or Mul.
+
+    Examples:
+        >>> from dictos.utilities import utils as utl
+        >>> from sympy.abc import *
+        >>> utl.drop_coefficient_of_1(1*x+2*y)
+        x + 2*y
+        >>> utl.drop_coefficient_of_1(2*x+3*y)
+        2*x + 3*y
+        >>> utl.drop_coefficient_of_1((1*x+2*y)*z)
+        z
+    """
+
+    if type(expr) is sp.Symbol:
+        return expr
+        # if type of `expr` is Symbol, it is assumed to be unary with no coefficients
+        # and returned as is.
+
+    if type(expr) is sp.Add:
+        args = decompose_addition(expr)
+        # if expr is addition equation, decompose it into individual terms
+    else:
+        args = [expr]
+        # for unary, convert to a list of single element for later summation using Add.
+
+    def _drop_1(arg: sp.Mul) -> sp.Expr:
+        """
+        Remove a coefficient from a multiplication terms with a coefficeint of 1.
+
+        Args:
+            arg (sp.Mul): A multiplication term
+
+        Returns:
+            sp.Expr: The term with the coefficient removed if the coefficient is 1,
+                otherwise the original term.
+        """
+        coef, terms = arg.as_coeff_mul()
+        return terms[0] if coef == 1 else arg
+
+    return sp.Add(
+        *[_drop_1(arg) if type(arg) is sp.Mul else arg for arg in args], evaluate=False
+    )
+    # remove the coefficient of 1 from each term and reconstruct the addition equation.
+    # each term is not evaluated (evaluate=False).
 
 
 def sort_by_subscript(expr):
