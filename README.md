@@ -106,7 +106,7 @@ from dictos import finite_difference as fd
 
 stencil = [-2, -1, 0, 1, 2]
 print(fd.equation(stencil, deriv=1, keep_zero=True))
-# (1*f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)
+# (f_{-2} - 8*f_{-1} + 0*f_{0} + 8*f_{1} - f_{2})/(12*h)
 ```
 
 Tom: "Well... can I extract the coefficients?"
