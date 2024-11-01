@@ -143,7 +143,7 @@ def decompose_addition(expr_add):
 
     if type(expr_add) is sp.Symbol or type(expr_add) is sp.Mul:
         return expr_add
-        # is type of `expr_add` is Symbol or Mul, there is nothing more to do.
+        # if type of `expr_add` is Symbol or Mul, there is nothing more to do.
 
     if type(expr_add) is not sp.Add:
         raise TypeError(expr_add, type(expr_add))
