@@ -321,3 +321,85 @@ def sort_by_subscript(expr):
     # in the case that denominator is an integer, a result becomes
     # `-f_{-2}/6 + (4*f_{-1} + 4*f_{1} - f_{2})/6` when `div` is used.
     # to avoid this, an different expression is used.
+
+
+def is_odd(num: int) -> bool:
+    """
+     Determine if an integer `num` is odd.
+
+     Check if a given number is even or odd by calculating
+     the remainder when divided by 2.
+
+     Args:
+         num (int): The integer to be checked.
+             Can be any integer (positive, negative, or zero).
+
+     Returns:
+         bool:
+             True: If the number is odd.
+             False: If the number is even (including 0).
+
+    Note:
+        - Zero is treated as an even number (returns False)
+        - Negative integers are handled correctly
+        - For non-integer values, defers to modulo `%` operator behavior
+
+    Examples:
+        >>> from dictos.utilities import utils as utl
+        >>> utl.is_odd(2)
+        False
+        >>> utl.is_odd(3)
+        True
+        >>> utl.is_odd(0)
+        False
+        >>> utl.is_odd(-1)
+        True
+        >>> utl.is_odd(2.2)
+        True
+        >>> utl.is_odd(False)
+        False
+        >>> utl.is_odd(True)
+        True
+    """
+    return num % 2 != 0
+
+
+def is_even(num: int) -> bool:
+    """
+     Determine if an integer `num` is even.
+
+     Check if a given number is even or odd by calculating
+     the remainder when divided by 2.
+
+     Args:
+         num (int): The integer to be checked.
+             Can be any integer (positive, negative, or zero).
+
+     Returns:
+         bool:
+             True: If the number is even (including 0).
+             False: If the number is odd.
+
+    Note:
+        - Zero is treated as an even number (returns True)
+        - Negative integers are handled correctly
+        - For non-integer values, defers to modulo `%` operator behavior
+
+    Examples:
+        >>> from dictos.utilities import utils as utl
+        >>> utl.is_even(2)
+        True
+        >>> utl.is_even(3)
+        False
+        >>> utl.is_even(0)
+        True
+        >>> utl.is_even(-1)
+        False
+        >>> utl.is_even(2.2)
+        False
+        >>> utl.is_even(False)
+        True
+        >>> utl.is_even(True)
+        False
+    """
+    return num % 2 == 0
