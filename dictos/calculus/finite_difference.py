@@ -263,6 +263,9 @@ def generate(
     if grid == "regular":
         return _generate_on_regular_grid(deriv, acc, as_equation)
 
+    elif grid == "cell-centered":
+        return _generate_on_cell_centered_grid(deriv, acc, as_equation)
+
     else:
         raise ValueError(
             f"unsupported grid type: {grid_type}"
@@ -309,6 +312,51 @@ def _generate_on_regular_grid(deriv: int, acc: int, as_equation: bool = False):
     # generate stencil [-half_width, ..., 0, ..., half_width]
     # stencil width is `stencil_half_width * 2 + 1`
     # where +1 is for point 0
+
+    if as_equation:
+        return equation(stencil, deriv)
+    else:
+        return coefficients(stencil, deriv)
+
+
+def _generate_on_cell_centered_grid(deriv: int, acc: int, as_equation: bool = False):
+    """
+    generate a finite difference equation or coefficients for cell-centered grid system.
+
+    Args:
+        deriv (int): Order of derivative.
+        acc (int): Order of accuracy.
+        as_equation (bool, optional): If True, returns equation in dictos Expr
+            instead of coefficients in Tuple of sympy.Expr.
+            Defaults to False.
+
+    Returns:
+        Union[dictos.Expr, Tuple[sympy.Expr]]: generated finite difference equation
+            or generated coefficinets depending on `as_equation`.
+
+    Note:
+        - Half width of the stencil  is (deriv + acc)//2 accoding to the table below:
+            | acc | deriv | stencil width |
+            |:---:|:-----:|:-------------:|
+            |  2  |   1   |       2       |
+            |  2  |   2   |       4       |
+            |  2  |   3   |       4       |
+            |  2  |   4   |       6       |
+            |  2  |   5   |       6       |
+            |  4  |   1   |       4       |
+            |  4  |   2   |       6       |
+            |  4  |   3   |       6       |
+            |  4  |   4   |       8       |
+            |  4  |   5   |       8       |
+        - The stencil width is 2 * half_width.
+    """
+
+    stencil_half_width = (deriv + acc) // 2
+    # calculate half-width of the stencil
+
+    stencil = [i + 0.5 for i in range(-stencil_half_width, stencil_half_width)]
+    # generate stencil [-half_width+0.5, ..., -0.5, 0.5, ..., half_width-0.5]
+    # stencil width is `stencil_half_width * 2`
 
     if as_equation:
         return equation(stencil, deriv)
