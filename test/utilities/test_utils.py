@@ -19,6 +19,8 @@ from dictos.utilities.utils import (
     extract_coefficients_as_numer_denom,
     sort_by_subscript,
     drop_coefficient_of_1,
+    is_even,
+    is_odd,
 )
 from dictos.linalg.linalg import dot_product
 from test.utilities.gen import (
@@ -330,6 +332,84 @@ class UtilsTest(unittest.TestCase):
             ac_str = str(actual)
             ex_str = str(expected)
             self.assertEqual(ex_str, ac_str)
+
+    def test_utils_is_even(self):
+        """test suite for utils.is_even."""
+
+        with self.subTest("subtests for positive inteber even numbers"):
+            self.assertTrue(is_even(0))
+            self.assertTrue(is_even(2))
+            self.assertTrue(is_even(4))
+            self.assertTrue(is_even(6))
+            self.assertTrue(is_even(8))
+            self.assertTrue(is_even(10))
+            self.assertTrue(is_even(100))
+
+        with self.subTest("subtests for positive integer odd numbers"):
+            self.assertFalse(is_even(1))
+            self.assertFalse(is_even(3))
+            self.assertFalse(is_even(5))
+            self.assertFalse(is_even(7))
+            self.assertFalse(is_even(9))
+            self.assertFalse(is_even(11))
+            self.assertFalse(is_even(101))
+
+        with self.subTest("subtests for negative integer numbers"):
+            self.assertTrue(is_even(-2))
+            self.assertTrue(is_even(-4))
+            self.assertTrue(is_even(-100))
+            self.assertFalse(is_even(-1))
+            self.assertFalse(is_even(-3))
+            self.assertFalse(is_even(-101))
+
+        with self.subTest("subtests for floating-point numbers"):
+            self.assertTrue(is_even(2.0))
+            self.assertFalse(is_even(1.0))
+
+            self.assertFalse(is_even(2.2))
+            self.assertFalse(is_even(3.5))
+
+            self.assertTrue(is_even(-4.0))
+            self.assertFalse(is_even(-10.1))
+
+    def test_utils_is_odd(self):
+        """test suite for utils.is_odd."""
+
+        with self.subTest("subtests for positive integer odd numbers"):
+            self.assertTrue(is_odd(1))
+            self.assertTrue(is_odd(3))
+            self.assertTrue(is_odd(5))
+            self.assertTrue(is_odd(7))
+            self.assertTrue(is_odd(9))
+            self.assertTrue(is_odd(11))
+            self.assertTrue(is_odd(101))
+
+        with self.subTest("subtests for positive inteber even numbers"):
+            self.assertFalse(is_odd(0))
+            self.assertFalse(is_odd(2))
+            self.assertFalse(is_odd(4))
+            self.assertFalse(is_odd(6))
+            self.assertFalse(is_odd(8))
+            self.assertFalse(is_odd(10))
+            self.assertFalse(is_odd(100))
+
+        with self.subTest("subtests for negative integer numbers"):
+            self.assertTrue(is_odd(-1))
+            self.assertTrue(is_odd(-3))
+            self.assertTrue(is_odd(-101))
+            self.assertFalse(is_odd(-2))
+            self.assertFalse(is_odd(-4))
+            self.assertFalse(is_odd(-100))
+
+        with self.subTest("subtests for floating-point numbers"):
+            self.assertTrue(is_odd(1.0))
+            self.assertFalse(is_odd(2.0))
+
+            self.assertTrue(is_odd(2.2))
+            self.assertTrue(is_odd(3.5))
+
+            self.assertFalse(is_odd(-4.0))
+            self.assertTrue(is_odd(-10.1))
 
 
 if __name__ == "__main__":
