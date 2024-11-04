@@ -16,6 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### New features
 - added error handling when passing out-of-range values to argument `point_at` of `lagrangian_basis`. #48
 - added `Expr` class that extends SymPy's `Expr` to preserve expression display order. #101
+- added `generate` in `finite_difference` module for generating the finite difference equation or coefficient from deriv, acc, and grid type. #70
+- added an enumerator `GridType` for spceifiying the grid type on `generate` method. #122
 
 ### Fixes
 - fixed a typo (natrual to natural). #94

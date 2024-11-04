@@ -15,12 +15,15 @@ from dictos.utilities.utils import (
     extract_coefficients_as_numer_denom,
     drop_coefficient_of_1,
     sort_by_subscript,
+    is_odd,
+    is_even,
 )
 from dictos.linalg.linalg import dot_product, div
 from dictos.poly.lagrangian_polynomial import lagrangian_poly, derivative
 from dictos.series.taylor_expansion import taylor_series, derivative_symbol
 from dictos.calculus.exceptions import UnsupportedOrderOfDerivativeError
 from dictos.core.expr import Expr
+from dictos.core.grid_type import GridType
 
 
 def equation(
@@ -205,3 +208,202 @@ def truncation_error(stencil: list, deriv: int, interval: str = DEFAULT_INTERVAL
     # f^(1) = (f(h) - f(-h))/(2*h) - f^(3)*h**3/6 - ...
     # to extract error terms, reformulate fd_eq as
     # f^(1) - fd_eq/h**1 = - f^(3)*h**3/6 - ...
+
+
+def generate(
+    deriv: int = 1,
+    acc: int = 2,
+    grid_type: GridType = GridType.REGULAR,
+    as_equation: bool = False,
+    consistent: bool = False,  # Reserved for future extension
+):
+    """
+    generate a finite difference equation or a coefficient
+    based on the order of derivative and the order of accuracy.
+
+    Args:
+        deriv (int, optional): Order of derivative. Defaults to 1.
+        acc (int, optional): Order of accuracy. Must be even and >=2.
+            Defaults to 2.
+        grid_type (GridType, optional): Type of target grid system
+            for generating equations or coefficients.
+            Must be one of GridType.REGULAR, GridType.CELL_CENTERED, or GridType.STAGGERED.
+            Defaults to GridType.REGULAR.
+        as_equation (bool, optional): If True, returns equation in dictos Expr
+            instead of coefficients in Tuple of sympy.Expr.
+            Defaults to False.
+        consistent (bool, optional): Reserved for futuer extension.
+            Defaults to False.
+
+    Returns:
+        Union[dictos.Expr, Tuple[sympy.Expr]]: generated finite difference equation
+        or generated coefficinets depending on `as_equation`.
+
+    Raises:
+        UnsupportedOrderOfDerivativeError: If deriv < 1
+        ValueError: If acc is not an even number >= 2 or if grid_type is invalid
+
+    Note:
+        - If consistent is False, for staggered grid, uses regular grid method with even order derivatives
+        and cell-centered grid method with odd order derivatives.
+    """
+
+    # validate order of derivative
+    if is_not_natural_number(deriv):
+        raise UnsupportedOrderOfDerivativeError(deriv)
+        # raise error
+        # - if unsupported order of derivative (deriv < 1)
+
+    # validate order of accuracy
+    if is_odd(acc) or acc <= 0:
+        raise ValueError(
+            f"order of accuracy `acc` must be an even number >=2, got: {acc}"
+        )
+
+    if grid_type == GridType.REGULAR:
+        return _generate_on_regular_grid(deriv, acc, as_equation)
+
+    elif grid_type == GridType.CELL_CENTERED:
+        return _generate_on_cell_centered_grid(deriv, acc, as_equation)
+
+    elif grid_type == GridType.STAGGERED:
+        return _generate_on_staggered_grid(deriv, acc, as_equation, consistent)
+
+    else:
+        raise ValueError(
+            f"unsupported grid type: {grid_type}"
+            "Must be one of: REGULAR, CELL_CENTERED, STAGGERED"
+        )
+
+
+def _generate_on_regular_grid(deriv: int, acc: int, as_equation: bool = False):
+    """
+    generate a finite difference equation or coefficients for regular grid system.
+
+    Args:
+        deriv (int): Order of derivative.
+        acc (int): Order of accuracy.
+        as_equation (bool, optional): If True, returns equation in dictos Expr
+            instead of coefficients in Tuple of sympy.Expr.
+            Defaults to False.
+
+    Returns:
+        Union[dictos.Expr, Tuple[sympy.Expr]]: generated finite difference equation
+            or generated coefficinets depending on `as_equation`.
+
+    Note:
+        - Half width of the stencil is (deriv + acc - 1)//2 accoding to the table below:
+            | acc | deriv | stencil width |
+            |:---:|:-----:|:-------------:|
+            |  2  |   1   |       3       |
+            |  2  |   2   |       3       |
+            |  2  |   3   |       5       |
+            |  2  |   4   |       5       |
+            |  2  |   5   |       7       |
+            |  4  |   1   |       5       |
+            |  4  |   2   |       5       |
+            |  4  |   3   |       7       |
+            |  4  |   4   |       7       |
+            |  4  |   5   |       9       |
+        - The stencil width is 2 * half_width + 1, where +1 accounts for the center point.
+    """
+
+    stencil_half_width = (deriv + acc - 1) // 2
+    # calculate half-width of the stencil
+
+    stencil = [i for i in range(-stencil_half_width, stencil_half_width + 1)]
+    # generate stencil [-half_width, ..., 0, ..., half_width]
+    # stencil width is `stencil_half_width * 2 + 1`
+    # where +1 is for point 0
+
+    if as_equation:
+        return equation(stencil, deriv)
+    else:
+        return coefficients(stencil, deriv)
+
+
+def _generate_on_cell_centered_grid(deriv: int, acc: int, as_equation: bool = False):
+    """
+    generate a finite difference equation or coefficients for cell-centered grid system.
+
+    Args:
+        deriv (int): Order of derivative.
+        acc (int): Order of accuracy.
+        as_equation (bool, optional): If True, returns equation in dictos Expr
+            instead of coefficients in Tuple of sympy.Expr.
+            Defaults to False.
+
+    Returns:
+        Union[dictos.Expr, Tuple[sympy.Expr]]: generated finite difference equation
+            or generated coefficinets depending on `as_equation`.
+
+    Note:
+        - Half width of the stencil  is (deriv + acc)//2 accoding to the table below:
+            | acc | deriv | stencil width |
+            |:---:|:-----:|:-------------:|
+            |  2  |   1   |       2       |
+            |  2  |   2   |       4       |
+            |  2  |   3   |       4       |
+            |  2  |   4   |       6       |
+            |  2  |   5   |       6       |
+            |  4  |   1   |       4       |
+            |  4  |   2   |       6       |
+            |  4  |   3   |       6       |
+            |  4  |   4   |       8       |
+            |  4  |   5   |       8       |
+        - The stencil width is 2 * half_width.
+    """
+
+    stencil_half_width = (deriv + acc) // 2
+    # calculate half-width of the stencil
+
+    stencil = [i + 0.5 for i in range(-stencil_half_width, stencil_half_width)]
+    # generate stencil [-half_width+0.5, ..., -0.5, 0.5, ..., half_width-0.5]
+    # stencil width is `stencil_half_width * 2`
+
+    if as_equation:
+        return equation(stencil, deriv)
+    else:
+        return coefficients(stencil, deriv)
+
+
+def _generate_on_staggered_grid(
+    deriv, acc, as_equation: bool = False, consistent: bool = False
+):
+    """
+    generate a finite difference equation or coefficients for staggered grid system.
+
+    Args:
+        deriv (int): Order of derivative.
+        acc (int): Order of accuracy.
+        as_equation (bool, optional): If True, returns equation in dictos Expr
+            instead of coefficients in Tuple of sympy.Expr.
+            Defaults to False.
+        consistent (bool, optional): Reserved for future extension. Defaults to False.
+
+    Returns:
+        Union[dictos.Expr, Tuple[sympy.Expr]]: generated finite difference equation
+            or generated coefficinets depending on `as_equation`.
+
+    Note:
+        - For even order derivatives, uses regular grid method,
+        and for odd order derivatives, uses cell-centered grid method.
+        See the table below:
+            | acc | deriv | stencil width | def. point |
+            |:---:|:-----:|:-------------:|:----------:|
+            |  2  |   1   |       2       |     mid    |
+            |  2  |   2   |       3       |    grid    |
+            |  2  |   3   |       4       |     mid    |
+            |  2  |   4   |       5       |    grid    |
+            |  2  |   5   |       6       |     mid    |
+            |  4  |   1   |       4       |     mid    |
+            |  4  |   2   |       5       |    grid    |
+            |  4  |   3   |       6       |     mid    |
+            |  4  |   4   |       7       |    grid    |
+            |  4  |   5   |       8       |     mid    |
+    """
+
+    if is_even(deriv):
+        return _generate_on_regular_grid(deriv, acc, as_equation)
+    else:
+        return _generate_on_cell_centered_grid(deriv, acc, as_equation)
