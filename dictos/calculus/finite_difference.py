@@ -23,6 +23,7 @@ from dictos.poly.lagrangian_polynomial import lagrangian_poly, derivative
 from dictos.series.taylor_expansion import taylor_series, derivative_symbol
 from dictos.calculus.exceptions import UnsupportedOrderOfDerivativeError
 from dictos.core.expr import Expr
+from dictos.core.grid_type import GridType
 
 
 def equation(
@@ -212,7 +213,7 @@ def truncation_error(stencil: list, deriv: int, interval: str = DEFAULT_INTERVAL
 def generate(
     deriv: int = 1,
     acc: int = 2,
-    grid_type: str = "regular",
+    grid_type: GridType = GridType.REGULAR,
     as_equation: bool = False,
     consistent: bool = False,  # Reserved for future extension
 ):
@@ -224,10 +225,10 @@ def generate(
         deriv (int, optional): Order of derivative. Defaults to 1.
         acc (int, optional): Order of accuracy. Must be even and >=2.
             Defaults to 2.
-        grid_type (str, optional): Type of target grid system
+        grid_type (GridType, optional): Type of target grid system
             for generating equations or coefficients.
-            Must be one of "regular", "cell-centered", or "staggered".
-            Defaults to "regular".
+            Must be one of GridType.REGULAR, GridType.CELL_CENTERED, or GridType.STAGGERED.
+            Defaults to GridType.REGULAR.
         as_equation (bool, optional): If True, returns equation in dictos Expr
             instead of coefficients in Tuple of sympy.Expr.
             Defaults to False.
@@ -259,20 +260,19 @@ def generate(
             f"order of accuracy `acc` must be an even number >=2, got: {acc}"
         )
 
-    grid = grid_type.lower()
-    if grid == "regular":
+    if grid_type == GridType.REGULAR:
         return _generate_on_regular_grid(deriv, acc, as_equation)
 
-    elif grid == "cell-centered":
+    elif grid_type == GridType.CELL_CENTERED:
         return _generate_on_cell_centered_grid(deriv, acc, as_equation)
 
-    elif grid == "staggered":
+    elif grid_type == GridType.STAGGERED:
         return _generate_on_staggered_grid(deriv, acc, as_equation, consistent)
 
     else:
         raise ValueError(
             f"unsupported grid type: {grid_type}"
-            "Must be one of: 'regular', 'cell-centered', 'staggered'"
+            "Must be one of: REGULAR, CELL_CENTERED, STAGGERED"
         )
 
 

@@ -16,6 +16,8 @@ from dictos.calculus.finite_difference import (
     generate,
 )
 
+from dictos.core.grid_type import GridType
+
 
 class FiniteDifferenceTest(unittest.TestCase):
     def test_equation(self):
@@ -350,7 +352,7 @@ class FiniteDifferenceTest(unittest.TestCase):
         test suite for finite_difference.generate.
         """
 
-        grid_type = "regular"
+        grid_type = GridType.REGULAR
 
         REGULAR_GRID_CASES = {
             2: [
@@ -440,7 +442,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                     )
                     self.assertEqual(expected, actual)
 
-        grid_type = "cell-centered"
+        grid_type = GridType.CELL_CENTERED
 
         CELL_CENTERED_GRID_CASES = {
             2: [
@@ -846,7 +848,7 @@ class FiniteDifferenceTest(unittest.TestCase):
                     )
                     self.assertEqual(expected, actual)
 
-        grid_type = "staggered"
+        grid_type = GridType.STAGGERED
 
         STAGGERED_GRID_CASES = {
             2: [
