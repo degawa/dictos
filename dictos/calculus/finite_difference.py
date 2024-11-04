@@ -266,6 +266,9 @@ def generate(
     elif grid == "cell-centered":
         return _generate_on_cell_centered_grid(deriv, acc, as_equation)
 
+    elif grid == "staggered":
+        return _generate_on_staggered_grid(deriv, acc, as_equation, consistent)
+
     else:
         raise ValueError(
             f"unsupported grid type: {grid_type}"
@@ -363,3 +366,44 @@ def _generate_on_cell_centered_grid(deriv: int, acc: int, as_equation: bool = Fa
     else:
         return coefficients(stencil, deriv)
 
+
+def _generate_on_staggered_grid(
+    deriv, acc, as_equation: bool = False, consistent: bool = False
+):
+    """
+    generate a finite difference equation or coefficients for staggered grid system.
+
+    Args:
+        deriv (int): Order of derivative.
+        acc (int): Order of accuracy.
+        as_equation (bool, optional): If True, returns equation in dictos Expr
+            instead of coefficients in Tuple of sympy.Expr.
+            Defaults to False.
+        consistent (bool, optional): Reserved for future extension. Defaults to False.
+
+    Returns:
+        Union[dictos.Expr, Tuple[sympy.Expr]]: generated finite difference equation
+            or generated coefficinets depending on `as_equation`.
+
+    Note:
+        - For even order derivatives, uses regular grid method,
+        and for odd order derivatives, uses cell-centered grid method.
+        See the table below:
+            | acc | deriv | stencil width | def. point |
+            |:---:|:-----:|:-------------:|:----------:|
+            |  2  |   1   |       2       |     mid    |
+            |  2  |   2   |       3       |    grid    |
+            |  2  |   3   |       4       |     mid    |
+            |  2  |   4   |       5       |    grid    |
+            |  2  |   5   |       6       |     mid    |
+            |  4  |   1   |       4       |     mid    |
+            |  4  |   2   |       5       |    grid    |
+            |  4  |   3   |       6       |     mid    |
+            |  4  |   4   |       7       |    grid    |
+            |  4  |   5   |       8       |     mid    |
+    """
+
+    if is_even(deriv):
+        return _generate_on_regular_grid(deriv, acc, as_equation)
+    else:
+        return _generate_on_cell_centered_grid(deriv, acc, as_equation)
