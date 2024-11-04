@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixes
+- fixed missing the 2nd argument of `Expr._latex`. #124
 
 ## [0.5.0] - 2024-11-04
 ### Breaking Changes
