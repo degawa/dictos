@@ -352,185 +352,93 @@ class FiniteDifferenceTest(unittest.TestCase):
 
         grid_type = "regular"
 
-        acc = 2
-        deriv_stencils = [
-            (1, [-1, 0, 1]),
-            (2, [-1, 0, 1]),
-            (3, [-2, -1, 0, 1, 2]),
-            (4, [-2, -1, 0, 1, 2]),
-            (5, [-3, -2, -1, 0, 1, 2, 3]),
-            (6, [-3, -2, -1, 0, 1, 2, 3]),
-            (7, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
-            (8, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
-            (9, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (10, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-        ]
+        REGULAR_GRID_CASES = {
+            2: [
+                (1, [-1, 0, 1]),
+                (2, [-1, 0, 1]),
+                (3, [-2, -1, 0, 1, 2]),
+                (4, [-2, -1, 0, 1, 2]),
+                (5, [-3, -2, -1, 0, 1, 2, 3]),
+                (6, [-3, -2, -1, 0, 1, 2, 3]),
+                (7, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
+                (8, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
+                (9, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (10, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+            ],
+            4: [
+                (1, [-2, -1, 0, 1, 2]),
+                (2, [-2, -1, 0, 1, 2]),
+                (3, [-3, -2, -1, 0, 1, 2, 3]),
+                (4, [-3, -2, -1, 0, 1, 2, 3]),
+                (5, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
+                (6, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
+                (7, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (8, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (9, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
+                (10, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
+            ],
+            6: [
+                (1, [-3, -2, -1, 0, 1, 2, 3]),
+                (2, [-3, -2, -1, 0, 1, 2, 3]),
+                (3, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
+                (4, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
+                (5, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (6, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (7, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
+                (8, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
+                (9, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
+                (10, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
+            ],
+            8: [
+                (1, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
+                (2, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
+                (3, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (4, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (5, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
+                (6, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
+                (7, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
+                (8, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
+                (9, [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]),
+                (10, [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]),
+            ],
+            10: [
+                (1, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (2, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
+                (3, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
+                (4, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
+                (5, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
+                (6, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
+                (7, [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]),
+                (8, [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]),
+                (9, [-9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+                (
+                    10,
+                    [-9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                ),
+            ],
+        }
 
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference equation for {deriv}-derivative on regular grid"
-            ):
+        for acc, cases in REGULAR_GRID_CASES.items():
+            for deriv, stencil in cases:
+                with self.subTest(
+                    f"generate {acc}-order central difference equation for {deriv}-derivative on regular grid"
+                ):
 
-                expected = equation(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=True
-                )
-                self.assertEqual(expected, actual)
+                    expected = equation(stencil, deriv=deriv)
+                    actual = generate(
+                        deriv=deriv, acc=acc, grid_type=grid_type, as_equation=True
+                    )
+                    self.assertEqual(expected, actual)
 
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference coefficients for {deriv}-derivative on regular grid"
-            ):
+                with self.subTest(
+                    f"generate {acc}-order central difference coefficients for {deriv}-derivative on regular grid"
+                ):
 
-                expected = coefficients(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=False
-                )
-                self.assertEqual(expected, actual)
-
-        acc = 4
-        deriv_stencils = [
-            (1, [-2, -1, 0, 1, 2]),
-            (2, [-2, -1, 0, 1, 2]),
-            (3, [-3, -2, -1, 0, 1, 2, 3]),
-            (4, [-3, -2, -1, 0, 1, 2, 3]),
-            (5, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
-            (6, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
-            (7, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (8, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (9, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
-            (10, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
-        ]
-
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference equation for {deriv}-derivative on regular grid"
-            ):
-
-                expected = equation(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=True
-                )
-                self.assertEqual(expected, actual)
-
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference coefficients for {deriv}-derivative on regular grid"
-            ):
-
-                expected = coefficients(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=False
-                )
-                self.assertEqual(expected, actual)
-
-        acc = 6
-        deriv_stencils = [
-            (1, [-3, -2, -1, 0, 1, 2, 3]),
-            (2, [-3, -2, -1, 0, 1, 2, 3]),
-            (3, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
-            (4, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
-            (5, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (6, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (7, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
-            (8, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
-            (9, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
-            (10, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
-        ]
-
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference equation for {deriv}-derivative on regular grid"
-            ):
-
-                expected = equation(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=True
-                )
-                self.assertEqual(expected, actual)
-
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference coefficients for {deriv}-derivative on regular grid"
-            ):
-
-                expected = coefficients(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=False
-                )
-                self.assertEqual(expected, actual)
-
-        acc = 8
-        deriv_stencils = [
-            (1, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
-            (2, [-4, -3, -2, -1, 0, 1, 2, 3, 4]),
-            (3, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (4, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (5, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
-            (6, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
-            (7, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
-            (8, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
-            (9, [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]),
-            (10, [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]),
-        ]
-
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference equation for {deriv}-derivative on regular grid"
-            ):
-
-                expected = equation(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=True
-                )
-                self.assertEqual(expected, actual)
-
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference coefficients for {deriv}-derivative on regular grid"
-            ):
-
-                expected = coefficients(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=False
-                )
-                self.assertEqual(expected, actual)
-
-        acc = 10
-        deriv_stencils = [
-            (1, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (2, [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]),
-            (3, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
-            (4, [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6]),
-            (5, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
-            (6, [-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]),
-            (7, [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]),
-            (8, [-8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8]),
-            (9, [-9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
-            (10, [-9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
-        ]
-
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference equation for {deriv}-derivative on regular grid"
-            ):
-
-                expected = equation(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=True
-                )
-                self.assertEqual(expected, actual)
-
-        for deriv, stencil in deriv_stencils:
-            with self.subTest(
-                f"generate {acc}-order central difference coefficients for {deriv}-derivative on regular grid"
-            ):
-
-                expected = coefficients(stencil, deriv=deriv)
-                actual = generate(
-                    deriv=deriv, acc=acc, grid_type=grid_type, as_equation=False
-                )
-                self.assertEqual(expected, actual)
+                    expected = coefficients(stencil, deriv=deriv)
+                    actual = generate(
+                        deriv=deriv, acc=acc, grid_type=grid_type, as_equation=False
+                    )
+                    self.assertEqual(expected, actual)
 
 
 if __name__ == "__main__":
