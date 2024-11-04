@@ -93,7 +93,7 @@ class Expr(sp.Expr):
         sympy_repr = ReprPrinter({"order": "none"}).doprint(self.arg)
         return f"Expression({sympy_repr})"
 
-    def _latex(self) -> str:
+    def _latex(self, printer) -> str:
         """Generate a LaTeX representation of the Expr.
 
         This method creates a LaTeX string using LatexPrinter with 'none' ordering,
