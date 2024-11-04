@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.5.0] - 2024-11-04
 ### Breaking Changes
 - changed project directory structure. #108
 - moved default symbols to dictos/default.py. #112
@@ -122,7 +124,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - derive interpolation coefficients
   - derive the leading-order of truncation error.
 
-[Unreleased]: https://github.com/degawa/dictos/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/degawa/dictos/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/degawa/dictos/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/degawa/dictos/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/degawa/dictos/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/degawa/dictos/compare/v0.2.0...v0.2.1
