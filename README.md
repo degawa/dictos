@@ -10,7 +10,7 @@ The simplest way to install dictos is using pip.
 After cloning the dictos repository, install dictos with the commands below:
 
 ```console
-$ git clone https://github.com/degawa/dictos.git -b v0.5.0
+$ git clone https://github.com/degawa/dictos.git -b v0.6.0
 $ cd dictos
 $ pip install .
 ```
@@ -27,8 +27,24 @@ $ git clone https://github.com/degawa/dictos.git
 $ tree dictos -d
 dictos
 ├── dictos
-│   └── error
+│   ├── calculus
+│   ├── core
+│   ├── discrete
+│   ├── filter
+│   ├── linalg
+│   ├── poly
+│   ├── series
+│   └── utilities
+│       └── exceptions
 └── test
+    ├── calculus
+    ├── core
+    ├── discrete
+    ├── filter
+    ├── linalg
+    ├── poly
+    ├── series
+    └── utilities
 ```
 
 If importing dictos from `main.py`, copy `dictos/dictos` to the same location and then import in `main.py` like below:
@@ -226,12 +242,28 @@ Dictos: "Not supported yet. I will support it."
 Tom: "Since the leading error term of the compact finite difference is dispersive, a low-pass filter is needed to suppress numerical oscillation."
 "Dictos, do you support the low-pass filter?"
 
-Dictos: "Not supported yet. I will support explicit and compact filters."
+Dictos: "Yes, I partially support explicit low-pass filters on regular grid."
+"You can generate filter coefficients or equation with a specified order of accuracy."
+"For example, you can get a second-order explicit filter:"
+```Python
+from dictos.filter import filter as flt
+
+print(flt.generate(acc=2))
+# [1/4, 1/2, 1/4]
+
+print(flt.generate(acc=2, as_numer_denom=True))
+# ([1, 2, 1], 4)
+
+print(flt.generate(acc=2, as_equation=True))
+# (f_{-1} + 2*f_{0} + f_{1})*(1/4)
+```
+"The compact filters are not supported yet, but they will be implemented in future updates."
 
 ## feature
 - derive a finite difference equation on regular or staggered grid based on a given stencil.
 - derive an interpolation formula on regular or staggered grid based on a given stencil.
 - derive an extrapolation formula on regular or staggered grid based on a given stencil.
+- derive a filter formula on regular grid based on a given order of accuracy.
 - calculate a formal truncation error of a finite difference equation or an interpolation formula.
 
 ## todo

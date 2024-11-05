@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.6.0] - 2024-11-05
 ### New features
 - added basic operation on lists, addition and scaling. #126 
 - added `filter` module and `generate` method for linear explicit filter to damp high-frequency perturbation. #19
+
+### Repository updates
+- added filter exmaples to README. #19
+- updated directory tree. 
 
 ## [0.5.1] - 2024-11-04
 ### Fixes
@@ -131,7 +137,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - derive interpolation coefficients
   - derive the leading-order of truncation error.
 
-[Unreleased]: https://github.com/degawa/dictos/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/degawa/dictos/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/degawa/dictos/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/degawa/dictos/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/degawa/dictos/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/degawa/dictos/compare/v0.3.0...v0.4.0
