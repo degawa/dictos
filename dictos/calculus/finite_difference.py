@@ -5,7 +5,10 @@ from dictos.defaults import (
     DEFAULT_INTERVAL,
     DEFAULT_INDEPENDENT_VARIABLE,
 )
-from dictos.utilities.spec import is_not_natural_number
+from dictos.utilities.spec import (
+    is_not_natural_number,
+    is_valid_accuracy_order_for_generating_central_form,
+)
 from dictos.discrete.stencil import (
     create_coordinate_symbols,
     create_differentiand_symbols,
@@ -21,7 +24,10 @@ from dictos.utilities.utils import (
 from dictos.linalg.linalg import dot_product, div
 from dictos.poly.lagrangian_polynomial import lagrangian_poly, derivative
 from dictos.series.taylor_expansion import taylor_series, derivative_symbol
-from dictos.calculus.exceptions import UnsupportedOrderOfDerivativeError
+from dictos.calculus.exceptions import (
+    UnsupportedOrderOfDerivativeError,
+    InvalidOrderOfAccuracyForCentralFormError,
+)
 from dictos.core.expr import Expr
 from dictos.core.grid_type import GridType
 
@@ -255,10 +261,10 @@ def generate(
         # - if unsupported order of derivative (deriv < 1)
 
     # validate order of accuracy
-    if is_odd(acc) or acc <= 0:
-        raise ValueError(
-            f"order of accuracy `acc` must be an even number >=2, got: {acc}"
-        )
+    if not is_valid_accuracy_order_for_generating_central_form(acc):
+        raise InvalidOrderOfAccuracyForCentralFormError(acc)
+        # raise error
+        # - if acc is not positive and even
 
     if grid_type == GridType.REGULAR:
         return _generate_on_regular_grid(deriv, acc, as_equation)

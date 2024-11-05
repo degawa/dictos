@@ -1,8 +1,10 @@
 import sympy as sp
 from typing import List
 
-from dictos.utilities.utils import simplify_coefficients, is_odd, sort_by_subscript
+from dictos.utilities.spec import is_valid_accuracy_order_for_generating_central_form
+from dictos.utilities.utils import simplify_coefficients, sort_by_subscript
 from dictos.calculus import finite_difference as fd
+from dictos.calculus.exceptions import InvalidOrderOfAccuracyForCentralFormError
 from dictos.core.grid_type import GridType
 from dictos.discrete.stencil import (
     create_coordinate_symbols,
@@ -27,10 +29,10 @@ def generate(acc: int, as_numer_denom: bool = False, as_equation: bool = False):
     """
 
     # validate order of accuracy
-    if is_odd(acc) or acc <= 0:
-        raise ValueError(
-            f"order of accuracy `acc` must be an even number >=2, got: {acc}"
-        )
+    if not is_valid_accuracy_order_for_generating_central_form(acc):
+        raise InvalidOrderOfAccuracyForCentralFormError(acc)
+        # raise error
+        # - if acc is not positive and even
 
     # Handle conflict flags
     if as_numer_denom and as_equation:
