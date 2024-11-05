@@ -9,7 +9,7 @@ import unittest
 import sympy as sp
 import random
 
-from dictos.linalg.linalg import dot_product, div
+from dictos.linalg.linalg import dot_product, div, add, scale
 from dictos.linalg.exceptions import InconsistentDataSetError
 from test.utilities.gen import random_int, random_string
 
@@ -97,6 +97,51 @@ class LinalgTest(unittest.TestCase):
                 expected = sum([n for n in numer]) / denom
                 actual = div(sum([n for n in numer]), denom)
                 self.assertEqual(expected, actual)
+
+    def test_linalg_scale(self):
+        """test suite for linalg.scale"""
+        with self.subTest("basic scaling operation"):
+            list_input = [1, 2, 3]
+            expected = [2, 4, 6]
+            actual = scale(list_input, 2)
+            self.assertEqual(expected, actual)
+
+        with self.subTest("scaling empty list"):
+            list_input = []
+            expected = []
+            actual = scale(list_input, 2)
+            self.assertEqual(expected, actual)
+
+        with self.subTest("scaling by zero"):
+            list_input = [5, 6, 7]
+            expected = [0, 0, 0]
+            actual = scale(list_input, 0)
+            self.assertEqual(expected, actual)
+
+    def test_linalg_add(self):
+        """test suite for linalg.add"""
+
+        with self.subTest("basic addition operation"):
+            input1 = [1, 2, 3]
+            input2 = [4, 5, 6]
+            expected = [5, 7, 9]
+            result = add(input1, input2)
+            self.assertEqual(result, expected)
+
+        with self.subTest("addtion with list of differenct lengths"):
+            with self.assertRaises(ValueError):
+                input1 = [1, 2]
+                input2 = [4, 5, 6]
+                expected = [5, 7, 9]
+                result = add(input1, input2)
+                self.assertEqual(result, expected)
+
+        with self.subTest("addition with empty lists"):
+            input1 = []
+            input2 = []
+            expected = []
+            result = add(input1, input2)
+            self.assertEqual(result, expected)
 
     def test_linalg_exception(self):
         """test suite for exception in linalg"""
