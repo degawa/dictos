@@ -5,3 +5,4 @@ from dictos.poly import lagrangian_polynomial
 from dictos.series.taylor_expansion import taylor_series
 from dictos.calculus import finite_difference
 from dictos.poly import interpolation
+from dictos.filter import filter

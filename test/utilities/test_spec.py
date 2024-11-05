@@ -16,6 +16,7 @@ from dictos.utilities.spec import (
     is_not_positive_integer,
     is_not_assumed_length,
     are_different_length,
+    is_valid_accuracy_order_for_generating_central_form,
     _MINIMUM_STENCIL_WIDTH,
 )
 from test.utilities.gen import random_int
@@ -135,6 +136,45 @@ class SpecTest(unittest.TestCase):
                 list1 = list(range(c))
                 list2 = list(range(c + 1))
                 self.assertTrue(are_different_length(list1, list2))
+
+    def test_spec_is_valid_accuracy_order_for_generating_central_form(self):
+        """test suite for utils.is_odd."""
+
+        with self.subTest("even and positive integer"):
+            self.assertTrue(is_valid_accuracy_order_for_generating_central_form(2))
+            self.assertTrue(is_valid_accuracy_order_for_generating_central_form(4))
+            self.assertTrue(is_valid_accuracy_order_for_generating_central_form(6))
+            self.assertTrue(is_valid_accuracy_order_for_generating_central_form(8))
+            self.assertTrue(is_valid_accuracy_order_for_generating_central_form(10))
+            self.assertTrue(is_valid_accuracy_order_for_generating_central_form(20))
+            self.assertTrue(is_valid_accuracy_order_for_generating_central_form(100))
+
+        with self.subTest("odd positive integer or 0"):
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(0))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(1))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(3))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(5))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(7))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(9))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(11))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(101))
+
+        with self.subTest("even but negative integer"):
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-2))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-4))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-6))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-8))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-10))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-100))
+
+        with self.subTest("odd and negative integer"):
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-1))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-3))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-5))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-7))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-9))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-11))
+            self.assertFalse(is_valid_accuracy_order_for_generating_central_form(-101))
 
 
 if __name__ == "__main__":

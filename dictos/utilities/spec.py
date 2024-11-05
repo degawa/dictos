@@ -160,3 +160,16 @@ def is_assumed_length(list, assumed_length: int) -> bool:
         bool: True if the list length is the assumed length.
     """
     return len(list) == assumed_length
+
+
+def is_valid_accuracy_order_for_generating_central_form(acc: int) -> bool:
+    """
+    Check if the order of accuracy is valid
+
+    Args:
+        acc (int): Order of accuracy
+
+    Returns:
+        bool: True if the order is valid (even and positive)
+    """
+    return acc > 0 and acc % 2 == 0

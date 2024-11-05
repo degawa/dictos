@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### New features
+- added basic operation on lists, addition and scaling. #126 
+- added `filter` module and `generate` method for linear explicit filter to damp high-frequency perturbation. #19
 
 ## [0.5.1] - 2024-11-04
 ### Fixes
