@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixes
+- fixed setup.cfg. #128
 
 ## [0.6.0] - 2024-11-05
 ### New features
