@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.6.1] - 2024-11-06
 ### Fixes
 - fixed setup.cfg. #128
 
@@ -139,7 +141,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   - derive interpolation coefficients
   - derive the leading-order of truncation error.
 
-[Unreleased]: https://github.com/degawa/dictos/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/degawa/dictos/compare/v0.6.1...HEAD
+[0.6.1]: https://github.com/degawa/dictos/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/degawa/dictos/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/degawa/dictos/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/degawa/dictos/compare/v0.4.0...v0.5.0
